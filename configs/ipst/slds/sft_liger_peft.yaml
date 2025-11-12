@@ -1,0 +1,65 @@
+#+-------------+------------------------------------------------------------------------------------
+#| ExtraConfig |
+#+-------------+
+
+mode: train
+model_class: AutoModelForImageTextToText
+dataset_name: ipst/slds
+prompts_path: ./prompts/ipst/slds
+dataset_subset: fr_de
+dataset_eval_split: validation
+dataset_test_split: test
+dataset_train_split: train
+fine_tuning_data_format: conversational_prompt_completion
+
+peft_base_model_path: google/gemma-3-4b-it
+peft_peft_model_path: ./trainer_output/google/gemma-3-4b-it-ipst/slds/checkpoint-1364
+peft_output_model_path: ./trainer_output/google/gemma-3-4b-it-ipst/slds/checkpoint-1364-merged
+
+#+-------------+------------------------------------------------------------------------------------
+#| ModelConfig |
+#+-------------+
+
+dtype: bfloat16
+trust_remote_code: true
+model_name_or_path: google/gemma-3-4b-it
+attn_implementation: flash_attention_2
+
+use_peft: true
+lora_r: 32
+lora_alpha: 16
+lora_dropout: 0.1
+load_in_4bit: true
+lora_task_type: CAUSAL_LM
+lora_target_modules: all-linear
+
+#+-----------+--------------------------------------------------------------------------------------
+#| SFTConfig |
+#+-----------+
+
+run_name: google/gemma-3-4b-it-ipst/slds
+dataset_num_proc: 8
+
+seed: 42
+bf16: true
+use_liger_kernel: true
+ddp_find_unused_parameters: true
+gradient_checkpointing: true
+gradient_checkpointing_kwargs:
+  use_reentrant: false
+
+optim: adamw_torch_4bit
+max_length: 8192
+warmup_ratio: 0.1
+logging_steps: 1
+learning_rate: 2e-4
+lr_scheduler_type: cosine
+per_device_train_batch_size: 4
+
+report_to: wandb
+num_train_epochs: 1
+
+output_dir: ./trainer_output/google/gemma-3-4b-it-ipst/slds
+resume_from_checkpoint: false
+
+save_strategy: epoch

@@ -1,0 +1,134 @@
+/* ---------------------------------------------------------------------------------------------------- */
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+/* ---------------------------------------------------------------------------------------------------- */
+.wrap {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    width: 100% !important;
+    max-width: 60vw !important;
+}
+
+#logo {
+    transform: scale(0.75);
+}
+
+body.dark #logo {
+    filter: invert(1);
+}
+
+.contain {
+    justify-content: center !important;
+    font-family: "Space Mono" !important;
+}
+
+#chat-input[contenteditable]{
+    height: 500px;
+    overflow: auto;
+}
+
+textarea {
+    overflow: auto !important;
+}
+
+body:not(.dark) .submit-button{
+    color: white !important;
+    background-color: black !important;
+}
+
+body.dark .submit-button {
+    color: white !important;
+    background-color: var(--color-accent-soft) !important;
+}
+
+body:not(.dark) .submit-button:hover{
+    background-color: rgba(0, 0, 0, 0.75) !important;
+}
+
+body.dark .submit-button:hover{
+    background-color: rgb(63, 63, 70, 0.75) !important;
+}
+
+body:not(.dark) #chatbot,
+body:not(.dark) #chat-input-group {
+    border: 2px solid black !important;
+    box-shadow: 5px 5px 0 0 black !important;
+    border-radius: 0 !important;
+}
+
+body.dark #chatbot,
+body.dark #chat-input-group {
+    border: 2px solid white !important;
+    box-shadow:
+        5px 5px 0 0px black,
+        5px 5px 0 2px white !important;
+    border-radius: 0 !important;
+}
+
+body.dark textarea::placeholder{
+    color: grey !important;
+}
+
+#chatbot,
+#chat-input,
+#chatbot .wrapper,
+#chat-input-group,
+.icon-button-wrapper,
+#chat-input textarea,
+div:has(#chat-input),
+#chatbot .bubble-wrap,
+#chat-checkbox-group,
+#chat-checkbox-group label,
+.icon-button-wrapper > button {
+    background: transparent !important;
+    right: unset !important;
+}
+
+.bot,
+.user,
+.icon-button-wrapper {
+    border: none !important;
+    box-shadow: none !important;
+}
+
+textarea:focus {
+    outline: none !important;
+}
+
+textarea,
+.chatbot.prose {
+    opacity: 1.0 !important;
+    font-size: var(--input-text-size) !important;
+}
+
+.bot,
+.user {
+    border-radius: var(--radius-xxl) !important;
+}
+
+.bot{
+    background-color: transparent !important;
+}
+
+body:not(.dark) .user{
+    background-color: black !important;
+}
+
+.user{
+    padding: var(--spacing-sm) var(--spacing-xxl) !important;
+}
+
+.user .message p,
+.user .message textarea{
+    color: white !important;
+}
+
+.message-content{
+    padding-top: 5px !important;
+    padding-bottom: 5px !important;
+}
+
+#chat-examples .label{
+    display: none !important;
+}
+
+/* ---------------------------------------------------------------------------------------------------- */

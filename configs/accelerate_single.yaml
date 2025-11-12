@@ -1,0 +1,7 @@
+gpu_ids: 0,
+num_processes: 1
+distributed_type: NO
+
+# gpu_ids: all
+# num_processes: 4
+# distributed_type: MULTI_GPU

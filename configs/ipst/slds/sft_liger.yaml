@@ -1,0 +1,52 @@
+#+-------------+------------------------------------------------------------------------------------
+#| ExtraConfig |
+#+-------------+
+
+mode: train
+model_class: AutoModelForImageTextToText
+dataset_name: ipst/slds
+prompts_path: ./prompts/ipst/slds
+dataset_subset: fr_de
+dataset_eval_split: validation
+dataset_test_split: test
+dataset_train_split: train
+fine_tuning_data_format: conversational_prompt_completion
+
+#+-------------+------------------------------------------------------------------------------------
+#| ModelConfig |
+#+-------------+
+
+dtype: bfloat16
+trust_remote_code: true
+model_name_or_path: google/gemma-3-4b-it
+attn_implementation: eager
+
+#+-----------+--------------------------------------------------------------------------------------
+#| SFTConfig |
+#+-----------+
+
+run_name: google/gemma-3-4b-it-ipst/slds
+dataset_num_proc: 8
+
+seed: 42
+bf16: true
+use_liger_kernel: true
+ddp_find_unused_parameters: true
+gradient_checkpointing: true
+gradient_checkpointing_kwargs:
+  use_reentrant: false
+
+max_length: 8192
+warmup_ratio: 0.1
+logging_steps: 1
+learning_rate: 2e-5
+lr_scheduler_type: cosine
+per_device_train_batch_size: 1
+
+report_to: wandb
+num_train_epochs: 1
+
+output_dir: ./trainer_output/google/gemma-3-4b-it-ipst/slds
+resume_from_checkpoint: false
+
+save_strategy: epoch

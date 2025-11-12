@@ -1,0 +1,89 @@
+#+-------------+------------------------------------------------------------------------------------
+#| ExtraConfig |
+#+-------------+
+
+mode: train
+# mode: evaluate
+
+model_class: AutoModelForCausalLM
+# model_class: AutoModelForImageTextToText
+
+# dataset_name: openlifescienceai/medqa
+# prompts_path: ./prompts/openlifescienceai/medqa
+# dataset_subset: null
+# dataset_eval_split: dev
+# dataset_test_split: test
+# dataset_train_split: train
+
+# dataset_name: ipst/slds
+# prompts_path: ./prompts/ipst/slds
+# dataset_subset: fr_it
+# dataset_eval_split: validation
+# dataset_test_split: test
+# dataset_train_split: train
+
+dataset_name: gretelai/synthetic_text_to_sql
+prompts_path: ./prompts/gretelai/synthetic_text_to_sql
+dataset_subset: null
+dataset_eval_split: null
+dataset_test_split: test
+dataset_train_split: train
+
+peft_base_model_path: google/gemma-3-270m-it
+peft_peft_model_path: ./trainer_output/google/gemma-3-270m-it-gretelai/synthetic_text_to_sql/checkpoint-368
+peft_output_model_path: ./trainer_output/google/gemma-3-270m-it-gretelai/synthetic_text_to_sql/checkpoint-368-merged
+
+fine_tuning_data_format: conversational_prompt_completion
+vllm_sampling_params_max_tokens: 8192
+
+#+-------------+------------------------------------------------------------------------------------
+#| ModelConfig |
+#+-------------+
+
+use_peft: true
+lora_r: 32
+lora_alpha: 16
+lora_dropout: 0.1
+load_in_4bit: true
+lora_target_modules: all-linear
+lora_modules_to_save: [
+  lm_head,
+  embed_tokens
+]
+
+dtype: bfloat16
+trust_remote_code: true
+model_name_or_path: google/gemma-3-270m-it
+# model_name_or_path: google/medgemma-4b-it
+# attn_implementation: eager
+attn_implementation: flash_attention_2
+
+#+-----------+--------------------------------------------------------------------------------------
+#| SFTConfig |
+#+-----------+
+
+run_name: google/gemma-3-270m-it-gretelai/synthetic_text_to_sql
+dataset_num_proc: 8
+
+seed: 42
+bf16: true
+use_liger_kernel: true
+ddp_find_unused_parameters: true
+gradient_checkpointing: true
+gradient_checkpointing_kwargs:
+  use_reentrant: false
+
+max_length: 8192
+warmup_ratio: 0.1
+logging_steps: 1
+learning_rate: 2e-4
+lr_scheduler_type: cosine
+per_device_train_batch_size: 256
+
+report_to: wandb
+num_train_epochs: 1
+
+output_dir: ./trainer_output/google/gemma-3-270m-it-gretelai/synthetic_text_to_sql
+resume_from_checkpoint: false
+
+save_strategy: epoch

@@ -1,0 +1,13 @@
+Prompt:
+{% if headnote_language == 'de' %}
+Generate a headnote in German for the leading decision below.
+{% elif headnote_language == 'fr' %}
+Generate a headnote in French for the leading decision below.
+{% elif headnote_language == 'it' %}
+Generate a headnote in Italian for the leading decision below.
+{% else %}
+Generate a headnote in {{ headnote_language }} for the leading decision below.
+{% endif %}
+
+Leading decision:
+{{ decision }}

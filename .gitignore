@@ -1,0 +1,3 @@
+wandb/
+trainer_output/
+__pycache__/

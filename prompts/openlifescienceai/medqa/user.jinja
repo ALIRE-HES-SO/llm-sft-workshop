@@ -1,0 +1,7 @@
+Question:
+{{ data["Question"] }}
+
+Options:
+{% for key, val in data["Options"].items() %}
+{{ key }}: {{ val }}
+{% endfor %}
