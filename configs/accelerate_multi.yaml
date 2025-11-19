@@ -1,3 +1,7 @@
+# Configuration for multi GPU training
+# gpu_ids: Specifies which GPU(s) to use for training (all = all available GPUs)
 gpu_ids: all
+# num_processes: Number of processes to use for training (must match the number of GPU IDs in use; if gpu_ids: all, must match the number of available GPUs)
 num_processes: 4
+# distributed_type: Type of distributed training setup (MULTI_GPU = multiple GPUs)
 distributed_type: MULTI_GPU

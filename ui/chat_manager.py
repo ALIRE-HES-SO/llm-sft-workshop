@@ -27,6 +27,7 @@ class ChatManager:
         completion = self.client.chat.completions.create(
             model="local",
             stream=True,
+            temperature=0,
             messages=messages
         )
 
