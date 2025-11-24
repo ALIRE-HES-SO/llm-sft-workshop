@@ -1,4 +1,3 @@
-"""Shared helpers and dataclasses for use across training and evaluation."""
 # ----------------------------------------------------------------------------------------------------
 from dataclasses import dataclass
 from transformers import TrainerCallback
@@ -16,7 +15,7 @@ class ExtraConfig:
         dataset_eval_split: split name for evaluation (use None if the dataset does not provide an evaluation split).
         dataset_test_split: split name for testing (use None if the dataset does not provide a test split).
         dataset_train_split: split name for training.
-        peft_base_model_path: Base model path (the model PEFT was applied to).
+        peft_base_model_path: Base model path (the model to which PEFT is applied).
         peft_peft_model_path: PEFT modules path (the checkpoint/modules produced by PEFT).
         peft_output_model_path: Merged output path (result of merging base model and PEFT modules).
         fine_tuning_data_format: format identifier used by map_dataset_format.
@@ -45,7 +44,7 @@ def map_dataset_format(
     assistant_template,
     fine_tuning_data_format,
 ):
-    """Map raw dataset samples into prompt-completion pairs per the chosen format.
+    """Map raw dataset samples into prompt-completion pairs in the chosen format.
 
     Args:
         dataset: a Dataset or iterable of records to be mapped.
@@ -87,6 +86,5 @@ def map_dataset_format(
                 }
             )
         case _:
-            # Explicit error for unsupported formats to aid debugging.
             raise ValueError(f"Unsupported fine_tuning_data_format: {fine_tuning_data_format}")
 # ----------------------------------------------------------------------------------------------------

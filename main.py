@@ -49,6 +49,7 @@ logger.addHandler(handler)
 
 def main():
     
+    # Parse command line arguments and configuration
     parser = TrlParser(
         dataclass_types=[
             SFTConfig,
@@ -57,19 +58,26 @@ def main():
         ]
     )
     
+    # Extract the parsed configuration objects
     sft_config, \
     model_config, \
     extra_config = parser.parse_args_and_config()
 
+    # Validate that the specified model class exists in transformers_dict
     if extra_config.model_class not in transformers_dict:
         raise ValueError(f"Unknown model class: {extra_config.model_class}")
 
+    # Get the actual model class from transformers_dict
     model_class = transformers_dict[extra_config.model_class]
 
+    # Initialize processor for model input handling
+    logger.info("loading AutoProcessor")
     processor = AutoProcessor.from_pretrained(
         model_config.model_name_or_path
     )
 
+    # Load dataset with optional subset filtering
+    logger.info(f"loading dataset: {extra_config.dataset_name}")
     if extra_config.dataset_subset:
         if extra_config.dataset_subset not in get_dataset_config_names(extra_config.dataset_name):
             raise ValueError(f"Dataset subset '{extra_config.dataset_subset}' not found in dataset '{extra_config.dataset_name}'. Available subsets: {get_dataset_config_names(extra_config.dataset_name)}")
@@ -77,6 +85,7 @@ def main():
     else:
         dataset = load_dataset(extra_config.dataset_name)
 
+    # Format SQL queries for text-to-sql dataset
     if extra_config.dataset_name == "gretelai/synthetic_text_to_sql":
         import sqlparse
         dataset = dataset.map(
@@ -87,7 +96,9 @@ def main():
             num_proc=sft_config.dataset_num_proc
         )
 
+    # Split dataset into train, validation, and test sets
     if extra_config.dataset_test_split and extra_config.dataset_eval_split is None:
+        logger.info("splitting dataset into train (provided), validation (missing), and test (provided) sets")
         dataset_train_test_split = dataset["train"].train_test_split(
             seed=42,
             test_size=len(dataset[extra_config.dataset_test_split])
@@ -101,6 +112,7 @@ def main():
         )
         extra_config.dataset_eval_split = "validation"
     elif extra_config.dataset_test_split is None and extra_config.dataset_eval_split is None:
+        logger.info("splitting dataset into train (provided), validation (missing), and test (missing) sets")
         dataset_train_val_split = dataset["train"].train_test_split(
             seed=42,
             test_size=0.1
@@ -119,6 +131,8 @@ def main():
         extra_config.dataset_test_split = "test"
         extra_config.dataset_eval_split = "validation"
 
+    # Load and render jinja2 templates for prompt formatting
+    logger.info(f"loading jinja2 templates from: {extra_config.prompts_path}")
     jinja_environment = SandboxedEnvironment(
         loader=FileSystemLoader(extra_config.prompts_path)
     )
@@ -126,6 +140,8 @@ def main():
     system_template = jinja_environment.get_template("system.jinja")
     assistant_template = jinja_environment.get_template("assistant.jinja")
 
+    # Apply dataset format mapping using templates
+    logger.info(f"applying dataset format mapping: {extra_config.fine_tuning_data_format}")
     dataset = map_dataset_format(
         dataset=dataset,
         user_template=user_template,
@@ -136,11 +152,14 @@ def main():
 
     match extra_config.mode:
         case "train":
+            # Load model and initialize SFT trainer
+            logger.info(f"loading AutoModel: {model_config.model_name_or_path}")
             automodel = model_class.from_pretrained(
                 model_config.model_name_or_path,
                 dtype=model_config.dtype,
                 attn_implementation=model_config.attn_implementation,
             )
+            logger.info("initializing SFT trainer")
             trainer = SFTTrainer(
                 args=sft_config,
                 model=automodel,
@@ -149,10 +168,12 @@ def main():
                 train_dataset=dataset[extra_config.dataset_train_split],
                 processing_class=processor
             )
+            logger.info("starting training")
             trainer.train(
                 resume_from_checkpoint=sft_config.resume_from_checkpoint
             )
         case "evaluate":
+            # Build dataset signature for evaluation validation
             if extra_config.dataset_subset:
                 dataset_signature = f"{extra_config.dataset_name}/{extra_config.dataset_subset}"
             else:
@@ -162,6 +183,8 @@ def main():
             ]:
                 raise ValueError(f"Evaluation of {dataset_signature} is not yet implemented.")
             test_dataset = dataset[extra_config.dataset_test_split] 
+            # Extract prompts and references from dataset
+            logger.info("preparing test set for vLLM")
             match extra_config.fine_tuning_data_format:
                 case "conversational_prompt_completion":
                     prompts = test_dataset.map(
@@ -182,9 +205,12 @@ def main():
                     )["reference"]
                 case _:
                     raise ValueError(f"Unsupported fine_tuning_data_format: {fine_tuning_data_format}")
+            # Generate predictions using vLLM
+            logger.info("loading vLLM model for generation")
             llm = LLM(
                 model=extra_config.evaluate_vllm_model_name_or_path
             )
+            logger.info("generating predictions")
             predictions = [
                 generation.outputs[0].text for generation in llm.generate(
                     prompts,
@@ -194,7 +220,7 @@ def main():
                     )
                 )
             ]
-
+            # Extract answer choices using regex pattern matching
             references = [reference.strip() for reference in references]
             predictions = [prediction.strip() for prediction in predictions]
             new_references = list()
@@ -210,6 +236,8 @@ def main():
                     new_predictions.append(prediction_match.group(1))
                 else:
                     new_predictions.append("X")
+            # Compute exact match evaluation metric
+            logger.info("computing evaluation metrics")
             evaluation = evaluate.combine(
                 [
                     "exact_match"
@@ -219,8 +247,10 @@ def main():
                 references=new_references,
                 predictions=new_predictions
             )
+            logger.info("evaluation complete")
             pprint(results)
         case "interact":
+            # Build dataset signature and initialize chat interface
             if extra_config.dataset_subset:
                 dataset_signature = f"{extra_config.dataset_name}/{extra_config.dataset_subset}"
             else:
@@ -231,11 +261,14 @@ def main():
                 "dmis-lab/meerkat-instructions/MedQA-CoT"
             ]:
                 raise ValueError(f"Interaction with {dataset_signature} is not yet implemented.")
+            logger.info("initializing chat manager")
             chat_manager = ChatManager(
                 api_key=os.environ["OPENAI_API_KEY"],
                 api_base_url=os.environ["OPENAI_API_BASE"],
                 system_prompt=dataset["train"][0]["prompt"][0]["content"]
             )
+            # Create gradio chat interface with examples and event handlers
+            logger.info("launching gradio chat interface")
             with gr.Blocks(
                 title="ALIRE",
                 css_paths="./ui/theme.css"
@@ -305,6 +338,7 @@ def main():
                     examples=_examples,
                     inputs=[chat_input]
                 )
+                # Bind chat events to manager functions
                 chat_input.submit(
                     fn=chat_manager.submit,
                     inputs=[chat_input, chatbot],
