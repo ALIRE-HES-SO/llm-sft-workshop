@@ -41,6 +41,7 @@ By the end of this workshop, you will have learned how to prepare datasets for f
   - [Evaluate: generalization on the test set](#use-case-3-evaluate-generalization-on-the-test-set)
 - [Conclusions](#conclusions)
 - [Frequently Asked Questions](#frequently-asked-questions)
+  - [How can I add an Exoscale instance?](#faq-configure-exoscale)
   - [How can I resume fine-tuning?](#faq-resume-fine-tuning)
 
 <h2 id="vs-code-insiders" style="display:inline-block"><a href="#table-of-contents">&#8593;</a> VS Code Insiders</h2>
@@ -55,6 +56,10 @@ We recommend [VS Code Insiders](https://code.visualstudio.com/insiders/) because
 
 In this workshop, we will use `GPUA5000` instances from the `AT-VIE-2` zone. Each instance is equipped with either 1, 2, or 4 [NVIDIA RTX A5000](https://www.nvidia.com/en-us/products/workstations/rtx-a5000/) GPUs (24GB of VRAM) in the `Small`, `Medium`, and `Large` instance types, respectively. We suggest using instances with at least 100 GB of disk space.
 
+>💡 **Tip**
+>
+> To add an [Exoscale](https://www.exoscale.com) instance have a look at the [FAQ: How can I add an Exoscale instance?](#faq-configure-exoscale).
+
 To begin, we will use [VS Code Insiders](https://code.visualstudio.com/insiders/) to connect to a `Small` [Exoscale](https://www.exoscale.com) instance.
 
 To set this up, open your SSH configuration file with your favorite text editor, such as `nano` from the terminal:
@@ -68,7 +73,7 @@ Then add the following configuration for your [Exoscale](https://www.exoscale.co
 
 ```bash
 Host exoscale
-  User ADD_USERNAME_HERE
+  User ubuntu
   HostName ADD_IP_HERE
 ```
 
@@ -711,6 +716,143 @@ You now have a scalable, modular, and reproducible SFT pipeline that can be appl
 We hope this workshop has given you both the practical skills and conceptual understanding needed to continue exploring, fine-tuning, and deploying your own LLMs.
 
 <h2 id="frequently-asked-questions" style="display:inline-block"><a href="#table-of-contents">&#8593;</a> Frequently Asked Questions</h2>
+
+<h3 id="faq-configure-exoscale" style="display:inline-block"><a href="#table-of-contents">&#8593;</a> How can I add an Exoscale instance?</h3>
+
+#### Landing page
+Log in to your [Exoscale](https://www.exoscale.com) account to access the landing page shown below.
+
+<p align="center">
+  <img src="./images/extra/configure_exoscale/landing_page_light.png#gh-light-mode-only">
+  <img src="./images/extra/configure_exoscale/landing_page_dark.png#gh-dark-mode-only">
+</p>
+
+#### Security Groups setup
+
+<p align="center">
+  <img src="./images/extra/configure_exoscale/security_groups_light.png#gh-light-mode-only">
+  <img src="./images/extra/configure_exoscale/security_groups_dark.png#gh-dark-mode-only">
+</p>
+
+<p align="center">
+  <img src="./images/extra/configure_exoscale/security_groups_add_light.png#gh-light-mode-only">
+  <img src="./images/extra/configure_exoscale/security_groups_add_dark.png#gh-dark-mode-only">
+</p>
+
+<p align="center">
+  <img src="./images/extra/configure_exoscale/security_groups_name_light.png#gh-light-mode-only">
+  <img src="./images/extra/configure_exoscale/security_groups_name_dark.png#gh-dark-mode-only">
+</p>
+
+<p align="center">
+  <img src="./images/extra/configure_exoscale/security_groups_dots_light.png#gh-light-mode-only">
+  <img src="./images/extra/configure_exoscale/security_groups_dots_dark.png#gh-dark-mode-only">
+</p>
+
+<p align="center">
+  <img src="./images/extra/configure_exoscale/security_groups_details_light.png#gh-light-mode-only">
+  <img src="./images/extra/configure_exoscale/security_groups_details_dark.png#gh-dark-mode-only">
+</p>
+
+<p align="center">
+  <img src="./images/extra/configure_exoscale/security_groups_add_rule_light.png#gh-light-mode-only">
+  <img src="./images/extra/configure_exoscale/security_groups_add_rule_dark.png#gh-dark-mode-only">
+</p>
+
+<p align="center">
+  <img src="./images/extra/configure_exoscale/security_groups_ssh_light.png#gh-light-mode-only">
+  <img src="./images/extra/configure_exoscale/security_groups_ssh_dark.png#gh-dark-mode-only">
+</p>
+
+#### Private Networks setup
+
+<p align="center">
+  <img src="./images/extra/configure_exoscale/private_networks_light.png#gh-light-mode-only">
+  <img src="./images/extra/configure_exoscale/private_networks_dark.png#gh-dark-mode-only">
+</p>
+
+<p align="center">
+  <img src="./images/extra/configure_exoscale/private_networks_add_light.png#gh-light-mode-only">
+  <img src="./images/extra/configure_exoscale/private_networks_add_dark.png#gh-dark-mode-only">
+</p>
+
+<p align="center">
+  <img src="./images/extra/configure_exoscale/private_networks_name_light.png#gh-light-mode-only">
+  <img src="./images/extra/configure_exoscale/private_networks_name_dark.png#gh-dark-mode-only">
+</p>
+
+<p align="center">
+  <img src="./images/extra/configure_exoscale/private_networks_name_add_light.png#gh-light-mode-only">
+  <img src="./images/extra/configure_exoscale/private_networks_name_add_dark.png#gh-dark-mode-only">
+</p>
+
+#### SSH Keys setup
+
+<p align="center">
+  <img src="./images/extra/configure_exoscale/ssh_keys_light.png#gh-light-mode-only">
+  <img src="./images/extra/configure_exoscale/ssh_keys_dark.png#gh-dark-mode-only">
+</p>
+
+<p align="center">
+  <img src="./images/extra/configure_exoscale/ssh_keys_add_light.png#gh-light-mode-only">
+  <img src="./images/extra/configure_exoscale/ssh_keys_add_dark.png#gh-dark-mode-only">
+</p>
+
+<p align="center">
+  <img src="./images/extra/configure_exoscale/ssh_keys_import_light.png#gh-light-mode-only">
+  <img src="./images/extra/configure_exoscale/ssh_keys_import_dark.png#gh-dark-mode-only">
+</p>
+
+>💡 **Tip**
+>
+> On UNIX-based systems, you can retrieve your SSH public key by running the following command in your terminal:
+> ```
+> cat ~/.ssh/id_rsa.pub
+> ```
+
+#### Anti Affinity setup
+
+<p align="center">
+  <img src="./images/extra/configure_exoscale/anti_affinity_light.png#gh-light-mode-only">
+  <img src="./images/extra/configure_exoscale/anti_affinity_dark.png#gh-dark-mode-only">
+</p>
+
+<p align="center">
+  <img src="./images/extra/configure_exoscale/anti_affinity_add_light.png#gh-light-mode-only">
+  <img src="./images/extra/configure_exoscale/anti_affinity_add_dark.png#gh-dark-mode-only">
+</p>
+
+<p align="center">
+  <img src="./images/extra/configure_exoscale/anti_affinity_name_light.png#gh-light-mode-only">
+  <img src="./images/extra/configure_exoscale/anti_affinity_name_dark.png#gh-dark-mode-only">
+</p>
+
+#### Instances setup
+
+<p align="center">
+  <img src="./images/extra/configure_exoscale/instances_add_light.png#gh-light-mode-only">
+  <img src="./images/extra/configure_exoscale/instances_add_dark.png#gh-dark-mode-only">
+</p>
+
+<p align="center">
+  <img src="./images/extra/configure_exoscale/instances_name_light.png#gh-light-mode-only">
+  <img src="./images/extra/configure_exoscale/instances_name_dark.png#gh-dark-mode-only">
+</p>
+
+<p align="center">
+  <img src="./images/extra/configure_exoscale/instances_type_light.png#gh-light-mode-only">
+  <img src="./images/extra/configure_exoscale/instances_type_dark.png#gh-dark-mode-only">
+</p>
+
+<p align="center">
+  <img src="./images/extra/configure_exoscale/instances_config_add_light.png#gh-light-mode-only">
+  <img src="./images/extra/configure_exoscale/instances_config_add_dark.png#gh-dark-mode-only">
+</p>
+
+<p align="center">
+  <img src="./images/extra/configure_exoscale/instance_info_light.png#gh-light-mode-only">
+  <img src="./images/extra/configure_exoscale/instance_info_dark.png#gh-dark-mode-only">
+</p>
 
 <h3 id="faq-resume-fine-tuning" style="display:inline-block"><a href="#table-of-contents">&#8593;</a> How can I resume fine-tuning?</h3>
 
