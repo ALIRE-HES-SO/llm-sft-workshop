@@ -62,7 +62,7 @@ In this workshop, we will use `GPUA5000` instances from the `AT-VIE-2` zone. Eac
 
 To begin, we will use [VS Code Insiders](https://code.visualstudio.com/insiders/) to connect to a `Small` [Exoscale](https://www.exoscale.com) instance.
 
-To set this up, open your SSH configuration file with your favorite text editor, such as `nano` from the terminal:
+To set this up, open your SSH configuration file with your favorite text editor, such as `nano` or `notepad` from the terminal:
 
 ```bash
 # macOS example
@@ -70,6 +70,15 @@ nano /Users/ADD_YOUR_USERNAME_HERE]/.ssh/config
 # Windows example
 notepad C:\Users\YOUR_USERNAME\.ssh\config
 ```
+
+>💡 **Tip**
+>
+> If the file does not exist or the command fails, you may need to generate an SSH key pair first. To do so, run the following command in your terminal:
+> ```bash
+> ssh-keygen
+> # You can press Enter through all prompts to accept the default settings.
+> ```
+> Once the key is created, the `.ssh` directory (and the config file, if you create it) will be available.
 
 Then add the following configuration for your [Exoscale](https://www.exoscale.com) instance:
 
