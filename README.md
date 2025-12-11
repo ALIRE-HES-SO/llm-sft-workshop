@@ -67,6 +67,8 @@ To set this up, open your SSH configuration file with your favorite text editor,
 ```bash
 # macOS example
 nano /Users/ADD_YOUR_USERNAME_HERE]/.ssh/config
+# Windows example
+notepad C:\Users\YOUR_USERNAME\.ssh\config
 ```
 
 Then add the following configuration for your [Exoscale](https://www.exoscale.com) instance:
