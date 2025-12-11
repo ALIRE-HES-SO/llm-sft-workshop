@@ -1,6 +1,6 @@
 # Configuration for single GPU training
 # gpu_ids: Specifies which GPU(s) to use for training (0 = first GPU)
-gpu_ids: "0"
+gpu_ids: 0,
 # num_processes: Number of processes to use for training (must match the number of GPU IDs in use; for single GPU, this should be 1)
 num_processes: 1
 # distributed_type: Type of distributed training setup (NO = no distributed training)
