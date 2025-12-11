@@ -56,6 +56,10 @@ We recommend [VS Code Insiders](https://code.visualstudio.com/insiders/) because
 
 In this workshop, we will use `GPUA5000` instances from the `AT-VIE-2` zone. Each instance is equipped with either 1, 2, or 4 [NVIDIA RTX A5000](https://www.nvidia.com/en-us/products/workstations/rtx-a5000/) GPUs (24GB of VRAM) in the `Small`, `Medium`, and `Large` instance types, respectively. We suggest using instances with at least 100 GB of disk space.
 
+> ⚠️ **Nota bene**
+>
+> Make sure to select the `GPUA5000` instances from the `AT-VIE-2` zone!
+
 >💡 **Tip**
 >
 > To add an [Exoscale](https://www.exoscale.com) instance have a look at the [FAQ: How can I add an Exoscale instance?](#faq-configure-exoscale).
