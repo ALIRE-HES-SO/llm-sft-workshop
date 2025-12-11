@@ -7,9 +7,7 @@
 
 Welcome, and thank you for your interest in this hands-on workshop organized by **[HES-SO Valais-Wallis](https://www.hes-so.ch/en/homepage)** as part of a **[Swiss AI Center](https://www.hes-so.ch/en/swiss-ai-center)** cheque supported by **[Exoscale](https://www.exoscale.com)**!
 
-In this workshop, you'll dive into the practical aspects of fine-tuning large language models (LLMs) using open-source tools and modern cloud infrastructure.
-
-By the end of this workshop, you will have learned how to prepare datasets for fine-tuning, train models efficiently from a single GPU to multi-GPU setups, track training progress, and deploy your own LLM for practical use and experimentation.
+By the end, you will understand the practical aspects of fine-tuning large language models (LLMs) using open-source tools and modern cloud infrastructure. You will know how to prepare datasets, train models efficiently from a single GPU to multi-GPU setups, track training progress, evaluate performance, deploy your model, and interact with it.
 
 **Points of contact:**
 - Andrei Coman ([andrei.coman@hevs.ch](mailto:andrei.coman@hevs.ch))
