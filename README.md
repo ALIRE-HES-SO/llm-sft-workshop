@@ -67,7 +67,7 @@ To begin, we will use [VS Code Insiders](https://code.visualstudio.com/insiders/
 To set this up, open your SSH configuration file with your favorite text editor, such as `nano` or `notepad` from the terminal:
 
 ```bash
-# macOS example
+# UNIX example
 nano /Users/ADD_YOUR_USERNAME_HERE]/.ssh/config
 # Windows example
 notepad C:\Users\YOUR_USERNAME\.ssh\config
