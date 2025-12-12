@@ -16,13 +16,11 @@ from transformers import (
 from peft import PeftModel
 from utils import ExtraConfig
 # ----------------------------------------------------------------------------------------------------
-# Configure logging to output information messages with timestamps
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+)
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
-handler = logging.StreamHandler()
-handler.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'))
-logger.addHandler(handler)
 # ----------------------------------------------------------------------------------------------------
 
 def main():
