@@ -172,7 +172,7 @@ uv sync
 
 #### HuggingFace CLI login
 
-Create a [HuggingFace](https://huggingface.co) account. Then go to Profile &#8594; Acces Tokens, create a new token and copy it.
+Create a [HuggingFace](https://huggingface.co) account. Then go to Profile &#8594; Acces Tokens, create a new token with `READ` permissions and copy it.
 
 Then run the following command:
 
