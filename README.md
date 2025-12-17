@@ -382,7 +382,7 @@ num_processes: 4
 distributed_type: MULTI_GPU
 ```
 
-The multi-GPU configuration assumes your machine has 4 GPUs ([`num_processes: 4`](configs/accelerate_multi.yaml#L2)). The setting [`gpu_ids: all`](configs/accelerate_multi.yaml#L3) tells [`accelerate`](https://huggingface.co/docs/accelerate/en/index) to use all available GPUs (equivalent to specifying `gpu_ids: 0,1,2,3`).
+The multi-GPU configuration assumes your machine has 4 GPUs ([`num_processes: 4`](configs/accelerate_multi.yaml#L2)). The setting [`gpu_ids: all`](configs/accelerate_multi.yaml#L3) tells [`accelerate`](https://huggingface.co/docs/accelerate/en/index) to use all available GPUs (equivalent to specifying `gpu_ids: 0,1,2,3`). Make sure to configure the number of GPUs to match those available on your instance.
 
 To enable multi-GPU fine-tuning, simply swap [`accelerate_single.yaml`](configs/accelerate_single.yaml) with [`accelerate_multi.yaml`](configs/accelerate_multi.yaml) during the launch of the SFT process. <ins>The fine-tuning time should drop to around 10 to 15 minutes, down from the original 45 to 50 minutes</ins>.
 
