@@ -360,6 +360,10 @@ With this adjustment, the <ins>fine-tuning time should drop to around 45 to 50 m
 
 <h3 id="use-case-1-scaling-to-multiple-gpus" style="display:inline-block"><a href="#table-of-contents">&#8593;</a> Scaling to multiple GPUs</h3>
 
+> ⚠️ **Nota bene**
+> 
+> Up to this point, we have been using the `Small` instance type with a single GPU. For this section, please switch to either a `Medium` or `Large` instance, which provide 2 and 4 GPUs respectively.
+
 To scale your fine-tuning across multiple GPUs, compare the two configuration files: [`accelerate_single.yaml`](configs/accelerate_single.yaml) and [`accelerate_multi.yaml`](configs/accelerate_multi.yaml):
 
 [`accelerate_single.yaml`](configs/accelerate_single.yaml)
@@ -405,6 +409,10 @@ This command launches an OpenAI-compatible API endpoint that serves your model u
 We will not interact with the API directly. Instead, we will connect it to a chat-based user interface (UI), which we will cover in the next section.
 
 <h3 id="use-case-1-interact" style="display:inline-block"><a href="#table-of-contents">&#8593;</a> Interact</h3>
+
+> ⚠️ **Nota bene**
+> 
+> Before proceeding with this section, make sure that the command from the [Deploy](#use-case-1-deploy) section is running in the background (for example, in a separate terminal tab).
 
 To make interaction more interesting rather than CLI based `curl` commands, we created a very basic chat-based UI interface via the Hugging Face [`gradio`](https://www.gradio.app) library.
 
