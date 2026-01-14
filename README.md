@@ -182,6 +182,14 @@ uv run hf auth login
 
 When prompted, paste your token to complete the login.
 
+>💡 **Tip**
+>
+> During login, the CLI may ask:
+> ```bash
+> Add token as git credential? (Y/n)
+> ```
+> Select: `n` and press `Enter`.
+
 #### Weights & Biases CLI login
 
 Create a [Weights & Biases](https://wandb.ai) account. Then go to Profile &#8594; API key, and copy it.
