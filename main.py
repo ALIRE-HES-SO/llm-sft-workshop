@@ -406,7 +406,8 @@ def main():
                     api_name=False
                 )
                 demo.launch(
-                    show_api=False
+                    share=True,
+                    show_api=False,
                 )
         case _:
             raise ValueError(f"Mode {extra_config.mode} is not supported.")

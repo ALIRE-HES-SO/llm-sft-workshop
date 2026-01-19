@@ -441,7 +441,7 @@ uv run main.py --config configs/gretelai/synthetic_text_to_sql/sft_liger.yaml
 > 
 > Unlike the fine-tuning process, we do not use [`accelerate`](https://huggingface.co/docs/accelerate/en/index) here since the interface runs as a single process.
 
-Once the server starts, open your browser and navigate to [`http://localhost:7860`](http://localhost:7860) to begin chatting with your locally deployed model.
+Once the server starts, open your browser and go to [`http://localhost:7860`](http://localhost:7860) to begin chatting with your locally deployed model. If you want to use the Gradio-generated link instead, go to `https://GRADIO_ID.gradio.live` and replace `GRADIO_ID` with the value shown in your terminal.
 
 The interface should look something like this:
 
