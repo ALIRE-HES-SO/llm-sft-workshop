@@ -226,26 +226,27 @@ When prompted, paste your token to complete the login.
 >
 > These tools don't communicate directly with each other. Instead, they each prepare a different piece of the puzzle:
 >
-> ```
-> ┌─────────────────────────────────────────────────────────────┐
-> │                    Your Fine-Tuning Workflow                │
-> ├─────────────────────────────────────────────────────────────┤
-> │                                                             │
-> │   [GitHub]  ──clone──>  [Your Instance]                     │
-> │                              │                              │
-> │                         install.sh                          │
-> │                         (CUDA, etc.)                        │
-> │                              │                              │
-> │                          uv sync                            │
-> │                    (Python packages)                        │
-> │                              │                              │
-> │   [HuggingFace Hub] <──────────────────> [Training Script]  │
-> │   (models, datasets)        │            (main.py)          │
-> │                              │                              │
-> │                              └──────────> [W&B Dashboard]   │
-> │                                           (metrics, logs)   │
-> │                                                             │
-> └─────────────────────────────────────────────────────────────┘
+> ```mermaid
+> flowchart TD
+>     GitHub[GitHub]
+>     Instance[Your Instance]
+>     Install[install.sh<br/>CUDA, etc.]
+>     UV[uv sync<br/>Python packages]
+>     HF[HuggingFace Hub<br/>models, datasets]
+>     Training[Training Script<br/>main.py]
+>     WB[W&B Dashboard<br/>metrics, logs]
+>
+>     GitHub -->|clone| Instance
+>     Instance --> Install
+>     Install --> UV
+>     UV --> Training
+>     HF <-->|read/write| Training
+>     Training -->|logs| WB
+>
+>     style GitHub fill:#e1f5ff
+>     style Instance fill:#f3e5f5
+>     style HF fill:#e8f5e9
+>     style WB fill:#fff3e0
 > ```
 >
 > - **gh**: Downloaded all scripts, configs, and templates to your instance
