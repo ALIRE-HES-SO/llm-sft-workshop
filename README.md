@@ -299,7 +299,11 @@ The model contains approximately 270 million parameters, which makes it lightwei
 
 <h3 id="use-case-1-trl-&-accelerate" style="display:inline-block"><a href="#table-of-contents">&#8593;</a> <code>trl</code> & <code>accelerate</code></h3>
 
-For the fine-tuning stage, we will use the [`SFTTrainer`](https://huggingface.co/docs/trl/en/sft_trainer) from the Hugging Face [`trl`](https://huggingface.co/docs/trl/en/index) library (short for Transformers Reinforcement Learning). This class provides a high-level interface for SFT and automates many key steps such as [tokenization](https://en.wikipedia.org/wiki/Large_language_model#Tokenization) (the process of converting text into numerical tokens that the model can understand), batching, checkpointing, and integration with libraries such as [`wandb`](https://wandb.ai/site/) (Weights & Biases) for experiment tracking (more on this in the next section).
+For the fine-tuning stage, we will use the [`SFTTrainer`](https://huggingface.co/docs/trl/en/sft_trainer) from the Hugging Face [`trl`](https://huggingface.co/docs/trl/en/index) library (short for Transformers Reinforcement Learning). This class provides a high-level interface for SFT and automates many key steps such as [tokenization](https://en.wikipedia.org/wiki/Large_language_model#Tokenization), batching, checkpointing, and integration with libraries such as [`wandb`](https://wandb.ai/site/) (Weights & Biases) for experiment tracking (more on this in the next section).
+
+> 🧩 **What's happening behind the scenes?**
+>
+> Tokenization splits text into smaller units (tokens) that the model can process numerically. For example, "Hello world!" might become `[12345, 6789, 10]`. The model's vocabulary size (typically 32k-256k tokens) determines how efficiently it can represent text. Longer sequences require more memory and each token needs space in the attention mechanism's key-value cache.
 
 Our entry point for running the fine-tuning process is the [`main.py`](main.py) script, which expects a configuration file provided as an argument (for example, [`sft.yaml`](configs/gretelai/synthetic_text_to_sql/sft.yaml)). This file defines all aspects of the fine-tuning setup, including the dataset, model, and optimization parameters. It keeps all the fine-tuning options in one place, making it easy to reproduce experiments or adjust settings without modifying the code.
 
@@ -330,6 +334,10 @@ Once the job starts, your terminal should display output similar to:
   <img src="./images/use_case_1/fine_tune_dark.png#gh-dark-mode-only" alt="Fine-tune">
 </p>
 
+> 🧩 **What's happening behind the scenes?**
+>
+> The model is processing batches of training data (called "steps") and learning to match the expected outputs. The `train/loss` value shows how well it's doing, with lower meaning better. Model checkpoints are automatically saved to `trainer_output/`, and all metrics stream to your Weights & Biases dashboard.
+
 <h3 id="use-case-1-monitor" style="display:inline-block"><a href="#table-of-contents">&#8593;</a> Monitor</h3>
 
 You can also monitor your training progress directly on [`wandb`](https://wandb.ai/site/), where your run will appear with detailed metrics, logs, and charts similar to the example below:
@@ -339,6 +347,10 @@ You can also monitor your training progress directly on [`wandb`](https://wandb.
   <img src="./images/use_case_1/wandb_dark.png#gh-dark-mode-only" alt="Fine-tune">
 </p>
 
+> 🧩 **What's happening behind the scenes?**
+>
+> The `report_to: wandb` setting in your config creates this live dashboard. Watch the training loss decrease over time, this shows the model is learning. If you enable validation, you can spot when the model starts overfitting.
+
 <h3 id="use-case-1-optimize-liger-kernel" style="display:inline-block"><a href="#table-of-contents">&#8593;</a> Optimize: <code>liger-kernel</code></h3>
 
 As you may have noticed, even with a relatively small model, <ins>fine-tuning a single epoch can take between 100 and 110 minutes</ins>. Can we do better? Absolutely!
@@ -346,6 +358,10 @@ As you may have noticed, even with a relatively small model, <ins>fine-tuning a 
 One can leverage the [`liger-kernel`](https://github.com/linkedin/Liger-Kernel/) library, which states:
 
 > _"Liger Kernel is a collection of Triton kernels designed specifically for LLM training. It can effectively increase multi-GPU training throughput by 20% and reduces memory usage by 60%."_
+
+> 🧩 **What's happening behind the scenes?**
+>
+> Liger uses Triton, a Python-based language for writing GPU kernels (low-level functions that run directly on the GPU). Unlike standard PyTorch operations that combine many small GPU calls, Triton kernels fuse multiple operations together, reducing memory transfers between GPU memory and compute units. This is why Liger reduces memory usage: it computes intermediate values on-the-fly rather than storing them.
 
 To enable it, copy [`configs/gretelai/synthetic_text_to_sql/sft.yaml`](configs/gretelai/synthetic_text_to_sql/sft.yaml) into a new [`configs/gretelai/synthetic_text_to_sql/sft_liger.yaml`](configs/gretelai/synthetic_text_to_sql/sft_liger.yaml), and add the following line in the [`SFTConfig`](configs/gretelai/synthetic_text_to_sql/sft_liger.yaml#L22) section:
 
@@ -394,9 +410,13 @@ The multi-GPU configuration assumes your machine has 4 GPUs ([`num_processes: 4`
 
 To enable multi-GPU fine-tuning, simply swap [`accelerate_single.yaml`](configs/accelerate_single.yaml) with [`accelerate_multi.yaml`](configs/accelerate_multi.yaml) during the launch of the SFT process. <ins>The fine-tuning time should drop to around 10 to 15 minutes, down from the original 45 to 50 minutes</ins>.
 
+> 🧩 **What's happening behind the scenes?**
+>
+> [`DDP`](https://pytorch-cn.com/tutorials/intermediate/ddp_tutorial.html) (Distributed Data Parallel) creates an identical copy of your model on each GPU. During training, each GPU processes a different portion of the batch. After computing gradients, all GPUs synchronize (using "all-reduce") to average their gradients before updating weights. This means 4 GPUs can process 4× the data per step, nearly 4× faster training, assuming your data loading and gradient synchronization aren't bottlenecks.
+
 > 💡 **Tip**
-> 
-> The setup in this workshop uses [`DDP`](https://pytorch-cn.com/tutorials/intermediate/ddp_tutorial.html) (Distributed Data Parallel) under the hood for multi-GPU training. [`DDP`](https://pytorch-cn.com/tutorials/intermediate/ddp_tutorial.html) works by creating a full copy of the model on each GPU and splitting every training batch across devices. The [`accelerate`](https://huggingface.co/docs/accelerate/en/index) library also supports more advanced distributed strategies such as [`FSDP`](https://huggingface.co/docs/accelerate/en/usage_guides/fsdp) (Fully Sharded Data Parallel) and [`Deepspeed ZeRO`](https://huggingface.co/docs/accelerate/en/usage_guides/deepspeed), which enable even larger models to be trained efficiently by sharding model parameters, gradients, and optimizer states. These methods are beyond the scope of this workshop, but you are encouraged to explore them later for large-scale fine-tuning.
+>
+> For even larger models that don't fit in memory with DDP, the [`accelerate`](https://huggingface.co/docs/accelerate/en/index) library supports more advanced distributed strategies such as [`FSDP`](https://huggingface.co/docs/accelerate/en/usage_guides/fsdp) (Fully Sharded Data Parallel) and [`Deepspeed ZeRO`](https://huggingface.co/docs/accelerate/en/usage_guides/deepspeed), which enable training by sharding model parameters, gradients, and optimizer states across GPUs. These methods are beyond the scope of this workshop, but you are encouraged to explore them later for large-scale fine-tuning.
 
 <h3 id="use-case-1-deploy" style="display:inline-block"><a href="#table-of-contents">&#8593;</a> Deploy</h3>
 
@@ -449,6 +469,10 @@ The interface should look something like this:
   <img src="./images/use_case_1/ui_light.png#gh-light-mode-only" alt="ui">
   <img src="./images/use_case_1/ui_dark.png#gh-dark-mode-only" alt="ui">
 </p>
+
+> 🧩 **What's happening behind the scenes?**
+>
+> Gradio creates a web-based chat interface that connects to your vLLM server (running on `localhost:8080`). When you send a message, it goes through the API to your model and displays the response. The system prompt from your training data is automatically included.
 
 <h2 id="use-case-2" style="display:inline-block"><a href="#table-of-contents">&#8593;</a> Use Case 2: From Decision (French) to Headnote (German)</h2>
 
@@ -565,7 +589,13 @@ lora_task_type: CAUSAL_LM
 lora_target_modules: all-linear
 ```
 
-These settings activate LoRA adapters on all linear layers ([`lora_target_modules: all-linear`](configs/ipst/slds/sft_liger_peft.yaml#L34)) and quantize the base model to 4-bit precision ([`load_in_4bit: true`](configs/ipst/slds/sft_liger_peft.yaml#L32)), which greatly reduces memory usage. For more details on how to choose the rank ([`lora_r`](configs/ipst/slds/sft_liger_peft.yaml#L29)) and scaling factor alpha ([`lora_alpha`](configs/ipst/slds/sft_liger_peft.yaml#L30)), the [LoRA without Regret](https://thinkingmachines.ai/blog/lora/) blog by [Thinking Machines](https://thinkingmachines.ai) is an excellent resource.
+These settings activate LoRA adapters on all linear layers ([`lora_target_modules: all-linear`](configs/ipst/slds/sft_liger_peft.yaml#L34)) and quantize the base model to 4-bit precision ([`load_in_4bit: true`](configs/ipst/slds/sft_liger_peft.yaml#L32)), which greatly reduces memory usage.
+
+> 🧩 **What's happening behind the scenes?**
+>
+> 4-bit quantization reduces each model weight from 16 bits (float16) to 4 bits, compressing the model by 4×. Instead of storing precise values like 0.3742, 4-bit quantization stores approximate "buckets". The base model stays in 4-bit (saving memory), while LoRA adapters train in higher precision. Some accuracy is lost, but for most tasks the impact is minimal - especially when fine-tuning adapters that can compensate.
+
+For more details on how to choose the rank ([`lora_r`](configs/ipst/slds/sft_liger_peft.yaml#L29)) and scaling factor alpha ([`lora_alpha`](configs/ipst/slds/sft_liger_peft.yaml#L30)), the [LoRA without Regret](https://thinkingmachines.ai/blog/lora/) blog by [Thinking Machines](https://thinkingmachines.ai) is an excellent resource.
 
 The second change is also in the [`ModelConfig`](configs/ipst/slds/sft_liger_peft.yaml#L19) section:
 
@@ -574,6 +604,10 @@ attn_implementation: flash_attention_2
 ```
 
 This enables [FlashAttention 2](https://arxiv.org/abs/2205.14135), an optimized attention [CUDA kernel](https://modal.com/gpu-glossary/device-software/kernel) that improves speed and reduces memory consumption during training.
+
+> 🧩 **What's happening behind the scenes?**
+>
+> Standard attention loads the full attention matrix into GPU memory (size: sequence_length²), which grows quickly with longer contexts. FlashAttention 2 uses a technique called "tiling" to compute attention in smaller blocks, keeping only the necessary parts in fast GPU memory (SRAM) and streaming the rest. This reduces memory usage from O(n²) to O(n) while actually running faster due to better hardware utilization.
 
 The third change is in the [`SFTConfig`](configs/ipst/slds/sft_liger_peft.yaml#L36) section:
 
@@ -597,8 +631,12 @@ Also in the [`SFTConfig`](configs/ipst/slds/sft_liger_peft.yaml#L36) section, si
 per_device_train_batch_size: 4
 ```
 
+> 🧩 **What's happening behind the scenes?**
+>
+> LoRA works because large weight matrices in neural networks are often "redundant" and most of their information can be compressed. Instead of updating a 4096×4096 weight matrix (16M parameters), LoRA adds two small matrices: 4096×32 and 32×4096 (262k parameters). Multiplying these gives a 4096×4096 update that captures the essential adaptation. The rank (32 in this case, configured via `lora_r`) controls the "expressiveness" of the adapter, with a higher rank meaning more capacity but more memory. You only store optimizer states for these small adapters, drastically reducing memory requirements. Your checkpoint contains just these adapters (typically 10–50MB) rather than the full model.
+
 > ⚠️ **Nota bene**
-> 
+>
 > One could be tempted to reduce the [`max_length`](configs/ipst/slds/sft_liger_peft.yaml#L52) parameter in the [`SFTConfig`](configs/ipst/slds/sft_liger_peft.yaml#L36) section from `max_length: 8192` to a smaller value such as `max_length: 2048` to save memory, since the sequence length defines how many tokens per sample the model can process at once. However, reducing it would prevent the model from processing entire `system+user+assistant` sequences, meaning <ins>it would not fully capture</ins> the structure and meaning required for generating accurate headnotes.
 
 <h3 id="use-case-2-merge" style="display:inline-block"><a href="#table-of-contents">&#8593;</a> Merge</h3>
@@ -624,6 +662,10 @@ Once these entries are in place, you can launch the merge process with the follo
 ```bash
 uv run merge.py --config configs/ipst/slds/sft_liger_peft.yaml
 ```
+
+> 🧩 **What's happening behind the scenes?**
+>
+> This combines your small LoRA adapters back into the base model, creating a single, self-contained model file. Most deployment tools expect standard model files rather than separate adapters, so merging is necessary before serving. The merged model will be the full model size (~8GB), not the small adapter size.
 
 After the [`peft_output_model_path`](configs/ipst/slds/sft_liger_peft.yaml#L17) script finishes, the directory defined in [`peft_output_model_path`](configs/ipst/slds/sft_liger_peft.yaml#L17) will contain a fully merged and ready-to-use model that no longer depends on any external adapters.
 
@@ -724,6 +766,10 @@ After the evaluation completes, you can compare the accuracy of the baseline mod
 | Fine-tuned model| 55.79        |
 
 The fine-tuned model achieves an accuracy of `55.79%`, outperforming the baseline by `+4.5%`. <ins>This improvement shows that even a relatively lightweight fine-tuning setup can yield measurable performance gains when adapting an instruction-tuned LLM to a specialized domain</ins>.
+
+> 🧩 **What's happening behind the scenes?**
+>
+> The evaluation script uses vLLM to generate answers for test questions, extracts the final answer from each response (using a regex pattern), and compares it to the reference answer. The +4.5% accuracy improvement shows that fine-tuning meaningfully improved the model's medical knowledge.
 
 <h2 id="conclusions" style="display:inline-block"><a href="#table-of-contents">&#8593;</a> Conclusions</h2>
 
