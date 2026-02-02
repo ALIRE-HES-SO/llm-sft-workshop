@@ -156,6 +156,16 @@ Run the installation script:
 bash ./install.sh
 ```
 
+> 🧩 **What does install.sh do?**
+>
+> This script sets up the system-level infrastructure needed for GPU-accelerated machine learning:
+>
+> - **CUDA Toolkit & Drivers**: Installs NVIDIA CUDA 12.1, which allows Python to communicate with your GPU for training
+> - **Build Tools**: Installs `gcc`, `g++`, and other compilers needed to build Python packages with native extensions
+> - **System Libraries**: Adds development headers and libraries that ML packages like PyTorch depend on
+>
+> The reboot is necessary because the NVIDIA kernel modules need to be loaded fresh. After rebooting, the GPU will be accessible to your training code.
+
 #### Sync project's dependencies
 
 After the reboot, make sure you are back inside the project directory:
