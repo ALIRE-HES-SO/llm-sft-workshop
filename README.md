@@ -229,17 +229,19 @@ When prompted, paste your token to complete the login.
 > ```mermaid
 > flowchart TD
 >     GitHub[GitHub]
->     Instance[Your Instance]
->     Install[install.sh<br/>CUDA, etc.]
->     UV[uv sync<br/>Python packages]
 >     HF[HuggingFace Hub<br/>models, datasets]
->     Training[Training Script<br/>main.py]
 >     WB[W&B Dashboard<br/>metrics, logs]
 >
+>     subgraph Instance[Your Instance]
+>         Install[install.sh<br/>CUDA, etc.]
+>         UV[uv sync<br/>Python packages]
+>         Training[Training Script<br/>main.py]
+>
+>         Install --> UV
+>         UV --> Training
+>     end
+>
 >     GitHub -->|clone| Instance
->     Instance --> Install
->     Install --> UV
->     UV --> Training
 >     HF <-->|read/write| Training
 >     Training -->|logs| WB
 >
