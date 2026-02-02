@@ -42,6 +42,8 @@ By the end, you will understand the practical aspects of fine-tuning large langu
   - [How can I add an Exoscale instance?](#faq-configure-exoscale)
   - [How can I resume fine-tuning?](#faq-resume-fine-tuning)
 
+Before diving into the fine-tuning workflows, we will first set up an Exoscale GPU instance, configure VS Code Insiders with remote tunneling to access the instance and its services, and complete the initial installation of required libraries and authentication for HuggingFace to access models and Weights & Biases to monitor training logs through its interface.
+
 <h2 id="vs-code-insiders" style="display:inline-block"><a href="#table-of-contents">&#8593;</a> VS Code Insiders</h2>
 
 Throughout this workshop, we will use [VS Code Insiders](https://code.visualstudio.com/insiders/), but you are welcome to use any IDE you prefer.
