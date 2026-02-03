@@ -42,6 +42,8 @@ By the end, you will understand the practical aspects of fine-tuning large langu
   - [How can I add an Exoscale instance?](#faq-configure-exoscale)
   - [How can I resume fine-tuning?](#faq-resume-fine-tuning)
 
+Before diving into the fine-tuning workflows, we will first set up an Exoscale GPU instance, configure VS Code Insiders with remote tunneling to access the instance and its services, and complete the initial installation of required libraries and authentication for HuggingFace to access models and Weights & Biases to monitor training logs through its interface.
+
 <h2 id="vs-code-insiders" style="display:inline-block"><a href="#table-of-contents">&#8593;</a> VS Code Insiders</h2>
 
 Throughout this workshop, we will use [VS Code Insiders](https://code.visualstudio.com/insiders/), but you are welcome to use any IDE you prefer.
@@ -156,6 +158,16 @@ Run the installation script:
 bash ./install.sh
 ```
 
+> 🧩 **What does install.sh do?**
+>
+> This script sets up the system-level infrastructure needed for GPU-accelerated machine learning:
+>
+> - **CUDA Toolkit & Drivers**: Installs NVIDIA CUDA 12.1, which allows Python to communicate with your GPU for training
+> - **Build Tools**: Installs `gcc`, `g++`, and other compilers needed to build Python packages with native extensions
+> - **System Libraries**: Adds development headers and libraries that ML packages like PyTorch depend on
+>
+> The reboot is necessary because the NVIDIA kernel modules need to be loaded fresh. After rebooting, the GPU will be accessible to your training code.
+
 #### Sync project's dependencies
 
 After the reboot, make sure you are back inside the project directory:
@@ -201,6 +213,53 @@ uv run wandb login
 ```
 
 When prompted, paste your token to complete the login.
+
+> 🧩 **What have we just done?**
+>
+> You've installed five tools that each handle a different part of the ML workflow. Here's what each one does:
+>
+> | Tool | Purpose |
+> |------|---------|
+> | **GitHub CLI (`gh`)** | Clone the workshop repository to your instance |
+> | **install.sh** | Install system-level dependencies (CUDA drivers, build tools) |
+> | **uv** | Fast Python package manager - manages project dependencies |
+> | **HuggingFace CLI (`hf`)** | Download models and datasets from the HuggingFace Hub |
+> | **Weights & Biases (`wandb`)** | Track experiments, log metrics, visualize training progress |
+>
+> These tools don't communicate directly with each other. Instead, they each prepare a different piece of the puzzle:
+>
+> ```mermaid
+> flowchart TD
+>     GitHub[GitHub]
+>     HF[HuggingFace Hub<br/>models, datasets]
+>     WB[W&B Dashboard<br/>metrics, logs]
+>
+>     subgraph Instance[Your Instance]
+>         Install[install.sh<br/>CUDA, etc.]
+>         UV[uv sync<br/>Python packages]
+>         Training[Training Script<br/>main.py]
+>
+>         Install --> UV
+>         UV --> Training
+>     end
+>
+>     GitHub -->|clone| Instance
+>     HF <-->|read/write| Training
+>     Training -->|logs| WB
+>
+>     style GitHub fill:#e1f5ff
+>     style Instance fill:#f3e5f5
+>     style HF fill:#e8f5e9
+>     style WB fill:#fff3e0
+> ```
+>
+> - **gh**: Downloaded all scripts, configs, and templates to your instance
+> - **install.sh**: One-time system setup. It installed CUDA drivers for GPU access and rebooted to apply changes
+> - **uv sync**: Read `pyproject.toml` and installed exact versions of all Python libraries (transformers, trl, vllm, etc.)
+> - **hf login**: Authenticated you with HuggingFace so training scripts can download gated models (like Gemma) and datasets automatically
+> - **wandb login**: Connected your instance to your W&B dashboard so training metrics stream there in real-time
+>
+> The **training script** (`main.py`) is what ties everything together at runtime. it uses `hf` credentials to fetch data, trains using the libraries `uv` installed, and reports metrics to `wandb`.
 
 <h2 id="use-case-1" style="display:inline-block"><a href="#table-of-contents">&#8593;</a> Use Case 1: From Natural Language to SQL Queries</h2>
 
