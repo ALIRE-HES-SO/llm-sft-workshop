@@ -11,7 +11,7 @@ Welcome, and thank you for your interest in this hands-on workshop organized by 
 
 By the end, you will understand the practical aspects of fine-tuning large language models (LLMs) using open-source tools and modern cloud infrastructure. You will know how to prepare datasets, train models efficiently from a single GPU to multi-GPU setups, track training progress, evaluate performance, deploy your model, and interact with it.
 
-**Points of contact and contributors**
+**Points of contact and contributors:**
 
 - Andrei Coman ([andrei.coman@hevs.ch](mailto:andrei.coman@hevs.ch))
 - Pamela Delgado ([pamela.delgado@heig-vd.ch](mailto:pamela.delgado@heig-vd.ch))
