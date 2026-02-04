@@ -52,8 +52,8 @@ nav = [
   { "Use case 3" = "usecase3.md" },
   { "Conclusion" = "conclusion.md" },
   { "FAQ" = "faq.md" },
-  { "Get started" = "getstarted.md" },
-  { "Markdown in 5min" = "markdown.md" },
+  #{ "Get started" = "getstarted.md" },
+  #{ "Markdown in 5min" = "markdown.md" },
 ]
 
 # With the "extra_css" option you can add your own CSS styling to customize
