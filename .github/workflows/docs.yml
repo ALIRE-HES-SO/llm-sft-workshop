@@ -1,9 +1,10 @@
 name: Documentation
 on:
+  workflow_dispatch:
+  workflow_call:
   push:
     branches:
-      - master
-      - main
+      - website
 permissions:
   contents: read
   pages: write
