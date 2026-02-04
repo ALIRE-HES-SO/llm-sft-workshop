@@ -45,7 +45,14 @@ Copyright &copy; 2026 Swiss AI Center
 #
 # Read more: https://zensical.org/docs/setup/navigation/
 nav = [
-  { "Get started" = "index.md" },
+  { "Welcome" = "index.md" },
+  { "Set up" = "setup.md" },
+  { "Use case 1" = "usecase1.md" },
+  { "Use case 2" = "usecase2.md" },
+  { "Use case 3" = "usecase3.md" },
+  { "Conclusion" = "conclusion.md" },
+  { "FAQ" = "faq.md" },
+  { "Get started" = "getstarted.md" },
   { "Markdown in 5min" = "markdown.md" },
 ]
 
@@ -214,7 +221,7 @@ features = [
     # When tabs are enabled, top-level sections are rendered in a menu layer
     # below the header for viewports above 1220px, but remain as-is on mobile.
     # https://zensical.org/docs/setup/navigation/#navigation-tabs
-    #"navigation.tabs",
+    "navigation.tabs",
 
     # When sticky tabs are enabled, navigation tabs will lock below the header
     # and always remain visible when scrolling down.
