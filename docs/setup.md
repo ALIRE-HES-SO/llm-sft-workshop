@@ -71,7 +71,7 @@ After verifying that your SSH connection works, install the [`Remote Explorer`](
 ![tmux](./images/extra/tmux_light.png#only-light)
 ![tmux](./images/extra/tmux_dark.png#only-dark)
 
-<h3 id="libraries-installation-and-setup" style="display:inline-block"><a href="#table-of-contents">&#8593;</a> Libraries installation and setup</h3>
+### Libraries installation and setup
 
 We need to ensure the [Exoscale](https://www.exoscale.com) instance is correctly set up with all required tools, dependencies, and account logins.
 

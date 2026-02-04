@@ -39,7 +39,7 @@ FROM bus_routes
 WHERE route_name = 'Green Line';
 ```
 
-<h3 id="use-case-1-input-&-output" style="display:inline-block"><a href="#table-of-contents">&#8593;</a> Input & Output</h3>
+### Input & Output
 
 Supervised [fine-tuning](https://en.wikipedia.org/wiki/Fine-tuning_(deep_learning)) (SFT) is the process of training a pretrained language model on labeled input–output pairs so it learns to produce the desired response for a given prompt. This technique adapts general-purpose models to specific tasks such as summarization ([Use Case 2: From Decision (French) to Headnote (German)](#use-case-2)), classification ([Use Case 3: From Question to Answer](#use-case-3)), or, in this case, translating natural language into SQL.
 
