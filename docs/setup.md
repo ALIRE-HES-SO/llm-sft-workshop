@@ -4,13 +4,13 @@ icon: lucide/wrench
 
 # Set up
 
-Before diving into the [fine-tuning](https://en.wikipedia.org/wiki/Fine-tuning_(deep_learning)) workflows, we will first set up an [Exoscale](https://www.exoscale.com/) GPU instance, configure [VS Code Insiders](https://code.visualstudio.com/insiders/) with remote tunneling to access the instance and its services, and complete the initial installation of required libraries and authentication for [HuggingFace](https://huggingface.co) to access models and [Weights & Biases](https://wandb.ai/) to monitor training logs through its interface.
+Because [fine-tuning](https://en.wikipedia.org/wiki/Fine-tuning_(deep_learning)) requires powerful parallel compute power, we will start by setting up an [Exoscale](https://www.exoscale.com/) GPU instance, and configure [VS Code Insiders](https://code.visualstudio.com/insiders/) with remote tunneling to access it remotely. We will also need to install required libraries, and authenticate to external services that we will introduce in more detail below: [HuggingFace](https://huggingface.co) to access models, datasets and tools, and [Weights & Biases](https://wandb.ai/) to monitor training logs visually.
 
 ## VS Code Insiders
 
 Throughout this workshop, we will use [VS Code Insiders](https://code.visualstudio.com/insiders/), but you are welcome to use any IDE you prefer.
 
-We recommend [VS Code Insiders](https://code.visualstudio.com/insiders/) because it provides improved remote tunneling support, making it easier to access `localhost` services from a remote instance, including the ability to connect to locally hosted OpenAI-compatible API models.
+We recommend [VS Code Insiders](https://code.visualstudio.com/insiders/) because it provides improved remote tunneling support, making it easier to access `localhost` services from a remote instance, in particular the ability to connect to OpenAI-compatible APIs hosted on the instance from your local machine.
 
 [Download](https://code.visualstudio.com/insiders/) and install [VS Code Insiders](https://code.visualstudio.com/insiders/) before getting started.
 
@@ -64,57 +64,51 @@ ssh exoscale
 
 After verifying that your SSH connection works, you need to install the [`Remote Explorer`](https://marketplace.visualstudio.com/items?itemName=ms-vscode.remote-explorer) extension in [VS Code Insiders](https://code.visualstudio.com/insiders/) to connect to your [Exoscale](https://www.exoscale.com) instance directly from the editor. To do so navigate to `Extensions` (sidebar) &#8594; search for `Remote Explorer` &#8594; `install`. Once installed click on `Remote Explorer` (sidedbar) and under `SSH` you should now have `exoscale` listed as an entry. You can then choose either `Connect in Current Window` or `Connect in New Window` using the corresponding icons next to the `exoscale` entry.
 
-!!! tip
+??? tip "Hint: Keeping your session active across disconnections"
 
     If you want to keep your terminal session active even if your internet connection drops, you can use the `tmux` command. Running `tmux` creates a persistent terminal session that you can later reconnect to with: `tmux attach -t 0`. Here, `0` is the default session number, but you can create and manage multiple sessions if needed. `tmux` also allows you to [split the terminal into multiple panes](https://lukaszwrobel.pl/blog/tmux-tutorial-split-terminal-windows-easily/), which is useful for monitoring additional tools such as GPU usage. For example in the right pane one could run `uv run nvitop` and keep track of the CPU & GPU usage.
 
-![tmux](./images/extra/tmux_light.png#only-light)
-![tmux](./images/extra/tmux_dark.png#only-dark)
+    ![tmux](./images/extra/tmux_light.png#only-light)
+    ![tmux](./images/extra/tmux_dark.png#only-dark)
 
 ### Libraries installation and setup
 
-We need to ensure the [Exoscale](https://www.exoscale.com) instance is correctly set up with all required tools, dependencies, and account logins.
+Now that we have access to a terminal and the file system of the [Exoscale](https://www.exoscale.com) instance through [VS Code Insiders](https://code.visualstudio.com/insiders/), we can start setting it up with all required tools, dependencies, and account logins.
 
-#### GitHub CLI installation
+Take a deep breath; here we go.
 
-Create a [GitHub](https://github.com) account (if you don't already have one).
+#### GitHub CLI to clone the repository
 
-Install the GitHub CLI with the following command:
+In order to easily clone the workshop repository, we will use the [GitHub CLI](https://cli.github.com/).
+
+If you don't already have one, create a [GitHub](https://github.com) account.
+
+Install the GitHub CLI on the instance with the following command:
 
 ```bash
 sudo apt install gh
 ```
 
-Once installed, authenticate your GitHub account:
-
+Once installed, authenticate your GitHub account, and follow the on-screen instructions:
 
 ```bash
 gh auth login
 ```
 
-Follow the on-screen instructions to complete the login process.
-
-#### Clone and navigate to the [`llm-sft-workshop`](https://github.com/ALIRE-HES-SO/llm-sft-workshop) repository
-
-Clone the repository:
+You can now clone the repository, and navigate into its directory:
 
 ```bash
 git clone https://github.com/ALIRE-HES-SO/llm-sft-workshop
-```
-
-and navigate into its directory:
-
-```bash
 cd llm-sft-workshop
 ```
 
 #### Install libraries
 
-!!! warning
+To save you some time, the repository provides an installation script that will do all necessary system-level setup on your instance, which you can run with the following command:
 
-    This script will <ins>_**reboot your instance**_</ins>!
+!!! warning "This script will <ins>_**reboot your instance**_</ins>!"
 
-Run the installation script:
+    You will have to ssh back into it, and refresh the VS Code Insiders connection once it is running again.
 
 ```bash
 bash ./install.sh
@@ -138,7 +132,7 @@ After the reboot, make sure you are back inside the project directory:
 cd ~/llm-sft-workshop
 ```
 
-Then synchronize all project dependencies:
+Then synchronize all project dependencies using the [uv](https://docs.astral.sh/uv/) package manager:
 
 ```bash
 uv sync
@@ -146,15 +140,15 @@ uv sync
 
 #### HuggingFace CLI login
 
-Create a [HuggingFace](https://huggingface.co) account (if you don't already have one). Then go to `Profile` &#8594; `Access Tokens`, create a new token with `READ` permissions and copy it.
+[HuggingFace](https://huggingface.co) is the go-to platform for hosting and sharing machine learning models, datasets, and tools. We will use it to download pre-trained models to fine-tune, as well as datasets to train them on.
 
-Then run the following command:
+If you don't have one already, create a [HuggingFace](https://huggingface.co) account. Then go to `Profile` &#8594; `Access Tokens`, create a new token with `READ` permissions and copy it.
+
+Then run the following command, which will prompt you for your token to complete the login.
 
 ```bash
 uv run hf auth login
 ```
-
-When prompted, paste your token to complete the login.
 
 !!! tip
 
@@ -166,61 +160,22 @@ When prompted, paste your token to complete the login.
 
 #### Weights & Biases CLI login
 
-Create a [Weights & Biases](https://wandb.ai) account (if you don't already have one). Then go to `Profile` &#8594; `API keys`, and copy it.
+[Weights & Biases](https://wandb.ai) (W&B) is a popular tool for tracking machine learning experiments and visualizing training progress in real time, which is what we will use it for in this workshop.
 
-Then run the following command:
+If you don't have one already, create a [Weights & Biases](https://wandb.ai) account. Then go to `Profile` &#8594; `API keys`, and copy it.
+
+Then run the following command, which will prompt you for your token to complete the login.
 
 ```bash
 uv run wandb login
 ```
 
-When prompted, paste your token to complete the login.
+## Where we are now
 
-??? question "What have we just done?"
+Your environment is now ready to start.
 
-    You've installed five tools that each handle a different part of the ML workflow. Here's what each one does:
+- You have access to a [powerful GPU instance](#exoscale-instance) on the cloud, and ways to interact with it remotely through [VS Code Insiders](https://code.visualstudio.com/insiders/) and [Remote Explorer](https://marketplace.visualstudio.com/items?itemName=ms-vscode.remote-explorer).
+- It contains the [starter code](#github-cli-to-clone-the-repository) for this workshop, with [all dependencies installed](#install-libraries).
+- You have accounts on the two main external services we will use ([HuggingFace](#huggingface-cli-login) and [Weights & Biases](#weights--biases-cli-login)) and have authenticated to them from the terminal.
 
-    | Tool | Purpose |
-    |------|---------|
-    | **GitHub CLI (`gh`)** | Clone the workshop repository to your instance |
-    | **install.sh** | Install system-level dependencies (CUDA drivers, build tools) |
-    | **uv** | Fast Python package manager - manages project dependencies |
-    | **HuggingFace CLI (`hf`)** | Download models and datasets from the HuggingFace Hub |
-    | **Weights & Biases (`wandb`)** | Track experiments, log metrics, visualize training progress |
-
-    These tools don't communicate directly with each other. Instead, they each prepare a different piece of the puzzle:
-
-    ```mermaid
-    flowchart TD
-        GitHub[GitHub]
-        HF[HuggingFace Hub<br/>models, datasets]
-        WB[W&B Dashboard<br/>metrics, logs]
-
-        subgraph Instance[Your Instance]
-            Install[install.sh<br/>CUDA, etc.]
-            UV[uv sync<br/>Python packages]
-            Training[Training Script<br/>main.py]
-
-            Install --> UV
-            UV --> Training
-        end
-
-        GitHub -->|clone| Instance
-        HF <-->|read/write| Training
-        Training -->|logs| WB
-
-        style GitHub fill:#e1f5ff
-        style Instance fill:#f3e5f5
-        style HF fill:#e8f5e9
-        style WB fill:#fff3e0
-    ```
-
-    - **gh**: Downloaded all scripts, configs, and templates to your instance
-    - **install.sh**: One-time system setup. It installed CUDA drivers for GPU access and rebooted to apply changes
-    - **uv sync**: Read `pyproject.toml` and installed exact versions of all Python libraries (transformers, trl, vllm, etc.)
-    - **hf login**: Authenticated you with HuggingFace so training scripts can download gated models (like Gemma) and datasets automatically
-    - **wandb login**: Connected your instance to your W&B dashboard so training metrics stream there in real-time
-
-    The **training script** (`main.py`) is what ties everything together at runtime. it uses `hf` credentials to fetch data, trains using the libraries `uv` installed, and reports metrics to `wandb`.
-
-![flow](./images/use_case_1/mode_train_light.svg)
+All is ready to start fine-tuning, which we will do in the next section in a first basic use case.
