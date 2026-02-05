@@ -41,7 +41,7 @@ WHERE route_name = 'Green Line';
 
 ### Input & Output
 
-Supervised [fine-tuning](https://en.wikipedia.org/wiki/Fine-tuning_(deep_learning)) (SFT) is the process of training a pretrained language model on labeled input–output pairs so it learns to produce the desired response for a given prompt. This technique adapts general-purpose models to specific tasks such as summarization ([Use Case 2: From Decision (French) to Headnote (German)](#use-case-2)), classification ([Use Case 3: From Question to Answer](#use-case-3)), or, in this case, translating natural language into SQL.
+Supervised [fine-tuning](https://en.wikipedia.org/wiki/Fine-tuning_(deep_learning)) (SFT) is the process of training a pretrained language model on labeled input–output pairs so it learns to produce the desired response for a given prompt. This technique adapts general-purpose models to specific tasks such as summarization ([Use Case 2: From Decision (French) to Headnote (German)](usecase2.md)), classification ([Use Case 3: From Question to Answer](usecase3.md)), or, in this case, translating natural language into SQL.
 
 To fine-tune an LLM for translating natural language into SQL, we first need to define how to represent our data and how the model should process it during training/inference.
 
