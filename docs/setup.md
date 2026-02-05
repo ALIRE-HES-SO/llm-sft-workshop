@@ -4,7 +4,7 @@ icon: lucide/wrench
 
 # Set up
 
-Before diving into the fine-tuning workflows, we will first set up an Exoscale GPU instance, configure VS Code Insiders with remote tunneling to access the instance and its services, and complete the initial installation of required libraries and authentication for HuggingFace to access models and Weights & Biases to monitor training logs through its interface.
+Before diving into the [fine-tuning](https://en.wikipedia.org/wiki/Fine-tuning_(deep_learning)) workflows, we will first set up an [Exoscale](https://www.exoscale.com/) GPU instance, configure [VS Code Insiders](https://code.visualstudio.com/insiders/) with remote tunneling to access the instance and its services, and complete the initial installation of required libraries and authentication for [HuggingFace](https://huggingface.co) to access models and [Weights & Biases](https://wandb.ai/) to monitor training logs through its interface.
 
 ## VS Code Insiders
 
