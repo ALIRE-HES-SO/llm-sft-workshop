@@ -321,7 +321,7 @@ accent = "teal"
 # - https://zensical.org/docs/authoring/icons-emojis/#search
 # ----------------------------------------------------------------------------
 [project.theme.icon]
-logo = "lucide/smile"
+logo = "lucide/house"
 repo = "lucide/github"
 
 # ----------------------------------------------------------------------------
