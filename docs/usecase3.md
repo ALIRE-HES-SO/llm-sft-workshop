@@ -75,6 +75,7 @@ evaluate_vllm_sampling_params_max_tokens: 8192
 ```
 
 where:
+
 - [`evaluate_vllm_model_name_or_path`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/dmis-lab/meerkat-instructions/sft_liger_peft.yaml#L19) specifies the path to the merged model checkpoint that achieved the best validation performance (in this example, `checkpoint-395-merged`).
 - [`evaluate_vllm_sampling_params_max_tokens`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/dmis-lab/meerkat-instructions/sft_liger_peft.yaml#L20) defines the maximum number of tokens the model can generate during evaluation. This value should reflect the expected verbosity of your model. For example, `CoT` models tend to produce longer outputs and may require higher limits than standard instruction models.
 
