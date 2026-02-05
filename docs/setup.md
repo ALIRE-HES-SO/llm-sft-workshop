@@ -32,7 +32,7 @@ To set this up, open your SSH configuration file with your favorite text editor,
 
 ```bash
 # UNIX example
-nano /Users/ADD_YOUR_USERNAME_HERE]/.ssh/config
+nano /Users/ADD_YOUR_USERNAME_HERE/.ssh/config
 # Windows example
 notepad C:\Users\YOUR_USERNAME\.ssh\config
 ```
@@ -62,7 +62,7 @@ Save and close the file. You will then be able to connect to your instance simpl
 ssh exoscale
 ```
 
-After verifying that your SSH connection works, install the [`Remote Explorer`](https://marketplace.visualstudio.com/items?itemName=ms-vscode.remote-explorer) extension in [VS Code Insiders](https://code.visualstudio.com/insiders/) to connect to your [Exoscale](https://www.exoscale.com) instance directly from the editor.
+After verifying that your SSH connection works, you need to install the [`Remote Explorer`](https://marketplace.visualstudio.com/items?itemName=ms-vscode.remote-explorer) extension in [VS Code Insiders](https://code.visualstudio.com/insiders/) to connect to your [Exoscale](https://www.exoscale.com) instance directly from the editor. To do so navigate to `Extensions` (sidebar) &#8594; search for `Remote Explorer` &#8594; `install`. Once installed click on `Remote Explorer` (sidedbar) and under `SSH` you should now have `exoscale` listed as an entry. You can then choose either `Connect in Current Window` or `Connect in New Window` using the corresponding icons next to the `exoscale` entry.
 
 !!! tip
 
@@ -146,7 +146,7 @@ uv sync
 
 #### HuggingFace CLI login
 
-Create a [HuggingFace](https://huggingface.co) account. Then go to Profile &#8594; Acces Tokens, create a new token with `READ` permissions and copy it.
+Create a [HuggingFace](https://huggingface.co) account. Then go to Profile &#8594; Access Tokens, create a new token with `READ` permissions and copy it.
 
 Then run the following command:
 
