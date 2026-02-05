@@ -76,7 +76,7 @@ In [Use Case 1: From Natural Language to SQL Queries](usecase1.md), we used the 
 
 !!! warning
 
-    As in [Use Case 1: From Natural Language to SQL Queries](#use-case-1), this is a gated model, which means you must have approved access on Hugging Face before you can download or use it. You will need to review and agree to Google's usage license on the model's page: [`google/gemma-3-4b-it`](https://huggingface.co/google/gemma-3-4b-it).
+    As in [Use Case 1: From Natural Language to SQL Queries](usecase1.md), this is a gated model, which means you must have approved access on Hugging Face before you can download or use it. You will need to review and agree to Google's usage license on the model's page: [`google/gemma-3-4b-it`](https://huggingface.co/google/gemma-3-4b-it).
 
 Although [`google/gemma-3-4b-it`](https://huggingface.co/google/gemma-3-4b-it) supports both image and text inputs (and outputs text), we will only use its text-to-text capability for this workshop. To enable this behavior, update the model class under the [`ExtraConfig`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/ipst/slds/sft.yaml#L9) section of the [`configs/ipst/slds/sft.yaml`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/ipst/slds/sft.yaml) configuration file:
 
