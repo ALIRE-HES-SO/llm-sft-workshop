@@ -2,7 +2,7 @@
 icon: lucide/circle-question-mark
 ---
 
-Frequently Asked Questions
+# Frequently Asked Questions
 
 ### How can I add an Exoscale instance?
 
