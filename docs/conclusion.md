@@ -4,7 +4,7 @@ icon: lucide/wrench
 
 # Conclusion
 
-Throughout this workshop, you explored the complete end-to-end process of SFT for LLMs, which included [dataset preparation](#use-case-1-input-&-output), [fine-tuning](#use-case-1-fine-tune), [monitoring](#use-case-1-monitor), [optimization](#use-case-1-optimize-liger-kernel), [scaling](#use-case-1-scaling-to-multiple-gpus), [deployment](#use-case-1-deploy), and [interaction](#use-case-1-interact).
+Throughout this workshop, you explored the complete end-to-end process of SFT for LLMs, which included [dataset preparation](usecase1.md#input-output), [fine-tuning](usecase1.md#fine-tune), [monitoring](usecase1.md#monitor), [optimization](usecase1.md#optimize-liger-kernel), [scaling](usecase1.md#scaling-to-multiple-gpus), [deployment](usecase1.md#deploy), and [interaction](usecase1.md#interact).
 
 You learned how to:
 - Prepare and structure datasets into chat-style, instruction-following formats suitable for modern LLMs.
@@ -13,9 +13,9 @@ You learned how to:
 - Scale to multiple GPUs with [`accelerate`](https://huggingface.co/docs/accelerate/en/index).
 - Deploy models locally with [`vllm`](https://docs.vllm.ai/en/stable/index.html).
 - Interact via [`gradio`](https://www.gradio.app)-based UI.
-- [Evaluate](#use-case-3) model performance using training and validation losses to monitor overfitting and test generalization on unseen data.
+- [Evaluate](usecase3.md) model performance using training and validation losses to monitor overfitting and test generalization on unseen data.
 
-Across three practical use cases, [Use Case 1: From Natural Language to SQL Queries](#use-case-1), [Use Case 2: From Decision (French) to Headnote (German)](#use-case-2), and [Use Case 3: From Question to Answer](#use-case-3), you saw how a single, consistent SFT workflow, can adapt seamlessly across domains.
+Across three practical use cases, [Use Case 1: From Natural Language to SQL Queries](usecase1.md), [Use Case 2: From Decision (French) to Headnote (German)](usecase2.md), and [Use Case 3: From Question to Answer](usecase3.md), you saw how a single, consistent SFT workflow, can adapt seamlessly across domains.
 
 You now have a scalable, modular, and reproducible SFT pipeline that can be applied to your own projects, whether for research, prototyping, or production deployment.
 
