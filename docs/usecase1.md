@@ -45,7 +45,7 @@ Supervised [fine-tuning](https://en.wikipedia.org/wiki/Fine-tuning_(deep_learnin
 
 To fine-tune an LLM for translating natural language into SQL, we first need to define how to represent our data and how the model should process it during training/inference.
 
-We will use the Hugging Face [`datasets`](https://huggingface.co/docs/datasets/en/index) library to manage all dataset operations, including downloading, loading, and preprocessing.
+We will use the [Hugging Face](https://huggingface.co) [`datasets`](https://huggingface.co/docs/datasets/en/index) library to manage all dataset operations, including downloading, loading, and preprocessing.
 
 We will use the [`gretelai/synthetic_text_to_sql`](https://huggingface.co/datasets/gretelai/synthetic_text_to_sql) dataset, which contains synthetic examples mapping natural language questions to SQL queries along with their corresponding database schemas. Each example, such as the one shown below, provides a natural language question (`sql_prompt`), an associated schema and sample data (`sql_context`), and the correct SQL query (`sql`).
 
@@ -79,7 +79,7 @@ For example, a single training example would be transformed as follows:
 
     The example includes escaped newline characters (`\n`), tabs (`\t`), and SQL markdown delimiters (<code>\```sql ...```</code>). The model should learn to reproduce these elements exactly during training, as they are part of the expected output format.
 
-The example shown here uses the _conversational prompt–completion_ format, which is one of several supported data formats for SFT, alongside _standard language modeling_, _conversational language modeling_, and _standard prompt–completion_. For more details, please refer to the Hugging Face [`SFTTrainer`](https://huggingface.co/docs/trl/en/sft_trainer) documentation.
+The example shown here uses the _conversational prompt–completion_ format, which is one of several supported data formats for SFT, alongside _standard language modeling_, _conversational language modeling_, and _standard prompt–completion_. For more details, please refer to the [Hugging Face](https://huggingface.co) [`SFTTrainer`](https://huggingface.co/docs/trl/en/sft_trainer) documentation.
 
 !!! tip
 
@@ -93,7 +93,7 @@ The model contains approximately 270 million parameters, which makes it lightwei
 
 !!! warning
 
-    This is a gated model, which means you must have approved access on Hugging Face before you can download or use it. To access Gemma, you are required to review and agree to Google's usage license on the model's page: [`google/gemma-3-270M-it`](https://huggingface.co/google/gemma-3-270m-it).
+    This is a gated model, which means you must have approved access on [Hugging Face](https://huggingface.co) before you can download or use it. To access Gemma, you are required to review and agree to Google's usage license on the model's page: [`google/gemma-3-270M-it`](https://huggingface.co/google/gemma-3-270m-it).
 
 ### `trl` & `accelerate`
 
@@ -107,7 +107,7 @@ The configuration file is organized into three main sections:
 - [`ModelConfig`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/gretelai/synthetic_text_to_sql/sft.yaml#L13): model loading options and parameter-efficient fine-tuning (PEFT) settings (more on this later).
 - [`SFTConfig`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/gretelai/synthetic_text_to_sql/sft.yaml#L22): fine-tuning parameters for the [`SFTTrainer`](https://huggingface.co/docs/trl/en/sft_trainer), such as batch size, learning rate, number of epochs, logging frequency, and checkpointing strategy.
 
-To scale efficiently from a single GPU to multiple GPUs (more on this later), we rely on the Hugging Face [`accelerate`](https://huggingface.co/docs/accelerate/en/index) library. It automatically handles the distribution of training across devices, manages communication between them, and ensures that all model updates stay in sync.
+To scale efficiently from a single GPU to multiple GPUs (more on this later), we rely on the [Hugging Face](https://huggingface.co) [`accelerate`](https://huggingface.co/docs/accelerate/en/index) library. It automatically handles the distribution of training across devices, manages communication between them, and ensures that all model updates stay in sync.
 
 ### Fine-tune
 
@@ -216,7 +216,7 @@ We will not interact with the API directly. Instead, we will connect it to a cha
 
     Before proceeding with this section, make sure that the command from the [Deploy](#use-case-1-deploy) section is running in the background (for example, in a separate terminal tab).
 
-To make interaction more interesting rather than CLI based `curl` commands, we created a very basic chat-based UI interface via the Hugging Face [`gradio`](https://www.gradio.app) library.
+To make interaction more interesting rather than CLI based `curl` commands, we created a very basic chat-based UI interface via the [Hugging Face](https://huggingface.co) [`gradio`](https://www.gradio.app) library.
 
 You can enable the interaction by changing the following entry under the [`ExtraConfig`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/gretelai/synthetic_text_to_sql/sft_liger.yaml#L1) section of the [`configs/gretelai/synthetic_text_to_sql/sft_liger.yaml`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/gretelai/synthetic_text_to_sql/sft_liger.yaml) configuration file:
 
