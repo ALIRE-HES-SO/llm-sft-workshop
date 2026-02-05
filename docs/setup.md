@@ -222,3 +222,5 @@ When prompted, paste your token to complete the login.
     - **wandb login**: Connected your instance to your W&B dashboard so training metrics stream there in real-time
 
     The **training script** (`main.py`) is what ties everything together at runtime. it uses `hf` credentials to fetch data, trains using the libraries `uv` installed, and reports metrics to `wandb`.
+
+![flow](./images/use_case_1/mode_train_light.svg)
