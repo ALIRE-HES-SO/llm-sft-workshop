@@ -15,6 +15,7 @@ Log in to your [Exoscale](https://www.exoscale.com) account to access the landin
 #### Security Groups setup
 
 ![title](./images/extra/configure_exoscale/security_groups_light.png#only-light)
+
 ![title](./images/extra/configure_exoscale/security_groups_dark.png#only-dark)
 
 ![title](./images/extra/configure_exoscale/title.security_groups_add_light#only-light)
