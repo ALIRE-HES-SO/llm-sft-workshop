@@ -214,7 +214,7 @@ We will not interact with the API directly. Instead, we will connect it to a cha
 
 !!! warning
 
-    Before proceeding with this section, make sure that the command from the [Deploy](#use-case-1-deploy) section is running in the background (for example, in a separate terminal tab).
+    Before proceeding with this section, make sure that the command from the [Deploy](#deploy) section is running in the background (for example, in a separate terminal tab).
 
 To make interaction more interesting rather than CLI based `curl` commands, we created a very basic chat-based UI interface via the [Hugging Face](https://huggingface.co) [`gradio`](https://www.gradio.app) library.
 
