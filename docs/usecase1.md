@@ -97,15 +97,15 @@ The model contains approximately 270 million parameters, which makes it lightwei
 
 ### `trl` & `accelerate`
 
-For the fine-tuning stage, we will use the [`SFTTrainer`](https://huggingface.co/docs/trl/en/sft_trainer) from the Hugging Face [`trl`](https://huggingface.co/docs/trl/en/index) library (short for Transformers Reinforcement Learning). This class provides a high-level interface for SFT and automates many key steps such as [tokenization](https://en.wikipedia.org/wiki/Large_language_model#Tokenization) (the process of converting text into numerical tokens that the model can understand), batching, checkpointing, and integration with libraries such as [`wandb`](https://wandb.ai/site/) (Weights & Biases) for experiment tracking (more on this in the next section).
+For the fine-tuning stage, we will use the [`SFTTrainer`](https://huggingface.co/docs/trl/en/sft_trainer) from the [Hugging Face](https://huggingface.co) [`trl`](https://huggingface.co/docs/trl/en/index) library (short for Transformers Reinforcement Learning). This class provides a high-level interface for SFT and automates many key steps such as [tokenization](https://en.wikipedia.org/wiki/Large_language_model#Tokenization) (the process of converting text into numerical tokens that the model can understand), batching, checkpointing, and integration with libraries such as [`wandb`](https://wandb.ai/site/) (Weights & Biases) for experiment tracking (more on this in the next section).
 
-Our entry point for running the fine-tuning process is the [`main.py`](main.py) script, which expects a configuration file provided as an argument (for example, [`sft.yaml`](configs/gretelai/synthetic_text_to_sql/sft.yaml)). This file defines all aspects of the fine-tuning setup, including the dataset, model, and optimization parameters. It keeps all the fine-tuning options in one place, making it easy to reproduce experiments or adjust settings without modifying the code.
+Our entry point for running the fine-tuning process is the [`main.py`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/main.py) script, which expects a configuration file provided as an argument (for example, [`sft.yaml`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/gretelai/synthetic_text_to_sql/sft.yaml)). This file defines all aspects of the fine-tuning setup, including the dataset, model, and optimization parameters. It keeps all the fine-tuning options in one place, making it easy to reproduce experiments or adjust settings without modifying the code.
 
 The configuration file is organized into three main sections:
 
-- [`ExtraConfig`](configs/gretelai/synthetic_text_to_sql/sft.yaml#L1): global options such as dataset name, paths, subsets, and data formatting.
-- [`ModelConfig`](configs/gretelai/synthetic_text_to_sql/sft.yaml#L13): model loading options and parameter-efficient fine-tuning (PEFT) settings (more on this later).
-- [`SFTConfig`](configs/gretelai/synthetic_text_to_sql/sft.yaml#L22): fine-tuning parameters for the [`SFTTrainer`](https://huggingface.co/docs/trl/en/sft_trainer), such as batch size, learning rate, number of epochs, logging frequency, and checkpointing strategy.
+- [`ExtraConfig`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/gretelai/synthetic_text_to_sql/sft.yaml#L1): global options such as dataset name, paths, subsets, and data formatting.
+- [`ModelConfig`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/gretelai/synthetic_text_to_sql/sft.yaml#L13): model loading options and parameter-efficient fine-tuning (PEFT) settings (more on this later).
+- [`SFTConfig`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/gretelai/synthetic_text_to_sql/sft.yaml#L22): fine-tuning parameters for the [`SFTTrainer`](https://huggingface.co/docs/trl/en/sft_trainer), such as batch size, learning rate, number of epochs, logging frequency, and checkpointing strategy.
 
 To scale efficiently from a single GPU to multiple GPUs (more on this later), we rely on the Hugging Face [`accelerate`](https://huggingface.co/docs/accelerate/en/index) library. It automatically handles the distribution of training across devices, manages communication between them, and ensures that all model updates stay in sync.
 
@@ -141,7 +141,7 @@ One can leverage the [`liger-kernel`](https://github.com/linkedin/Liger-Kernel/)
 
 > _"Liger Kernel is a collection of Triton kernels designed specifically for LLM training. It can effectively increase multi-GPU training throughput by 20% and reduces memory usage by 60%."_
 
-To enable it, copy [`configs/gretelai/synthetic_text_to_sql/sft.yaml`](configs/gretelai/synthetic_text_to_sql/sft.yaml) into a new [`configs/gretelai/synthetic_text_to_sql/sft_liger.yaml`](configs/gretelai/synthetic_text_to_sql/sft_liger.yaml), and add the following line in the [`SFTConfig`](configs/gretelai/synthetic_text_to_sql/sft_liger.yaml#L22) section:
+To enable it, copy [`configs/gretelai/synthetic_text_to_sql/sft.yaml`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/gretelai/synthetic_text_to_sql/sft.yaml) into a new [`configs/gretelai/synthetic_text_to_sql/sft_liger.yaml`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/gretelai/synthetic_text_to_sql/sft_liger.yaml), and add the following line in the [`SFTConfig`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/gretelai/synthetic_text_to_sql/sft_liger.yaml#L22) section:
 
 ```yaml
 use_liger_kernel: true
@@ -151,7 +151,7 @@ If you rerun the fine-tuning process after this change, you will <ins>notice a s
 
 While the memory savings are valuable because they allow fine-tuning larger models (more on this later) without upgrading the GPU, the slowdown can be disappointing. It is beyond the scope of this workshop to explain why this happens, but you are encouraged to explore the [`liger-kernel`](https://github.com/linkedin/Liger-Kernel/) library for more details.
 
-To counteract the slowdown, increase the [`per_device_train_batch_size`](configs/gretelai/synthetic_text_to_sql/sft_liger.yaml#L41) parameter as such:
+To counteract the slowdown, increase the [`per_device_train_batch_size`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/gretelai/synthetic_text_to_sql/sft_liger.yaml#L41) parameter as such:
 
 ```yaml
 # per_device_train_batch_size: 4
@@ -166,9 +166,9 @@ With this adjustment, the <ins>fine-tuning time should drop to around 45 to 50 m
 
     Up to this point, we have been using the `Small` instance type with a single GPU. For this section, please switch to either a `Medium` or `Large` instance, which provide 2 and 4 GPUs respectively.
 
-To scale your fine-tuning across multiple GPUs, compare the two configuration files: [`accelerate_single.yaml`](configs/accelerate_single.yaml) and [`accelerate_multi.yaml`](configs/accelerate_multi.yaml):
+To scale your fine-tuning across multiple GPUs, compare the two configuration files: [`accelerate_single.yaml`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/accelerate_single.yaml) and [`accelerate_multi.yaml`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/accelerate_multi.yaml):
 
-[`accelerate_single.yaml`](configs/accelerate_single.yaml)
+[`accelerate_single.yaml`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/accelerate_single.yaml)
 
 ```yaml
 gpu_ids: 0,
@@ -176,7 +176,7 @@ num_processes: 1
 distributed_type: NO
 ```
 
-[`accelerate_multi.yaml`](configs/accelerate_multi.yaml)
+[`accelerate_multi.yaml`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/accelerate_multi.yaml)
 
 ```yaml
 gpu_ids: all
@@ -184,9 +184,9 @@ num_processes: 4
 distributed_type: MULTI_GPU
 ```
 
-The multi-GPU configuration assumes your machine has 4 GPUs ([`num_processes: 4`](configs/accelerate_multi.yaml#L2)). The setting [`gpu_ids: all`](configs/accelerate_multi.yaml#L3) tells [`accelerate`](https://huggingface.co/docs/accelerate/en/index) to use all available GPUs (equivalent to specifying `gpu_ids: 0,1,2,3`). Make sure to configure the number of GPUs to match those available on your instance.
+The multi-GPU configuration assumes your machine has 4 GPUs ([`num_processes: 4`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/accelerate_multi.yaml#L2)). The setting [`gpu_ids: all`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/accelerate_multi.yaml#L3) tells [`accelerate`](https://huggingface.co/docs/accelerate/en/index) to use all available GPUs (equivalent to specifying `gpu_ids: 0,1,2,3`). Make sure to configure the number of GPUs to match those available on your instance.
 
-To enable multi-GPU fine-tuning, simply swap [`accelerate_single.yaml`](configs/accelerate_single.yaml) with [`accelerate_multi.yaml`](configs/accelerate_multi.yaml) during the launch of the SFT process. <ins>The fine-tuning time should drop to around 10 to 15 minutes, down from the original 45 to 50 minutes</ins>.
+To enable multi-GPU fine-tuning, simply swap [`accelerate_single.yaml`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/accelerate_single.yaml) with [`accelerate_multi.yaml`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/accelerate_multi.yaml) during the launch of the SFT process. <ins>The fine-tuning time should drop to around 10 to 15 minutes, down from the original 45 to 50 minutes</ins>.
 
 !!! tip
 
@@ -218,7 +218,7 @@ We will not interact with the API directly. Instead, we will connect it to a cha
 
 To make interaction more interesting rather than CLI based `curl` commands, we created a very basic chat-based UI interface via the Hugging Face [`gradio`](https://www.gradio.app) library.
 
-You can enable the interaction by changing the following entry under the [`ExtraConfig`](configs/gretelai/synthetic_text_to_sql/sft_liger.yaml#L1) section of the [`configs/gretelai/synthetic_text_to_sql/sft_liger.yaml`](configs/gretelai/synthetic_text_to_sql/sft_liger.yaml) configuration file:
+You can enable the interaction by changing the following entry under the [`ExtraConfig`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/gretelai/synthetic_text_to_sql/sft_liger.yaml#L1) section of the [`configs/gretelai/synthetic_text_to_sql/sft_liger.yaml`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/gretelai/synthetic_text_to_sql/sft_liger.yaml) configuration file:
 
 ```yaml
 # mode: train
