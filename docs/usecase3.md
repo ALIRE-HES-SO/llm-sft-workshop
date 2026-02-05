@@ -16,14 +16,14 @@ Imagine a medical education assistant that helps learners address complex clinic
 
 ### Evaluate: bias-variance trade-off
 
-At this point, we have covered all essential steps of SFT: [dataset preparation](#use-case-1-input-&-output), [optimization](#use-case-1-optimize-liger-kernel), [scaling](#use-case-1-scaling-to-multiple-gpus), and [deployment](#use-case-1-deploy). The only remaining piece is <ins>evaluation</ins>, which helps determine how well the model performs and when to stop training.
+At this point, we have covered all essential steps of SFT: [dataset preparation](usecase1.md#input-output), [optimization](usecase1.md#optimize-liger-kernel), [scaling](usecase1.md#scaling-to-multiple-gpus), and [deployment](usecase1.md#deploy). The only remaining piece is <ins>evaluation</ins>, which helps determine how well the model performs and when to stop training.
 
 A common question is:
 
 > _"How many epochs should I train my model for, and how do I evaluate its performance?"_
 
 To explore this, we used the `Large` instance (4 GPUs) and fine-tuned for
-multiple epochs. In the [`configs/dmis-lab/meerkat-instructions/sft_liger_peft.yaml`](configs/dmis-lab/meerkat-instructions/sft_liger_peft.yaml) configuration, we first increased the number of epochs under the [`SFTConfig`](configs/dmis-lab/meerkat-instructions/sft_liger_peft.yaml#L39) section:
+multiple epochs. In the [`configs/dmis-lab/meerkat-instructions/sft_liger_peft.yaml`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/dmis-lab/meerkat-instructions/sft_liger_peft.yaml) configuration, we first increased the number of epochs under the [`SFTConfig`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/dmis-lab/meerkat-instructions/sft_liger_peft.yaml#L39) section:
 
 ```yaml
 # num_train_epochs: 1
@@ -58,16 +58,16 @@ You should select the checkpoint that corresponds to the lowest validation loss 
 
 ### Evaluate: generalization on the test set
 
-To evaluate the model on the test set, we provided an evaluation mode in the [`main.py`](main.py) script. This mode leverages [`vllm`](https://docs.vllm.ai/en/stable/index.html) within Python itself, using the same high-performance inference engine that powers model [deployment](#use-case-1-deploy), but integrated directly in the evaluation workflow. It automatically searches for the specific pattern `the answer is (LETTER)` in both the reference and predicted answers using a regular expression, and then computes accuracy with the `exact_match` metric from the Hugging Face [`evaluate`](https://github.com/huggingface/evaluate) library.
+To evaluate the model on the test set, we provided an evaluation mode in the [`main.py`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/main.py) script. This mode leverages [`vllm`](https://docs.vllm.ai/en/stable/index.html) within Python itself, using the same high-performance inference engine that powers model [deployment](usecase1.md#deploy), but integrated directly in the evaluation workflow. It automatically searches for the specific pattern `the answer is (LETTER)` in both the reference and predicted answers using a regular expression, and then computes accuracy with the `exact_match` metric from the Hugging Face [`evaluate`](https://github.com/huggingface/evaluate) library.
 
-You can enable evaluation by changing the following entry under the [`ExtraConfig`](configs/dmis-lab/meerkat-instructions/sft_liger_peft.yaml#L1) section of the [`configs/dmis-lab/meerkat-instructions/sft_liger_peft.yaml`](configs/dmis-lab/meerkat-instructions/sft_liger_peft.yaml) configuration file:
+You can enable evaluation by changing the following entry under the [`ExtraConfig`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/dmis-lab/meerkat-instructions/sft_liger_peft.yaml#L1) section of the [`configs/dmis-lab/meerkat-instructions/sft_liger_peft.yaml`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/dmis-lab/meerkat-instructions/sft_liger_peft.yaml) configuration file:
 
 ```yaml
 # mode: train
 mode: evaluate
 ```
 
-This mode also requires two additional parameters in the same [`ExtraConfig`](configs/dmis-lab/meerkat-instructions/sft_liger_peft.yaml#L1) section:
+This mode also requires two additional parameters in the same [`ExtraConfig`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/dmis-lab/meerkat-instructions/sft_liger_peft.yaml#L1) section:
 
 ```yaml
 evaluate_vllm_model_name_or_path: ./trainer_output/google/gemma-3-4b-it-dmis-lab/meerkat-instructions/checkpoint-395-merged
@@ -75,8 +75,8 @@ evaluate_vllm_sampling_params_max_tokens: 8192
 ```
 
 where:
-- [`evaluate_vllm_model_name_or_path`](configs/dmis-lab/meerkat-instructions/sft_liger_peft.yaml#L19) specifies the path to the merged model checkpoint that achieved the best validation performance (in this example, `checkpoint-395-merged`).
-- [`evaluate_vllm_sampling_params_max_tokens`](configs/dmis-lab/meerkat-instructions/sft_liger_peft.yaml#L20) defines the maximum number of tokens the model can generate during evaluation. This value should reflect the expected verbosity of your model. For example, `CoT` models tend to produce longer outputs and may require higher limits than standard instruction models.
+- [`evaluate_vllm_model_name_or_path`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/dmis-lab/meerkat-instructions/sft_liger_peft.yaml#L19) specifies the path to the merged model checkpoint that achieved the best validation performance (in this example, `checkpoint-395-merged`).
+- [`evaluate_vllm_sampling_params_max_tokens`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/dmis-lab/meerkat-instructions/sft_liger_peft.yaml#L20) defines the maximum number of tokens the model can generate during evaluation. This value should reflect the expected verbosity of your model. For example, `CoT` models tend to produce longer outputs and may require higher limits than standard instruction models.
 
 You can now launch the evaluation with:
 
