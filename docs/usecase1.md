@@ -83,7 +83,7 @@ The example shown here uses the _conversational prompt–completion_ format, whi
 
 !!! tip
 
-    Feel free to check the [`main.py`](main.py) script, which uses the [`map_dataset_format`](utils.py#L21) function from [`utils.py`](utils.py) to map the raw dataset data into the _conversational prompt–completion_ style.
+    Feel free to check the [`main.py`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/main.py) script, which uses the [`map_dataset_format`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/utils.py#L21) function from [`utils.py`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/utils.py) to map the raw dataset data into the _conversational prompt–completion_ style.
 
 ### Model
 
