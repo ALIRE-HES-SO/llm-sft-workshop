@@ -94,7 +94,7 @@ gh auth login
 
 Follow the on-screen instructions to complete the login process.
 
-#### Clone and navigate to the llm-sft-workshop repository
+#### Clone and navigate to the [`llm-sft-workshop`](https://github.com/ALIRE-HES-SO/llm-sft-workshop) repository
 
 Clone the repository:
 
@@ -146,7 +146,7 @@ uv sync
 
 #### HuggingFace CLI login
 
-Create a [HuggingFace](https://huggingface.co) account. Then go to Profile &#8594; Access Tokens, create a new token with `READ` permissions and copy it.
+Create a [HuggingFace](https://huggingface.co) account (if you don't already have one). Then go to `Profile` &#8594; `Access Tokens`, create a new token with `READ` permissions and copy it.
 
 Then run the following command:
 
@@ -166,7 +166,7 @@ When prompted, paste your token to complete the login.
 
 #### Weights & Biases CLI login
 
-Create a [Weights & Biases](https://wandb.ai) account. Then go to Profile &#8594; API key, and copy it.
+Create a [Weights & Biases](https://wandb.ai) account (if you don't already have one). Then go to `Profile` &#8594; `API keys`, and copy it.
 
 Then run the following command:
 
