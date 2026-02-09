@@ -130,7 +130,7 @@ Take a deep breath; here we go.
 
 In order to easily clone the workshop repository, we will use the [GitHub CLI](https://cli.github.com/).
 
-If you don't already have one, create a [GitHub](https://github.com) account.
+If you don't already have one, create a :simple-github: [GitHub](https://github.com) account.
 
 Install the GitHub CLI on the instance with the following command:
 
@@ -219,12 +219,12 @@ Then run the following command, which will prompt you for your token to complete
 uv run wandb login
 ```
 
-## Where we are now
+## What have we achieved?
 
-Your environment is now ready to start.
+Your environment is now ready to start. Specifically, we:
 
-- [x] You have access to a [powerful GPU instance](#exoscale-instance) on the cloud, and ways to interact with it remotely through [VS Code Insiders](https://code.visualstudio.com/insiders/) and [Remote Explorer](https://marketplace.visualstudio.com/items?itemName=ms-vscode.remote-explorer).
-- [x] Your instance contains the [starter code](#github-cli-to-clone-the-repository) for this workshop, with [all dependencies installed](#install-libraries).
-- [x] You have accounts on the two main external services we will use ([HuggingFace](#huggingface-cli-login) and [Weights & Biases](#weights--biases-cli-login)) and have authenticated to them from the terminal.
+- [x] set up a [powerful GPU instance](#exoscale-instance) on the cloud, with ways to interact with it remotely through VS Code Insiders and the `Remote Explorer`.
+- [x] cloned the workshop's [starter code](#github-cli-to-clone-the-repository) onto the instance, and installed [all necessary dependencies](#install-libraries).
+- [x] Created and authenticated accounts for the external services we will use: [HuggingFace](#huggingface-cli-login) and [Weights & Biases](#weights--biases-cli-login).
 
 All is ready to start fine-tuning, which we will do in the next section in a first basic use case.
