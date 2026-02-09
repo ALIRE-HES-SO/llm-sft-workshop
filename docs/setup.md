@@ -10,8 +10,7 @@ The following requirements are necessary prior to following this workshop:
 
 * The :material-microsoft-visual-studio-code: **[VS Code Insiders](https://code.visualstudio.com/insiders/)** editor. It provides _improved remote tunneling support_, making it easier to access `localhost` services from a remote instance.However, you are welcome to use any IDE you prefer.
 * An :simple-exoscale: **[Exoscale account](https://www.exoscale.com/)** with access to GPU cloud instances. If applicable, use the provided voucher by the organizers of this workshop.
-* A :simple-huggingface: **[HuggingFace](https://huggingface.co)** account.
-* A :simple-weightsandbiases: **[Weights & Biases](https://wandb.ai/)** account.
+* Personal :simple-github: **[GitHub](https://github.com)**, :simple-huggingface: **[HuggingFace](https://huggingface.co)** and :simple-weightsandbiases: **[Weights & Biases](https://wandb.ai/)** accounts.
 
 ## Introduction
 
