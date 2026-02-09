@@ -4,31 +4,45 @@ icon: lucide/wrench
 
 # Set up
 
-Because [fine-tuning](https://en.wikipedia.org/wiki/Fine-tuning_(deep_learning)) requires powerful parallel compute power, we will start by setting up an [Exoscale](https://www.exoscale.com/) GPU instance, and configure [VS Code Insiders](https://code.visualstudio.com/insiders/) with remote tunneling to access it remotely. We will also need to install required libraries, and authenticate to external services that we will introduce in more detail below: [HuggingFace](https://huggingface.co) to access models, datasets and tools, and [Weights & Biases](https://wandb.ai/) to monitor training logs visually.
+Because [fine-tuning](https://en.wikipedia.org/wiki/Fine-tuning_(deep_learning)) requires powerful parallel compute power, we will start by setting up a GPU cloud instance on [Exoscale](https://www.exoscale.com/), and configure an editor to access it remotely.
 
-## VS Code Insiders
+We will also need to install required libraries, and authenticate to external services:
+
+* [HuggingFace](https://huggingface.co) to access models, datasets and tools
+* [Weights & Biases](https://wandb.ai/) to monitor training logs visually
+
+We will introduce these services in more detail below.
+
+## Install an editor: VS Code Insiders
 
 Throughout this workshop, we will use [VS Code Insiders](https://code.visualstudio.com/insiders/), but you are welcome to use any IDE you prefer.
 
-We recommend [VS Code Insiders](https://code.visualstudio.com/insiders/) because it provides improved remote tunneling support, making it easier to access `localhost` services from a remote instance, in particular the ability to connect to OpenAI-compatible APIs hosted on the instance from your local machine.
+We recommend **VS Code Insiders** because it provides _improved remote tunneling support_, making it easier to access `localhost` services from a remote instance, in particular the ability to connect to OpenAI-compatible APIs hosted on the instance from your local machine.
 
-[Download](https://code.visualstudio.com/insiders/) and install [VS Code Insiders](https://code.visualstudio.com/insiders/) before getting started.
+[Download](https://code.visualstudio.com/insiders/) and install VS Code Insiders before getting started.
 
-## Exoscale instance
+## Set up a GPU cloud instance with Exoscale
 
-In this workshop, we will use `GPUA5000` instances from the `AT-VIE-2` zone. Each instance is equipped with either 1, 2, or 4 [NVIDIA RTX A5000](https://www.nvidia.com/en-us/products/workstations/rtx-a5000/) GPUs (24GB of VRAM) in the `Small`, `Medium`, and `Large` instance types, respectively. We suggest using instances with at least 100 GB of disk space.
+In this workshop, we will use `GPUA5000` instances from the `AT-VIE-2` zone. Each instance is equipped with either 1, 2, or 4 [NVIDIA RTX A5000](https://www.nvidia.com/en-us/products/workstations/rtx-a5000/) GPUs (24GB of VRAM) in the `Small`, `Medium`, and `Large` instance types, respectively.
+
+We suggest using instances with at least **100 GB** of disk space.
 
 !!! warning
 
     Make sure to select the `GPUA5000` instances from the `AT-VIE-2` zone!
 
+Create now a `Small [Exoscale](https://www.exoscale.com) instance.
+
 !!! tip
 
     To add an [Exoscale](https://www.exoscale.com) instance have a look at the [FAQ: How can I add an Exoscale instance?](./faq).
 
-To begin, we will use [VS Code Insiders](https://code.visualstudio.com/insiders/) to connect to a `Small` [Exoscale](https://www.exoscale.com) instance.
+### Connect to the running instance
 
-To set this up, open your SSH configuration file with your favorite text editor, such as `nano` or `notepad` from the terminal:
+Now that your instance is up and running, connect to it using VS Code Insiders.
+
+Open your SSH configuration file with your favorite text editor, such as `nano` or `notepad` from the terminal:
+
 
 ```bash
 # UNIX example
