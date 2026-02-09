@@ -13,13 +13,12 @@ We will also need to install required libraries, and authenticate to external se
 
 We will introduce these services in more detail below.
 
-## Install an editor: VS Code Insiders
+## Requirements
 
-Throughout this workshop, we will use [VS Code Insiders](https://code.visualstudio.com/insiders/), but you are welcome to use any IDE you prefer.
+The following requirements are necessary prior to following this workshop:
 
-We recommend **VS Code Insiders** because it provides _improved remote tunneling support_, making it easier to access `localhost` services from a remote instance, in particular the ability to connect to OpenAI-compatible APIs hosted on the instance from your local machine.
-
-[Download](https://code.visualstudio.com/insiders/) and install VS Code Insiders before getting started.
+* :material-microsoft-visual-studio-code: The **[VS Code Insiders](https://code.visualstudio.com/insiders/)** editor. It provides _improved remote tunneling support_, making it easier to access `localhost` services from a remote instance.However, you are welcome to use any IDE you prefer.
+* :simple-exoscale: An [Exoscale account](https://www.exoscale.com/) with access to GPU cloud instances. If applicable, use the provided voucher by the organizers of this workshop.
 
 ## Set up a GPU cloud instance with Exoscale
 
