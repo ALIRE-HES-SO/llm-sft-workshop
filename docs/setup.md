@@ -60,7 +60,7 @@ Open your SSH configuration file with your favorite text editor, such as `nano` 
     nano ~/.ssh/config
     ```
 
-!!! tip
+??? tip "The file does not exist or the command fails? Read this!"
 
     If the file does not exist or the command fails, you may need to generate an SSH key pair first. To do so, run the following command in your terminal:
 
