@@ -97,3 +97,16 @@ After the evaluation completes, you can compare the accuracy of the baseline mod
 | Fine-tuned model| 55.79        |
 
 The fine-tuned model achieves an accuracy of `55.79%`, outperforming the baseline by `+4.5%`. <ins>This improvement shows that even a relatively lightweight fine-tuning setup can yield measurable performance gains when adapting an instruction-tuned LLM to a specialized domain</ins>.
+
+### What have we achieved?
+
+This final use case brought all the pieces together by applying the full SFT pipeline to a **medical question-answering** task. Using the same lightweight PEFT setup as Use Case 2, we trained only a small fraction of the model's weights — yet still achieved a measurable improvement over the baseline.
+
+Specifically, we:
+
+- [x] applied everything from the previous use cases to a dataset of a specialized domain requiring precise factual answers,
+- [x] introduced [evaluation as the missing piece](#evaluate-bias-variance-trade-off): monitoring the bias–variance trade-off via wandb to select the best checkpoint,
+- [x] ran [test-set evaluation](#evaluate-generalization-on-the-test-set) using `vllm` and the `exact_match` metric to measure real-world generalization,
+- [x] demonstrated a measurable improvement (`+4.5%`) over the baseline, showing that lightweight fine-tuning yields real gains in specialized domains.
+
+With evaluation in place, the SFT workflow is now complete — from data preparation and training to deployment and measurement.

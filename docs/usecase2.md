@@ -176,3 +176,16 @@ uv run merge.py --config configs/ipst/slds/sft_liger_peft.yaml
 ```
 
 After the [`peft_output_model_path`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/ipst/slds/sft_liger_peft.yaml#L17) script finishes, the directory defined in [`peft_output_model_path`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/ipst/slds/sft_liger_peft.yaml#L17) will contain a fully merged and ready-to-use model that no longer depends on any external adapters.
+
+### What have we achieved?
+
+This use case pushed the boundaries of what we saw in Use Case 1. We tackled a **cross-lingual summarization** task — generating German headnotes from French court decisions.
+
+Thanks to LoRA and 4-bit quantization, only a small fraction of the 4B-parameter model was actually trained, while the bulk of the weights stayed frozen, by:
+
+- [x] preparing [input & output](#input-output) pairs from the [`ipst/slds`](https://huggingface.co/datasets/ipst/slds) dataset using Jinja templates,
+- [x] upgrading to a larger [model](#model) ([`google/gemma-3-4b-it`](https://huggingface.co/google/gemma-3-4b-it)) and hitting GPU memory limits in the process,
+- [x] overcoming those limits with [parameter-efficient fine-tuning (`peft`)](#optimize-peft) Using LoRA and 4-bit quantization, combined with FlashAttention 2,
+- [x] [merging](#merge) the LoRA adapters back into the base model for seamless deployment.
+
+The result is a fully self-contained fine-tuned model, ready to deploy without any adapter dependencies.
