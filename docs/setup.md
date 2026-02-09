@@ -4,21 +4,22 @@ icon: lucide/wrench
 
 # Set up
 
-Because [fine-tuning](https://en.wikipedia.org/wiki/Fine-tuning_(deep_learning)) requires powerful parallel compute power, we will start by setting up a GPU cloud instance on [Exoscale](https://www.exoscale.com/), and configure an editor to access it remotely.
-
-We will also need to install required libraries, and authenticate to external services:
-
-* [HuggingFace](https://huggingface.co) to access models, datasets and tools
-* [Weights & Biases](https://wandb.ai/) to monitor training logs visually
-
-We will introduce these services in more detail below.
-
 ## Requirements
 
 The following requirements are necessary prior to following this workshop:
 
-* :material-microsoft-visual-studio-code: The **[VS Code Insiders](https://code.visualstudio.com/insiders/)** editor. It provides _improved remote tunneling support_, making it easier to access `localhost` services from a remote instance.However, you are welcome to use any IDE you prefer.
-* :simple-exoscale: An [Exoscale account](https://www.exoscale.com/) with access to GPU cloud instances. If applicable, use the provided voucher by the organizers of this workshop.
+* The :material-microsoft-visual-studio-code: **[VS Code Insiders](https://code.visualstudio.com/insiders/)** editor. It provides _improved remote tunneling support_, making it easier to access `localhost` services from a remote instance.However, you are welcome to use any IDE you prefer.
+* An :simple-exoscale: **[Exoscale account](https://www.exoscale.com/)** with access to GPU cloud instances. If applicable, use the provided voucher by the organizers of this workshop.
+* A :simple-huggingface: **[HuggingFace](https://huggingface.co)** account.
+* A :simple-weightsandbiases: **[Weights & Biases](https://wandb.ai/)** account.
+
+## Introduction
+
+Because [fine-tuning](https://en.wikipedia.org/wiki/Fine-tuning_(deep_learning)) requires powerful parallel compute power, we will start by setting up a GPU cloud instance on :simple-exoscale: [Exoscale](https://www.exoscale.com/), and configure an editor to access it remotely.
+
+We will also need to install required libraries, and authenticate to external services to access models, datasets and tools (:simple-huggingface: [HuggingFace](https://huggingface.co)) and to monitor training logs visually (:simple-weightsandbiases: [Weights & Biases](https://wandb.ai/)).
+
+We will introduce these services in more detail below.
 
 ## Set up a GPU cloud instance with Exoscale
 
@@ -30,11 +31,11 @@ We suggest using instances with at least **100 GB** of disk space.
 
     Make sure to select the `GPUA5000` instances from the `AT-VIE-2` zone!
 
-Create now a `Small [Exoscale](https://www.exoscale.com) instance.
+Create now a `Small` Exoscale instance.
 
-!!! tip
+!!! note
 
-    To add an [Exoscale](https://www.exoscale.com) instance have a look at the [FAQ: How can I add an Exoscale instance?](./faq).
+    To add an Exoscale instance, have a look at the [FAQ: How can I add an Exoscale instance?](./faq)
 
 ### Connect to the running instance
 
@@ -71,7 +72,7 @@ Open your SSH configuration file with your favorite text editor, such as `nano` 
 
     Once the key is created, the `.ssh` directory (and the config file, if you create it) will be available.
 
-Then add the following configuration for your [Exoscale](https://www.exoscale.com) instance:
+Then add the following configuration for your Exoscale instance.
 
 ```bash
 Host exoscale
@@ -79,24 +80,50 @@ Host exoscale
   HostName ADD_IP_HERE
 ```
 
-Save and close the file. You will then be able to connect to your instance simply by running:
+Save and close the file.
+
+You will now be able to connect to your instance simply by running:
 
 ```bash
 ssh exoscale
 ```
 
-After verifying that your SSH connection works, you need to install the [`Remote Explorer`](https://marketplace.visualstudio.com/items?itemName=ms-vscode.remote-explorer) extension in [VS Code Insiders](https://code.visualstudio.com/insiders/) to connect to your [Exoscale](https://www.exoscale.com) instance directly from the editor. To do so navigate to `Extensions` (sidebar) &#8594; search for `Remote Explorer` &#8594; `install`. Once installed click on `Remote Explorer` (sidedbar) and under `SSH` you should now have `exoscale` listed as an entry. You can then choose either `Connect in Current Window` or `Connect in New Window` using the corresponding icons next to the `exoscale` entry.
+After verifying that your SSH connection works, you need to install the [`Remote Explorer`](https://marketplace.visualstudio.com/items?itemName=ms-vscode.remote-explorer) extension in VS Code Insiders to connect to your Exoscale instance directly from the editor.
+
+To achieve this:
+
+* Navigate to `Extensions` (sidebar) &#8594; search for `Remote Explorer` &#8594; `install`.
+* Click on `Remote Explorer` (sidedbar) and under `SSH` you should now have `exoscale` listed as an entry.
+* You can then choose either `Connect in Current Window` or `Connect in New Window` using the corresponding icons next to the `exoscale` entry.
 
 ??? tip "Hint: Keeping your session active across disconnections"
 
-    If you want to keep your terminal session active even if your internet connection drops, you can use the `tmux` command. Running `tmux` creates a persistent terminal session that you can later reconnect to with: `tmux attach -t 0`. Here, `0` is the default session number, but you can create and manage multiple sessions if needed. `tmux` also allows you to [split the terminal into multiple panes](https://lukaszwrobel.pl/blog/tmux-tutorial-split-terminal-windows-easily/), which is useful for monitoring additional tools such as GPU usage. For example in the right pane one could run `uv run nvitop` and keep track of the CPU & GPU usage.
+    If you want to keep your terminal session active even if your internet connection drops, you can use the `tmux` command.
+
+    Running `tmux` creates a persistent terminal session that you can later reconnect to with:
+
+    ```bash
+    tmux attach -t 0
+    ```
+
+    Here, `0` is the default session number, but you can create and manage multiple sessions if needed. `tmux` also allows you to [split the terminal into multiple panes](https://lukaszwrobel.pl/blog/tmux-tutorial-split-terminal-windows-easily/), which is useful for monitoring additional tools such as GPU usage.
+
+    For example in the right pane one could run `uv run nvitop` and keep track of the CPU & GPU usage.
 
     ![tmux](./images/extra/tmux_light.png#only-light)
     ![tmux](./images/extra/tmux_dark.png#only-dark)
 
 ### Libraries installation and setup
 
-Now that we have access to a terminal and the file system of the [Exoscale](https://www.exoscale.com) instance through [VS Code Insiders](https://code.visualstudio.com/insiders/), we can start setting it up with all required tools, dependencies, and account logins.
+Now that we have access to a terminal and the file system of the Exoscale instance through VS Code Insiders, we can start setting it up with all required tools, dependencies, and account logins.
+
+We will:
+
+- [ ] Install the GitHub CLI to clone the repository
+- [ ] Install system libraries
+- [ ] Install the python libraries with uv
+- [ ] Authenticate to HuggingFace
+- [ ] Authenticate to Weights & Biases
 
 Take a deep breath; here we go.
 
@@ -125,7 +152,7 @@ git clone https://github.com/ALIRE-HES-SO/llm-sft-workshop
 cd llm-sft-workshop
 ```
 
-#### Install libraries
+#### Install system libraries
 
 To save you some time, the repository provides an installation script that will do all necessary system-level setup on your instance, which you can run with the following command:
 
@@ -163,7 +190,7 @@ uv sync
 
 #### HuggingFace CLI login
 
-[HuggingFace](https://huggingface.co) is the go-to platform for hosting and sharing machine learning models, datasets, and tools. We will use it to download pre-trained models to fine-tune, as well as datasets to train them on.
+:simple-huggingface: [HuggingFace](https://huggingface.co) is the go-to platform for hosting and sharing machine learning models, datasets, and tools. We will use it to download pre-trained models to fine-tune, as well as datasets to train them on.
 
 If you don't have one already, create a [HuggingFace](https://huggingface.co) account. Then go to `Profile` &#8594; `Access Tokens`, create a new token with `READ` permissions and copy it.
 
@@ -183,7 +210,7 @@ uv run hf auth login
 
 #### Weights & Biases CLI login
 
-[Weights & Biases](https://wandb.ai) (W&B) is a popular tool for tracking machine learning experiments and visualizing training progress in real time, which is what we will use it for in this workshop.
+:simple-weightsandbiases: [Weights & Biases](https://wandb.ai) (W&B) is a popular tool for tracking machine learning experiments and visualizing training progress in real time, which is what we will use it for in this workshop.
 
 If you don't have one already, create a [Weights & Biases](https://wandb.ai) account. Then go to `Profile` &#8594; `API keys`, and copy it.
 
