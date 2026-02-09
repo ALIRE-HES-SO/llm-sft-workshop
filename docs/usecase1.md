@@ -126,9 +126,23 @@ Once the job starts, your terminal should display output similar to:
 ![Fine-tune](./images/use_case_1/fine_tune_light.png#only-light)
 ![Fine-tune](./images/use_case_1/fine_tune_dark.png#only-dark)
 
+??? question "What are you looking at?"
+
+    The fine-tuning process is now running, and you are seeing periodic outputs of its progress.
+
+    When running the command, the `accelerate` library launched the `main.py` script on the specified device(s) (in this case, a single GPU).
+    The script loaded models from Hugging Face, as well as datasets which are transformed by Jinja into formatted prompts using the templates in `prompts/`.
+
+    During training, `SFTTrainer` is configured to share its progress with Weights & Biases for web-based visualisation. Once complete, it saves the fine-tuned model to `training_output/`, for future use in inference as we will see.
+
+
+    <figure markdown="span">
+      ![Fine-tune progress](./images/use_case_1/mode_train_light.svg#only-light){ width="600" }
+    </figure>
+    
 ### Monitor
 
-You can also monitor your training progress directly on [`wandb`](https://wandb.ai/site/), where your run will appear with detailed metrics, logs, and charts similar to the example below:
+Since progress is shared with Weights and Biases, you can monitor various metrics directly on [`wandb`](https://wandb.ai/site/), where your run will appear with detailed metrics, logs, and charts similar to the example below:
 
 ![Fine-tune](./images/use_case_1/wandb_light.png#only-light)
 ![Fine-tune](./images/use_case_1/wandb_dark.png#only-dark)
@@ -241,3 +255,24 @@ The interface should look something like this:
 
 ![diagram](./images/use_case_1/ui_light.png#only-light)
 ![diagram](./images/use_case_1/ui_dark.png#only-dark)
+
+??? question "How is this working?"
+    
+    The `vllm` server you started loaded the fine-tuned model from the file system and exposed it via an OpenAI-compatible REST API.
+
+    The `main.py` script is then serving a Gradio-based web UI that queries that API to obtain results of inference from the model.
+
+    <figure markdown="span">
+      ![Interact diagram](./images/use_case_1/mode_interact_light.svg#only-light){ width="600" }
+    </figure>
+
+### What have we achieved?
+
+A lot has happened here. Levering powerful tools and libraries, only moderate amounts of code were required to train a model by
+
+- using a dataset loaded from Hugging Face to [generate prompts from templates](#input-output),
+- tweaking the config files to optimize memory usage via [`liger-kernel`](#optimize-liger-kernel),
+- configuring [`accelerate`](#trl--accelerate) to scale the training [across multiple GPUs](#scaling-to-multiple-gpus),
+- all while monitoring progress on [`wandb`](#monitor).
+
+This resulted in a fine-tuned model that we were able to deploy using [`vllm`](#deploy) and interact with via a simple web UI built with [`gradio`](#interact).
