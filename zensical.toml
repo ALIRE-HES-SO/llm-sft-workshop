@@ -175,7 +175,7 @@ features = [
     # Turn on this feature to expand all collapsible sections in the
     # navigation sidebar by default.
     # https://zensical.org/docs/setup/navigation/#navigation-expansion
-    # "navigation.expand",
+    "navigation.expand",
 
     # This feature turns on navigation elements in the footer that allow the
     # user to navigate to a next or previous page.
@@ -247,7 +247,7 @@ features = [
     # When anchor following for the table of contents is enabled, the sidebar
     # is automatically scrolled so that the active anchor is always visible.
     # https://zensical.org/docs/setup/navigation/#anchor-following
-    # "toc.follow",
+    "toc.follow",
 
     # When navigation integration for the table of contents is enabled, it is
     # always rendered as part of the navigation sidebar on the left.
@@ -323,6 +323,9 @@ accent = "teal"
 [project.theme.icon]
 logo = "lucide/house"
 repo = "lucide/github"
+previous = "lucide/chevron-left"
+next = "lucide/chevron-right"
+top = "lucide/chevron-up"
 
 # ----------------------------------------------------------------------------
 # The "extra" section contains miscellaneous settings.
