@@ -15,5 +15,5 @@ By the end, you will understand the practical aspects of [fine-tuning](https://e
 
 - Andrei Coman ([andrei.coman@hevs.ch](mailto:andrei.coman@hevs.ch))
 - Pamela Delgado ([pamela.delgado@heig-vd.ch](mailto:pamela.delgado@heig-vd.ch))
-- Rémy Marquis
 - Olivier Lemer
+- Rémy Marquis
