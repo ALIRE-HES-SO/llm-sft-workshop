@@ -224,8 +224,8 @@ uv run wandb login
 
 Your environment is now ready to start.
 
-- You have access to a [powerful GPU instance](#exoscale-instance) on the cloud, and ways to interact with it remotely through [VS Code Insiders](https://code.visualstudio.com/insiders/) and [Remote Explorer](https://marketplace.visualstudio.com/items?itemName=ms-vscode.remote-explorer).
-- It contains the [starter code](#github-cli-to-clone-the-repository) for this workshop, with [all dependencies installed](#install-libraries).
-- You have accounts on the two main external services we will use ([HuggingFace](#huggingface-cli-login) and [Weights & Biases](#weights--biases-cli-login)) and have authenticated to them from the terminal.
+- [x] You have access to a [powerful GPU instance](#exoscale-instance) on the cloud, and ways to interact with it remotely through [VS Code Insiders](https://code.visualstudio.com/insiders/) and [Remote Explorer](https://marketplace.visualstudio.com/items?itemName=ms-vscode.remote-explorer).
+- [x] Your instance contains the [starter code](#github-cli-to-clone-the-repository) for this workshop, with [all dependencies installed](#install-libraries).
+- [x] You have accounts on the two main external services we will use ([HuggingFace](#huggingface-cli-login) and [Weights & Biases](#weights--biases-cli-login)) and have authenticated to them from the terminal.
 
 All is ready to start fine-tuning, which we will do in the next section in a first basic use case.
