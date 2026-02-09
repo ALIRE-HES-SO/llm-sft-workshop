@@ -126,7 +126,7 @@ We will:
 
 Take a deep breath; here we go.
 
-#### GitHub CLI to clone the repository
+#### Clone the repository with GitHub CLI
 
 In order to easily clone the workshop repository, we will use the [GitHub CLI](https://cli.github.com/).
 
@@ -173,7 +173,7 @@ bash ./install.sh
 
     The reboot is necessary because the NVIDIA kernel modules need to be loaded fresh. After rebooting, the GPU will be accessible to your training code.
 
-#### Sync project's dependencies
+#### Install the project's dependencies
 
 After the reboot, make sure you are back inside the project directory:
 
@@ -187,7 +187,7 @@ Then synchronize all project dependencies using the [uv](https://docs.astral.sh/
 uv sync
 ```
 
-#### HuggingFace CLI login
+#### Authenticate on HuggingFace
 
 :simple-huggingface: [HuggingFace](https://huggingface.co) is the go-to platform for hosting and sharing machine learning models, datasets, and tools. We will use it to download pre-trained models to fine-tune, as well as datasets to train them on.
 
@@ -207,7 +207,7 @@ uv run hf auth login
     ```
     Select: `n` and press `Enter`.
 
-#### Weights & Biases CLI login
+#### Authenticate on Weights & Biases
 
 :simple-weightsandbiases: [Weights & Biases](https://wandb.ai) (W&B) is a popular tool for tracking machine learning experiments and visualizing training progress in real time, which is what we will use it for in this workshop.
 
