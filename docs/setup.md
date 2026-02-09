@@ -223,8 +223,8 @@ uv run wandb login
 
 Your environment is now ready to start. Specifically, we:
 
-- [x] set up a [powerful GPU instance](#exoscale-instance) on the cloud, with ways to interact with it remotely through VS Code Insiders and the `Remote Explorer`.
-- [x] cloned the workshop's [starter code](#github-cli-to-clone-the-repository) onto the instance, and installed [all necessary dependencies](#install-libraries).
-- [x] Created and authenticated accounts for the external services we will use: [HuggingFace](#huggingface-cli-login) and [Weights & Biases](#weights--biases-cli-login).
+- [x] set up a [powerful GPU instance](#set-up-a-gpu-cloud-instance-with-exoscale) on the cloud, with ways to [interact remotely](#connect-to-the-running-instance) with it.
+- [x] cloned the workshop's [starter code](#clone-the-repository-with-github-cli) onto the instance, and installed [all necessary dependencies](#install-system-libraries).
+- [x] Created and authenticated accounts for the external services we will use: [HuggingFace](#authenticate-on-huggingface) and [Weights & Biases](#authenticate-on-weights-biases).
 
 All is ready to start fine-tuning, which we will do in the next section in a first basic use case.
