@@ -1,3 +1,6 @@
 # Ignore website files
 site/
 
+# macOS
+.DS_Store
+
