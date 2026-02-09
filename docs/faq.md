@@ -62,9 +62,24 @@ Log in to your [Exoscale](https://www.exoscale.com) account to access the landin
 
 !!! tip
 
-    On UNIX-based systems, you can retrieve your SSH public key by running the following command in your terminal:
+You can retrieve your SSH public key by running the following command in your terminal:
+
+=== ":material-microsoft-windows: Windows"
+
+    ```bash
+    cat C:\Users\YOUR_USERNAME\.ssh\id_ed25519.pub  # or id_rsa.pub
     ```
-    cat ~/.ssh/id_rsa.pub
+
+=== ":material-apple: macOS"
+
+    ```bash
+    cat ~/.ssh/id_ed25519.pub  # or id_rsa.pub
+    ```
+
+=== ":material-linux: Linux"
+
+    ```bash
+    cat ~/.ssh/id_ed25519.pub  # or id_rsa.pub
     ```
 
 #### Anti Affinity setup

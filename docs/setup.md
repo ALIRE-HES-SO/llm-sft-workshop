@@ -43,13 +43,23 @@ Now that your instance is up and running, connect to it using VS Code Insiders.
 
 Open your SSH configuration file with your favorite text editor, such as `nano` or `notepad` from the terminal:
 
+=== ":material-microsoft-windows: Windows"
 
-```bash
-# UNIX example
-nano /Users/ADD_YOUR_USERNAME_HERE/.ssh/config
-# Windows example
-notepad C:\Users\YOUR_USERNAME\.ssh\config
-```
+    ```bash
+    notepad C:\Users\YOUR_USERNAME\.ssh\config
+    ```
+
+=== ":material-apple: macOS"
+
+    ```bash
+    nano /Users/YOUR_USERNAME/.ssh/config
+    ```
+
+=== ":material-linux: Linux"
+
+    ```bash
+    nano ~/.ssh/config
+    ```
 
 !!! tip
 
