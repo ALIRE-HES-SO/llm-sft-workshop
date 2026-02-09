@@ -2,7 +2,7 @@
 icon: lucide/briefcase
 ---
 
-# Use case 3: From Question to Answer
+# Use Case 3: From Question to Answer
 
 ![diagram](./images/use_case_3/diagram_light.svg#only-light)
 ![diagram](./images/use_case_3/diagram_dark.svg#only-dark)
