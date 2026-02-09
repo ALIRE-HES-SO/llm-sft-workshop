@@ -328,7 +328,9 @@ repo = "lucide/github"
 # The "extra" section contains miscellaneous settings.
 # ----------------------------------------------------------------------------
 [[project.extra.social]]
-icon = "fontawesome/brands/github"
+icon = "lucide/globe"
+link = "https://swiss-ai-center.ch/"
+
+[[project.extra.social]]
+icon = "lucide/github"
 link = "https://github.com/ALIRE-HES-SO/llm-sft-workshop"
-
-
