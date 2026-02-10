@@ -50,15 +50,18 @@ WHERE route_name = 'Green Line';
     [^3]: Scaling to multiple GPUs with `accelerate`
     [^4]: Deployment with `vllm`
     [^5]: Chat UI uses `gradio`
-    [^6]: The model used is `gemma-3-270M-it` with 260 million parameters
+    [^6]: The model used is `gemma-3-270M-it` with 270 million parameters
 
 ### Input & Output
 
-[Supervised Fine-Tuning](https://en.wikipedia.org/wiki/Fine-tuning_(deep_learning)) (SFT) is the process of taking a pre-trained language madel, and training further on labeled input–output pairs so it learns to produce the desired response for a given prompt. This technique adapts general-purpose models to specific tasks such as summarization ([Use Case 2: From Decision (French) to Headnote (German)](usecase2.md)), classification ([Use Case 3: From Question to Answer](usecase3.md)), or, in this case, translating natural language into SQL.
+[Supervised Fine-Tuning](https://en.wikipedia.org/wiki/Fine-tuning_(deep_learning)) (SFT) is the process of taking a pre-trained language madel, and training further on labeled input–output pairs so it learns to produce the desired response for a given prompt. This technique adapts general-purpose models to specific tasks such as **summarization**[^7], **classification**[^8], or, in this case, **translating** natural language into SQL.
 
-To fine-tune an LLM for translating natural language into SQL, we will thus need to train it on a large dataset of example input-output pairs. This is where [Hugging Face](https://huggingface.co)'s [`datasets`](https://huggingface.co/docs/datasets/en/index) library comes in handy to manage all dataset operations, including downloading, loading, and preprocessing.
+To fine-tune an LLM for translating natural language into SQL, we will thus need to train it on a large dataset of example input-output pairs. This is where Hugging Face's [`datasets`](https://huggingface.co/docs/datasets/en/index) library comes in handy to manage all dataset operations, including downloading, loading, and preprocessing.
 
-One such dataset, hosted on [Hugging Face](https://huggingface.co), is the [`gretelai/synthetic_text_to_sql`](https://huggingface.co/datasets/gretelai/synthetic_text_to_sql) dataset, which contains synthetic examples mapping natural language questions to SQL queries along with their corresponding database schemas. Each example, such as the one shown below, provides a natural language question (`sql_prompt`), an associated schema and sample data (`sql_context`), and the correct SQL query (`sql`). 
+One such dataset is the [`gretelai/synthetic_text_to_sql`](https://huggingface.co/datasets/gretelai/synthetic_text_to_sql) dataset, which contains synthetic examples mapping natural language questions to SQL queries along with their corresponding database schemas. Each example, such as the one shown below, provides a natural language question (`sql_prompt`), an associated schema and sample data (`sql_context`), and the correct SQL query (`sql`).
+
+[^7]: See [Use Case 2](usecase2.md)
+[^8]: See [Use Case 3](usecase3.md)
 
 ```json
 {
@@ -87,11 +90,11 @@ For example, a single training example would be transformed as follows:
 }
 ```
 
-!!! warning
+!!! note
 
     The example intentionally includes escaped newline characters (`\n`), tabs (`\t`), and SQL markdown delimiters (<code>\```sql ...```</code>). The model should learn to reproduce these elements exactly during training, as they are part of the expected output format.
 
-The example shown here uses the _conversational prompt–completion_ format, which is one of several supported data formats for SFT, alongside _standard language modeling_, _conversational language modeling_, and _standard prompt–completion_. For more details, please refer to the [Hugging Face](https://huggingface.co) [`SFTTrainer`](https://huggingface.co/docs/trl/en/sft_trainer) documentation.
+The example shown here uses the _conversational prompt–completion_ format, which is one of several supported data formats for SFT, alongside _standard language modeling_, _conversational language modeling_, and _standard prompt–completion_. For more details, please refer to the [`SFTTrainer`](https://huggingface.co/docs/trl/en/sft_trainer) documentation.
 
 ??? question "How is this reformatting done here?"
 
@@ -105,33 +108,47 @@ In this use case, we will imagine our end goal is to deploy the fine-tuned model
 
 The model contains approximately 270 million parameters, which makes it lightweight enough for local deployment. Running the model in 16-bit precision <ins>for inference</ins> requires about 2 bytes per parameter, which translates to approximately 0.5–1 GB of (V)RAM, depending on the context length and runtime overhead from the [key–value (KV) cache](https://huggingface.co/blog/not-lain/kv-caching) used by the attention mechanism.
 
-Because this is a gated model, you will need to have approved access on [Hugging Face](https://huggingface.co) to download and use it. Go to the model's page to review and agree to Google's usage license: [`google/gemma-3-270M-it`](https://huggingface.co/google/gemma-3-270m-it).
+You will need to have approved access on Hugging Face to use it.
 
-!!! warning
+!!! warning "Gated model access"
 
-    Make sure you see _"You have been granted access to this model"_ on the [`google/gemma-3-270M-it`](https://huggingface.co/google/gemma-3-270m-it) page before proceeding.
-    
+    This is a _gated_ model, which means you will require access approval before use.
+
+    * Visit its Hugging Face page at [`google/gemma-3-270M-it`](https://huggingface.co/google/gemma-3-270m-it)
+    * Review and agree to Google's usage license.
+    * Verify the page shows _"You have been granted access to this model"_.
+
+    Once approved, you can proceed.
+
 ### Training with `trl`'s `SFTTrainer`
 
-Now that we know what dataset and model to use, let us now look talk about the actual training. Everything will actually be handled by the [`SFTTrainer`](https://huggingface.co/docs/trl/en/sft_trainer) from the [Hugging Face](https://huggingface.co) [`trl`](https://huggingface.co/docs/trl/en/index) library (short for Transformers Reinforcement Learning). This class provides a high-level interface for SFT and takes care of essentially all key steps of training: [tokenization](https://en.wikipedia.org/wiki/Large_language_model#Tokenization) (the process of converting text into numerical tokens that the model can understand), batching, checkpointing, and integration with libraries such as [`wandb`](https://wandb.ai/site/) (Weights & Biases) for experiment tracking (more on this in the next section).
+Now that we know what dataset and model to use, let us now look talk about the actual training.
+
+Everything will actually be handled by the [`SFTTrainer`](https://huggingface.co/docs/trl/en/sft_trainer) from the [`trl`](https://huggingface.co/docs/trl/en/index) library (short for Transformers Reinforcement Learning). This class provides a high-level interface for SFT and takes care of essentially all key steps of training: [tokenization](https://en.wikipedia.org/wiki/Large_language_model#Tokenization) (the process of converting text into numerical tokens that the model can understand), batching, checkpointing, and integration with libraries such as Weights & Biases's [`wandb`](https://wandb.ai/site/) for experiment tracking (more on this in the next section).
 
 We already provide the code that sets up and runs the `SFTTrainer` in the [`main.py`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/main.py) script. It expects a configuration file (for example, [`sft.yaml`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/gretelai/synthetic_text_to_sql/sft.yaml)) provided as an argument, which defines all aspects of the fine-tuning setup, including the dataset, model, and optimization parameters. This helps keep all the fine-tuning options in one place, making it easy to adjust settings without modifying the code, as we will see throughout this section and the next two use cases.
 
 The configuration file is organized into three main sections:
 
 - [`ExtraConfig`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/gretelai/synthetic_text_to_sql/sft.yaml#L1): global options such as dataset name, paths, subsets, and data formatting, used by [`main.py`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/main.py)'s custom logic.
-- [`ModelConfig`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/gretelai/synthetic_text_to_sql/sft.yaml#L13): model loading options and parameter-efficient fine-tuning (PEFT) settings (which we will cover in [Use Case 2](/usecase2)).
+- [`ModelConfig`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/gretelai/synthetic_text_to_sql/sft.yaml#L13): model loading options and parameter-efficient fine-tuning (PEFT) settings (which we will cover in [Use Case 2](usecase2.md)).
 - [`SFTConfig`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/gretelai/synthetic_text_to_sql/sft.yaml#L22): fine-tuning parameters for the [`SFTTrainer`](https://huggingface.co/docs/trl/en/sft_trainer), such as batch size, learning rate, number of epochs, logging frequency, and checkpointing strategy.
 
-Take a moment to browse through the [`configs/gretelai/synthetic_text_to_sql/sft.yaml`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/gretelai/synthetic_text_to_sql/sft.yaml) file to see the various options available.
+!!! tip
+
+    Take a moment to browse through the [`configs/gretelai/synthetic_text_to_sql/sft.yaml`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/gretelai/synthetic_text_to_sql/sft.yaml) file to see the various options available.
 
 ### Fine-tune
 
 We can now start the fine-tuning process.
 
-To scale efficiently from a single GPU to multiple GPUs (as we will once we start optimising this use case), we rely on the [Hugging Face](https://huggingface.co) [`accelerate`](https://huggingface.co/docs/accelerate/en/index) library. It automatically handles the distribution of training across devices, manages communication between them, and ensures that all model updates stay in sync.
+To scale efficiently from a single GPU to multiple GPUs (as we will once we start optimising this use case), we rely on the [`accelerate`](https://huggingface.co/docs/accelerate/en/index) library. It automatically handles the distribution of training across devices, manages communication between them, and ensures that all model updates stay in sync.
 
-It needs a configuration file that describes the device setup and the distribution strategy. For now, we will keep it simple and use a single GPU, as defined in the [`configs/accelerate_single.yaml`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/accelerate_single.yaml) file, but we will see how to scale to multiple GPUs very soon. Feel free to check the contents of this file to get an idea of how the setup is defined.
+It needs a configuration file that describes the device setup and the distribution strategy. For now, we will keep it simple and use a single GPU, as defined in the [`configs/accelerate_single.yaml`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/accelerate_single.yaml) file, but we will see how to scale to multiple GPUs very soon.
+
+!!! tip
+
+    Feel free to check the contents of this file to get an idea of how the setup is defined.
 
 We then pass it our training script [`main.py`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/main.py) along with its configuration file [`configs/gretelai/synthetic_text_to_sql/sft.yaml`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/gretelai/synthetic_text_to_sql/sft.yaml), and `accelerate` takes care of applying our requested distribution strategy to our training script.
 
@@ -166,7 +183,7 @@ You can now run this command to see how the fine-tuning process starts. You shou
     
 ### Monitor
 
-Since the [`SFTTrainer`](https://huggingface.co/docs/trl/en/sft_trainer) is sharing its progress with [Weights & Biases](https://wandb.ai/site/) (wand), you can monitor various metrics directly on the [`online dashboard`](https://wandb.ai/site/), where your run will appear with detailed metrics, logs, and charts similar to the example below:
+Since the [`SFTTrainer`](https://huggingface.co/docs/trl/en/sft_trainer) is sharing its progress with Weights & Biases (wand), you can monitor various metrics directly on the [`online dashboard`](https://wandb.ai/site/), where your run will appear with detailed metrics, logs, and charts similar to the example below:
 
 ![Fine-tune](./images/use_case_1/wandb_light.png#only-light)
 ![Fine-tune](./images/use_case_1/wandb_dark.png#only-dark)
@@ -208,7 +225,7 @@ With this adjustment, the **fine-tuning time should drop to around 45 to 50 minu
 
 ### Scaling to multiple GPUs
 
-While the combination of [`liger-kernel`](https://github.com/linkedin/Liger-Kernel/)s and larger batch sizes provided a significant speedup, we can go further by tackling a more fundamental limitation: we are currently using only a single GPU.
+While the combination of [`liger-kernel`](https://github.com/linkedin/Liger-Kernel/) and larger batch sizes provided a significant speedup, we can go further by tackling a more fundamental limitation: we are currently using only a single GPU.
 
 !!! warning
 
@@ -264,7 +281,7 @@ In our case, we will not interact with the API directly. Instead, we will connec
 
 ### Interact
 
-In order to fully complete the loop from training to deployment, we created a very basic chat-based UI interface via [Hugging Face](https://huggingface.co)'s [`gradio`](https://www.gradio.app), a Python library that allows simple creation of web-based interfaces for machine learning models.
+In order to fully complete the loop from training to deployment, we created a very basic chat-based UI interface via [`gradio`](https://www.gradio.app), a Python library that allows simple creation of web-based interfaces for machine learning models.
 
 We included the code for this interface in the same `main.py` file as the fine-tuning code. In order to use that script for interaction instead of training, you can simply change the `mode` parameter in the [`ExtraConfig`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/gretelai/synthetic_text_to_sql/sft_liger.yaml#L1) section of the [`configs/gretelai/synthetic_text_to_sql/sft_liger.yaml`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/gretelai/synthetic_text_to_sql/sft_liger.yaml) configuration file from `train` to `interact`.
 
