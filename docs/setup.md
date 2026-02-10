@@ -209,7 +209,7 @@ uv run hf auth login
 
 :simple-weightsandbiases: [Weights & Biases](https://wandb.ai) (W&B) is a popular tool for tracking machine learning experiments and visualizing training progress in real time, which is what we will use it for in this workshop.
 
-If you don't have one already, create a [Weights & Biases](https://wandb.ai) account. Then go to `Profile` &#8594; `API keys`, and copy it.
+If you don't have one already, create a [Weights & Biases](https://wandb.ai) account. Then go to `Profile` (top right corner) &#8594; `User Settings` &#8594; `API keys` &#8594; `New key` &#8594; `Create API key` and copy it.
 
 Then run the following command, which will prompt you for your token to complete the login.
 
