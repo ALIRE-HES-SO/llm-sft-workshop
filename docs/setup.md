@@ -10,13 +10,13 @@ The following requirements are necessary prior to following this workshop:
 
 * The :material-microsoft-visual-studio-code: **[VS Code Insiders](https://code.visualstudio.com/insiders/)** editor. It provides _improved remote tunneling support_, making it easier to access `localhost` services from a remote instance.However, you are welcome to use any IDE you prefer.
 * An :simple-exoscale: **[Exoscale account](https://www.exoscale.com/)** with access to GPU cloud instances. If applicable, use the provided voucher by the organizers of this workshop.
-* Personal :simple-github: **[GitHub](https://github.com)**, :simple-huggingface: **[HuggingFace](https://huggingface.co)** and :simple-weightsandbiases: **[Weights & Biases](https://wandb.ai/)** accounts.
+* Personal :simple-github: **[GitHub](https://github.com)**, :simple-huggingface: **[Hugging Face](https://huggingface.co)** and :simple-weightsandbiases: **[Weights & Biases](https://wandb.ai/)** accounts.
 
 ## Introduction
 
 Because [fine-tuning](https://en.wikipedia.org/wiki/Fine-tuning_(deep_learning)) requires powerful parallel compute power, we will start by setting up a GPU cloud instance on :simple-exoscale: [Exoscale](https://www.exoscale.com/), and configure an editor to access it remotely.
 
-We will also need to install required libraries, and authenticate to external services to access models, datasets and tools (:simple-huggingface: [HuggingFace](https://huggingface.co)) and to monitor training logs visually (:simple-weightsandbiases: [Weights & Biases](https://wandb.ai/)).
+We will also need to install required libraries, and authenticate to external services to access models, datasets and tools (:simple-huggingface: [Hugging Face](https://huggingface.co)) and to monitor training logs visually (:simple-weightsandbiases: [Weights & Biases](https://wandb.ai/)).
 
 We will introduce these services in more detail below.
 
@@ -121,7 +121,7 @@ We will:
 - [ ] Install the GitHub CLI to clone the repository
 - [ ] Install system libraries
 - [ ] Install the python libraries with uv
-- [ ] Authenticate to HuggingFace
+- [ ] Authenticate to Hugging Face
 - [ ] Authenticate to Weights & Biases
 
 Take a deep breath; here we go.
@@ -187,11 +187,11 @@ Then synchronize all project dependencies using the [uv](https://docs.astral.sh/
 uv sync
 ```
 
-#### Authenticate on HuggingFace
+#### Authenticate on Hugging Face
 
-:simple-huggingface: [HuggingFace](https://huggingface.co) is the go-to platform for hosting and sharing machine learning models, datasets, and tools. We will use it to download pre-trained models to fine-tune, as well as datasets to train them on.
+:simple-huggingface: [Hugging Face](https://huggingface.co) is the go-to platform for hosting and sharing machine learning models, datasets, and tools. We will use it to download pre-trained models to fine-tune, as well as datasets to train them on.
 
-If you don't have one already, create a [HuggingFace](https://huggingface.co) account. Then go to `Profile` &#8594; `Access Tokens`, create a new token with `READ` permissions and copy it.
+If you don't have one already, create a [Hugging Face](https://huggingface.co/join) account. Then go to `Profile` &#8594; `Access Tokens`, create a new token with `READ` permissions and copy it.
 
 Then run the following command, which will prompt you for your token to complete the login.
 
@@ -225,6 +225,6 @@ Your environment is now ready to start. Specifically, we:
 
 - [x] set up a [powerful GPU instance](#set-up-a-gpu-cloud-instance-with-exoscale) on the cloud, with ways to [interact remotely](#connect-to-the-running-instance) with it.
 - [x] cloned the workshop's [starter code](#clone-the-repository-with-github-cli) onto the instance, and installed [all necessary dependencies](#install-system-libraries).
-- [x] Created and authenticated accounts for the external services we will use: [HuggingFace](#authenticate-on-huggingface) and [Weights & Biases](#authenticate-on-weights-biases).
+- [x] Created and authenticated accounts for the external services we will use: [Hugging Face](#authenticate-on-huggingface) and [Weights & Biases](#authenticate-on-weights-biases).
 
 All is ready to start fine-tuning, which we will do in the next section in a first basic use case.

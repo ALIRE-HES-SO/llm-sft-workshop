@@ -305,7 +305,7 @@ This use case for a **natural-language-to-SQL** task walked through the complete
 
 Starting from raw data, we:
 
-- [x] loaded a dataset from HuggingFace and formatted it into chat-style [prompts using templates](#input-output),
+- [x] loaded a dataset from Hugging Face and formatted it into chat-style [prompts using templates](#input-output),
 - [x] selected a small [model](#model) suited for local and browser deployment,
 - [x] [fine-tuned](#fine-tune) it using [`trl`'s `SFTTrainer`](#training-with-trls-sfttrainer), orchestrated by [`accelerate`](#fine-tune),
 - [x] optimized training with [`liger-kernel`](#optimize-liger-kernel) for memory savings and larger batch sizes, then [scaled to multiple GPUs](#scaling-to-multiple-gpus),
