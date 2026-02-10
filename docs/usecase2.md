@@ -15,6 +15,14 @@ The [Swiss Landmark Decisions Summarization (SLDS)](https://arxiv.org/abs/2410.1
  dataset ([`ipst/slds`](https://huggingface.co/datasets/ipst/slds)
 ) makes this possible. By the end of this section, you will see how a model trained on SLDS can take a lengthy court decision in one language and generate a concise summary in another.
 
+!!! abstract "What you will learn"
+
+    This second use case **builds on the pipeline from [Use Case 1](usecase1.md)** but raises the stakes: the model[^1] is now roughly 15x larger and no longer fits in GPU memory for full fine-tuning. This motivates the introduction of **parameter-efficient fine-tuning (PEFT)** with LoRA, 4-bit quantization, and FlashAttention 2.
+
+    The task also changes — from SQL generation to cross-lingual summarization — yet the overall pipeline structure (dataset → format → train → deploy) stays the same, so you can see how the workflow generalizes.
+
+    [^1]: The model is `gemma-3-4b-it` with 4 billion parameters
+
 ### Input & Output
 
 As mentioned above, we'll be using the [`ipst/slds`](https://huggingface.co/datasets/ipst/slds)
@@ -177,7 +185,7 @@ uv run merge.py --config configs/ipst/slds/sft_liger_peft.yaml
 
 After the [`peft_output_model_path`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/ipst/slds/sft_liger_peft.yaml#L17) script finishes, the directory defined in [`peft_output_model_path`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/ipst/slds/sft_liger_peft.yaml#L17) will contain a fully merged and ready-to-use model that no longer depends on any external adapters.
 
-### What have we achieved?
+## What have we achieved?
 
 This use case pushed the boundaries of what we saw in Use Case 1. We tackled a **cross-lingual summarization** task — generating German headnotes from French court decisions.
 

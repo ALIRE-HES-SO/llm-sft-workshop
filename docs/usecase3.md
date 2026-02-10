@@ -9,10 +9,11 @@ icon: lucide/briefcase
 
 Imagine a medical education assistant that helps learners address complex clinical questions by analyzing scenarios, identifying key diagnostic elements, and linking them to relevant physiological or pathological mechanisms. In this use case, we leverage the [`MedQA-CoT`](https://huggingface.co/datasets/dmis-lab/meerkat-instructions/viewer/MedQA-CoT) subset of the [`dmis-lab/meerkat-instructions`](https://huggingface.co/datasets/dmis-lab/meerkat-instructions) dataset, which consists of question–answer pairs from medical board-style exams, where each item presents a clinical vignette and multiple possible answers. The `CoT` ([Chain of Thought](https://arxiv.org/abs/2201.11903)) component of the dataset provides detailed, step-by-step explanations that illustrate how each conclusion is reached. The model supports users by structuring information, emphasizing important clues, and presenting these intermediate steps clearly, making it a valuable resource for study and exam preparation.
 
-!!! tip
+!!! abstract "What you will learn"
 
-    If you want to avoid waiting for the fine-tuning process to complete, you can directly use a fine-tuned model we've already prepared for you: [`ALIRE-HESSO/use-case-3`](https://huggingface.co/ALIRE-HESSO/use-case-3). It can be used as a drop-in replacement for the fine-tuned [`google/gemma-3-4b-it`](https://huggingface.co/google/gemma-3-4b-it) model.
+    This third and final use case **reuses the same PEFT setup from [Use Case 2](usecase2.md)** but focuses on the missing piece: **evaluation**. While the previous use cases covered training and deployment, this one introduces how to determine _when_ to stop training (bias–variance trade-off) and how to measure generalization on a held-out test set using the `exact_match` metric.
 
+    The domain shifts to medical question-answering with chain-of-thought reasoning, demonstrating that the pipeline you have built generalizes across tasks.
 
 ### Evaluate: bias-variance trade-off
 
@@ -21,6 +22,10 @@ At this point, we have covered all essential steps of SFT: [dataset preparation]
 A common question is:
 
 > _"How many epochs should I train my model for, and how do I evaluate its performance?"_
+
+!!! tip
+
+    If you want to avoid waiting for the fine-tuning process to complete, you can directly use a fine-tuned model we've already prepared for you: [`ALIRE-HESSO/use-case-3`](https://huggingface.co/ALIRE-HESSO/use-case-3). It can be used as a drop-in replacement for the fine-tuned [`google/gemma-3-4b-it`](https://huggingface.co/google/gemma-3-4b-it) model.
 
 To explore this, we used the `Large` instance (4 GPUs) and fine-tuned for
 multiple epochs. In the [`configs/dmis-lab/meerkat-instructions/sft_liger_peft.yaml`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/dmis-lab/meerkat-instructions/sft_liger_peft.yaml) configuration, we first increased the number of epochs under the [`SFTConfig`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/dmis-lab/meerkat-instructions/sft_liger_peft.yaml#L39) section:
@@ -98,7 +103,7 @@ After the evaluation completes, you can compare the accuracy of the baseline mod
 
 The fine-tuned model achieves an accuracy of `55.79%`, outperforming the baseline by `+4.5%`. <ins>This improvement shows that even a relatively lightweight fine-tuning setup can yield measurable performance gains when adapting an instruction-tuned LLM to a specialized domain</ins>.
 
-### What have we achieved?
+## What have we achieved?
 
 This final use case brought all the pieces together by applying the full SFT pipeline to a **medical question-answering** task. Using the same lightweight PEFT setup as Use Case 2, we trained only a small fraction of the model's weights — yet still achieved a measurable improvement over the baseline.
 
@@ -109,4 +114,4 @@ Specifically, we:
 - [x] ran [test-set evaluation](#evaluate-generalization-on-the-test-set) using `vllm` and the `exact_match` metric to measure real-world generalization,
 - [x] demonstrated a measurable improvement (`+4.5%`) over the baseline, showing that lightweight fine-tuning yields real gains in specialized domains.
 
-With evaluation in place, the SFT workflow is now complete — from data preparation and training to deployment and measurement.
+With evaluation in place, the SFT workflow is now complete, from data preparation and training to deployment and measurement.

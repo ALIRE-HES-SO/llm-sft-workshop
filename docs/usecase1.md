@@ -39,6 +39,19 @@ FROM bus_routes
 WHERE route_name = 'Green Line';
 ```
 
+!!! abstract "What you will learn"
+
+    This first use case introduces the **complete SFT pipeline end-to-end**. You will walk through every stage — dataset preparation, training[^1], optimization[^2], scaling to multiple GPUs[^3], deployment[^4], and interaction through a chat UI[^5].
+
+    The model used[^6] here is intentionally small so that training stays fast and the focus remains on understanding the overall workflow rather than fighting resource constraints.
+
+    [^1]: Training with `SFTTrainer`
+    [^2]: Optimization with `liger-kernel`
+    [^3]: Scaling to multiple GPUs with `accelerate`
+    [^4]: Deployment with `vllm`
+    [^5]: Chat UI uses `gradio`
+    [^6]: The model used is `gemma-3-270M-it` with 260 million parameters
+
 ### Input & Output
 
 [Supervised Fine-Tuning](https://en.wikipedia.org/wiki/Fine-tuning_(deep_learning)) (SFT) is the process of taking a pre-trained language madel, and training further on labeled input–output pairs so it learns to produce the desired response for a given prompt. This technique adapts general-purpose models to specific tasks such as summarization ([Use Case 2: From Decision (French) to Headnote (German)](usecase2.md)), classification ([Use Case 3: From Question to Answer](usecase3.md)), or, in this case, translating natural language into SQL.
@@ -286,7 +299,7 @@ The interface should look something like this:
       ![Interact diagram](./images/use_case_1/mode_interact_light.svg#only-light){ width="600" }
     </figure>
 
-### What have we achieved?
+## What have we achieved?
 
 This use case for a **natural-language-to-SQL** task walked through the complete SFT pipeline. Because the model is small enough to fit entirely in GPU memory, we performed **full fine-tuning** — updating every weight in the model — with only configuration files and a handful of shared scripts.
 
