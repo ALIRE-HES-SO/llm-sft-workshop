@@ -7,7 +7,11 @@ icon: lucide/briefcase
 ![diagram](./images/use_case_3/diagram_light.svg#only-light)
 ![diagram](./images/use_case_3/diagram_dark.svg#only-dark)
 
-Imagine a medical education assistant that helps learners address complex clinical questions by analyzing scenarios, identifying key diagnostic elements, and linking them to relevant physiological or pathological mechanisms. In this use case, we leverage the [`MedQA-CoT`](https://huggingface.co/datasets/dmis-lab/meerkat-instructions/viewer/MedQA-CoT) subset of the [`dmis-lab/meerkat-instructions`](https://huggingface.co/datasets/dmis-lab/meerkat-instructions) dataset, which consists of question–answer pairs from medical board-style exams, where each item presents a clinical vignette and multiple possible answers. The `CoT` ([Chain of Thought](https://arxiv.org/abs/2201.11903)) component of the dataset provides detailed, step-by-step explanations that illustrate how each conclusion is reached. The model supports users by structuring information, emphasizing important clues, and presenting these intermediate steps clearly, making it a valuable resource for study and exam preparation.
+Imagine a medical education assistant that helps learners address complex clinical questions by analyzing scenarios, identifying key diagnostic elements, and linking them to relevant physiological or pathological mechanisms.
+
+In this use case, we leverage the [`MedQA-CoT`](https://huggingface.co/datasets/dmis-lab/meerkat-instructions/viewer/MedQA-CoT) subset of the [`dmis-lab/meerkat-instructions`](https://huggingface.co/datasets/dmis-lab/meerkat-instructions) dataset, which consists of question–answer pairs from medical board-style exams, where each item presents a clinical vignette and multiple possible answers.
+
+The `CoT` ([Chain of Thought](https://arxiv.org/abs/2201.11903)) component of the dataset provides detailed, step-by-step explanations that illustrate how each conclusion is reached. The model supports users by structuring information, emphasizing important clues, and presenting these intermediate steps clearly, making it a valuable resource for study and exam preparation.
 
 !!! abstract "What you will learn"
 
@@ -27,34 +31,24 @@ A common question is:
 
     If you want to avoid waiting for the fine-tuning process to complete, you can directly use a fine-tuned model we've already prepared for you: [`ALIRE-HESSO/use-case-3`](https://huggingface.co/ALIRE-HESSO/use-case-3). It can be used as a drop-in replacement for the fine-tuned [`google/gemma-3-4b-it`](https://huggingface.co/google/gemma-3-4b-it) model.
 
-To explore this, we used the `Large` instance (4 GPUs) and fine-tuned for
-multiple epochs. In the [`configs/dmis-lab/meerkat-instructions/sft_liger_peft.yaml`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/dmis-lab/meerkat-instructions/sft_liger_peft.yaml) configuration, we first increased the number of epochs under the [`SFTConfig`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/dmis-lab/meerkat-instructions/sft_liger_peft.yaml#L39) section:
+To explore this, we used the `Large` instance (4 GPUs) and fine-tuned for multiple epochs. In the [`configs/dmis-lab/meerkat-instructions/sft_liger_peft.yaml`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/dmis-lab/meerkat-instructions/sft_liger_peft.yaml) configuration, we adjusted the following parameters under the [`SFTConfig`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/dmis-lab/meerkat-instructions/sft_liger_peft.yaml#L39) section:
 
 ```yaml
 # num_train_epochs: 1
-num_train_epochs: 10
-```
-
-We also increased the batch size to speed up training:
-
-```yaml
+num_train_epochs: 10              # train for more epochs to observe overfitting
 # per_device_train_batch_size: 4
-per_device_train_batch_size: 16
-```
-
-and enabled evaluation (on the `validation` set) after each epoch by adding:
-
-```yaml
-eval_strategy: epoch
+per_device_train_batch_size: 16   # larger batch size to speed up training
+eval_strategy: epoch              # evaluate on the validation set after each epoch
 per_device_eval_batch_size: 1
 ```
 
-You can monitor the results directly in your [`wandb`](https://wandb.ai/site/) dashboard, by creating a graph as the one below:
+You can monitor the results directly in your [`wandb`](https://wandb.ai/site/) dashboard, by creating a graph like the one below:
 
 ![Bias vs. Variance](./images/use_case_3/bias_variance_light.png#only-light)
 ![Bias vs. Variance](./images/use_case_3/bias_variance_dark.png#only-dark)
 
 In this graph, the solid line represents the training loss, and the dashed line represents the validation loss. This illustrates the classic [bias–variance trade-off](https://en.wikipedia.org/wiki/Bias%E2%80%93variance_tradeoff) observed in most fine-tuning setups:
+
 - The training loss continues to decrease steadily across epochs.
 - The validation loss decreases up to a certain point (around epoch 3 in this example) and then starts increasing again.
 - This turning point indicates the onset of overfitting, meaning the model begins to memorize training data instead of generalizing.
@@ -63,9 +57,19 @@ You should select the checkpoint that corresponds to the lowest validation loss 
 
 ### Evaluate: generalization on the test set
 
-To evaluate the model on the test set, we provided an evaluation mode in the [`main.py`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/main.py) script. This mode leverages [`vllm`](https://docs.vllm.ai/en/stable/index.html) within Python itself, using the same high-performance inference engine that powers model [deployment](usecase1.md#deploy), but integrated directly in the evaluation workflow. It automatically searches for the specific pattern `the answer is (LETTER)` in both the reference and predicted answers using a regular expression, and then computes accuracy with the `exact_match` metric from the Hugging Face [`evaluate`](https://github.com/huggingface/evaluate) library.
+To evaluate the model on the test set, we provided an evaluation mode in the [`main.py`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/main.py) script. This mode leverages [`vllm`](https://docs.vllm.ai/en/stable/index.html) within Python itself, using the same high-performance inference engine that powers model [deployment](usecase1.md#deploy), but integrated directly in the evaluation workflow.
 
-You can enable evaluation by changing the following entry under the [`ExtraConfig`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/dmis-lab/meerkat-instructions/sft_liger_peft.yaml#L1) section of the [`configs/dmis-lab/meerkat-instructions/sft_liger_peft.yaml`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/dmis-lab/meerkat-instructions/sft_liger_peft.yaml) configuration file:
+For each sample, the script generates a prediction and then extracts the chosen answer letter from both the reference and the predicted output using a regular expression. It then computes accuracy with the `exact_match` metric from the Hugging Face [`evaluate`](https://github.com/huggingface/evaluate) library.
+
+??? question "How does the evaluation extract the answer?"
+
+    The script uses the case-insensitive regex `the answer is\s*\(([A-Z])\)` to find the pattern **"the answer is (X)"** in both the reference and the model's prediction. The captured group — a single uppercase letter — is used for comparison.
+
+    If neither the reference nor the prediction matches the pattern, a fallback placeholder `"X"` is used, ensuring that unparseable outputs never accidentally count as correct.
+
+    Finally, the `exact_match` metric simply checks whether the extracted letter from the prediction equals the extracted letter from the reference, and reports the overall accuracy across all test samples.
+
+You can enable evaluation by changing the following entry under the [`ExtraConfig`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/dmis-lab/meerkat-instructions/sft_liger_peft.yaml#L1) section of the [sft_liger_peft.yaml](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/dmis-lab/meerkat-instructions/sft_liger_peft.yaml) configuration file:
 
 ```yaml
 # mode: train
@@ -75,13 +79,13 @@ mode: evaluate
 This mode also requires two additional parameters in the same [`ExtraConfig`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/dmis-lab/meerkat-instructions/sft_liger_peft.yaml#L1) section:
 
 ```yaml
-evaluate_vllm_model_name_or_path: ./trainer_output/google/gemma-3-4b-it-dmis-lab/meerkat-instructions/checkpoint-395-merged
+evaluate_vllm_model_name_or_path: ./trainer_output/google/gemma-3-4b-it-dmis-lab/meerkat-instructions/checkpoint-393-merged
 evaluate_vllm_sampling_params_max_tokens: 8192
 ```
 
 where:
 
-- [`evaluate_vllm_model_name_or_path`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/dmis-lab/meerkat-instructions/sft_liger_peft.yaml#L19) specifies the path to the merged model checkpoint that achieved the best validation performance (in this example, `checkpoint-395-merged`).
+- [`evaluate_vllm_model_name_or_path`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/dmis-lab/meerkat-instructions/sft_liger_peft.yaml#L19) specifies the path to the merged model checkpoint that achieved the best validation performance (in this example, `checkpoint-393-merged`).
 - [`evaluate_vllm_sampling_params_max_tokens`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/dmis-lab/meerkat-instructions/sft_liger_peft.yaml#L20) defines the maximum number of tokens the model can generate during evaluation. This value should reflect the expected verbosity of your model. For example, `CoT` models tend to produce longer outputs and may require higher limits than standard instruction models.
 
 You can now launch the evaluation with:
@@ -94,18 +98,18 @@ uv run main.py --config configs/dmis-lab/meerkat-instructions/sft_liger_peft.yam
 
     Unlike the fine-tuning process, we do not use [`accelerate`](https://huggingface.co/docs/accelerate/en/index) here since the evaluation runs as a single process.
 
-After the evaluation completes, you can compare the accuracy of the baseline model (`google/gemma-3-4b-it`) against the fine-tuned model (`google/gemma-3-4b-it-dmis-lab/meerkat-instructions/checkpoint-393-merged`), as shown below:
+After the evaluation completes, you can compare the accuracy of the baseline model against the fine-tuned model, as shown below:
 
-| Model           | Accuracy (%) |
-|-----------------|--------------|
-| Baseline model  | 51.29        |
-| Fine-tuned model| 55.79        |
+| Model      | Name      | Accuracy (%) |
+|------------|-----------------|--------------|
+| Baseline   |`google/gemma-3-4b-it`| 51.29        |
+| Fine-tuned |`google/gemma-3-4b-it-dmis-lab/meerkat-instructions/checkpoint-393-merged`| 55.79        |
 
-The fine-tuned model achieves an accuracy of `55.79%`, outperforming the baseline by `+4.5%`. <ins>This improvement shows that even a relatively lightweight fine-tuning setup can yield measurable performance gains when adapting an instruction-tuned LLM to a specialized domain</ins>.
+The fine-tuned model achieves an accuracy of `55.79%`, outperforming the baseline by `+4.5%`. This improvement shows that **even a relatively lightweight fine-tuning setup can yield measurable performance gains** when adapting an instruction-tuned LLM to a specialized domain.
 
 ## What have we achieved?
 
-This final use case brought all the pieces together by applying the full SFT pipeline to a **medical question-answering** task. Using the same lightweight PEFT setup as Use Case 2, we trained only a small fraction of the model's weights — yet still achieved a measurable improvement over the baseline.
+This final use case brought all the pieces together by applying the full SFT pipeline to a **medical question-answering** task. Using the same lightweight PEFT setup as [Use Case 2](usecase2.md), we trained only a small fraction of the model's weights, yet still achieved a measurable improvement over the baseline.
 
 Specifically, we:
 
