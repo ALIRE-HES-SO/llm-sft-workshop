@@ -231,6 +231,15 @@ While the combination of [`liger-kernel`](https://github.com/linkedin/Liger-Kern
 
     Up to this point, we have been using the `Small` instance type with a single GPU. For this section, please switch to either a `Medium` or `Large` instance, which provide 2 and 4 GPUs respectively.
 
+    Rather than creating a new instance from scratch, you can **scale your existing instance** directly from the Exoscale console:
+
+    1. **Stop** the current instance.
+    2. Click the **three-dot menu** (top right of the instance page) and select **Scale**.
+    3. Choose the desired instance type (`Medium` or `Large`).
+    4. **Start** the instance again.
+
+    This preserves your SSH keys, security groups, and all environment setup, so you can resume right where you left off.
+
 Recall that distribution over multiple GPUs is handled by the [`accelerate`](https://huggingface.co/docs/accelerate/en/index) library, which is configured through a single YAML file.
 
 Again, notice how minimal the required changes are to scale from a single GPU to multiple GPUs: only the following three lines of [`accelerate`](https://huggingface.co/docs/accelerate/en/index)'s configuration file [`accelerate_single.yaml`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/accelerate_single.yaml) need to change.
