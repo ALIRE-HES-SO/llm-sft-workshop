@@ -9,15 +9,38 @@ icon: lucide/briefcase
 
 Imagine a medical education assistant that helps learners address complex clinical questions by analyzing scenarios, identifying key diagnostic elements, and linking them to relevant physiological or pathological mechanisms.
 
-In this use case, we leverage the [`MedQA-CoT`](https://huggingface.co/datasets/dmis-lab/meerkat-instructions/viewer/MedQA-CoT) subset of the [`dmis-lab/meerkat-instructions`](https://huggingface.co/datasets/dmis-lab/meerkat-instructions) dataset, which consists of question–answer pairs from medical board-style exams, where each item presents a clinical vignette and multiple possible answers.
-
-The `CoT` ([Chain of Thought](https://arxiv.org/abs/2201.11903)) component of the dataset provides detailed, step-by-step explanations that illustrate how each conclusion is reached. The model supports users by structuring information, emphasizing important clues, and presenting these intermediate steps clearly, making it a valuable resource for study and exam preparation.
-
 !!! abstract "What you will learn"
 
     This third and final use case **reuses the same PEFT setup from [Use Case 2](usecase2.md)** but focuses on the missing piece: **evaluation**. While the previous use cases covered training and deployment, this one introduces how to determine _when_ to stop training (bias–variance trade-off) and how to measure generalization on a held-out test set using the `exact_match` metric.
 
     The domain shifts to medical question-answering with chain-of-thought reasoning, demonstrating that the pipeline you have built generalizes across tasks.
+
+## Input & Output
+
+In this use case, we leverage the [`MedQA-CoT`](https://huggingface.co/datasets/dmis-lab/meerkat-instructions/viewer/MedQA-CoT) subset of the [`dmis-lab/meerkat-instructions`](https://huggingface.co/datasets/dmis-lab/meerkat-instructions) dataset, which consists of question–answer pairs from medical board-style exams, where each item presents a clinical vignette and multiple possible answers.
+
+??? example "Dataset sample"
+
+    ```json
+    {
+      "messages": [
+        {
+          "role": "system",
+          ""content": "The following is a multiple-choice question about medical knowledge. Solve this in a step-by-step fashion, starting by summarizing the available information. Output a single option from the given options as the final answer. You are strongly required to follow the specified output format; conclude your response with the phrase \"the answer is ([option_id]) [answer_string]\"."
+        },
+        {
+          "role": "user",
+          "content": "A 35-year-old male presents to his primary care physician with complaints of seasonal allergies. He has been using intranasal vasoconstrictors several times per day for several weeks. What is a likely sequela of the chronic use of topical nasal decongestants? (A) Persistent congestion (B) Permanent loss of smell (C) Persistent nasal crusting (D) Epistaxis"
+        },
+        {
+          "role": "assistant",
+          "content": "A 35-year-old male has been using intranasal vasoconstrictors for several weeks to manage his seasonal allergies. Chronic use of topical nasal decongestants can lead to a condition known as rhinitis medicamentosa. This condition is characterized by rebound congestion due to the downregulation of adrenergic receptors in the nasal mucosa, which occurs with prolonged use of these vasoconstrictors. As a result, the nasal mucosa becomes less responsive to the medication, and more of the drug is required to achieve the same effect, leading to a cycle of worsening congestion.\n\n(A) Persistent congestion is the direct sequela of chronic use of intranasal vasoconstrictors due to the reasons mentioned above.\n\n(B) Permanent loss of smell is less likely to be directly caused by the vasoconstrictors; it can be a complication of chronic rhinosinusitis or other nasal pathology but not typically from the decongestants themselves.\n\n(C) Persistent nasal crusting can occur with irritation of the nasal mucosa, but it is not the most common sequela of chronic decongestant use compared to congestion.\n\n(D) Epistaxis, or nosebleeds, can occur due to the drying effect of the nasal decongestants and the potential damage to the nasal mucosa, but it is not a unique sequela related to the chronic use as persistent congestion is.\n\nTherefore, the answer is (A) Persistent congestion."
+        }
+      ]
+    }
+    ```
+
+The `CoT` ([Chain of Thought](https://arxiv.org/abs/2201.11903)) component of the dataset provides detailed, step-by-step explanations that illustrate how each conclusion is reached. The model supports users by structuring information, emphasizing important clues, and presenting these intermediate steps clearly, making it a valuable resource for study and exam preparation.
 
 ### Evaluate: bias-variance trade-off
 

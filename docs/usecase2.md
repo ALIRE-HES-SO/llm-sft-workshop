@@ -34,6 +34,17 @@ dataset_subset: fr_de
 
 Each entry in the dataset contains four fields: the `decision` (the full text of the court ruling), the `decision_language` (the language in which the ruling is written), the `headnote` (the corresponding summary), and the `headnote_language` (the language of that summary).
 
+??? example "Dataset sample"
+
+    ```json
+    {
+      "decision": "Sachverhalt ab Seite 11 A.- Aux termes de l'art. 7 de la loi genevoise du 20 mai 1950 sur les agents intermédiaires, \"l'agent intermédiaire en fonds de commerce est celui qui fait profession de s'entremettre dans la vente, l'achat, la cession, la remise ou la reprise d'un fonds de commerce, quel que soit le genre de commerce exploité\". Celui qui veut [...]",
+      "decision_language": "fr",
+      "headnote": "Handels und Gewerbefreiheit. Polizeiliche Beschränkungen (Art. 31 BV). Vorausetzungen, unter denen die Bewilligung zur Berufsausübung, hier zur gewerbsmässigen Vermittlung von Geschäftsübertragungen, von der Erlegung einer Kaution abhängig gemacht werden kann (Erw. 2). [...]"
+      "headnote_language": "de"
+    }
+    ```
+
 As in the previous use case, we'll need to create `system`, `user`, and `assistant` prompts. This time, rather than revisting the JSON format, we'll focus on how to use the [`jinja`](https://jinja.palletsprojects.com/en/stable/) library to build templates that align with the entries in our dataset.
 
 Under the [`prompts/ipst/slds`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/prompts/ipst/slds) directory, you can find the following prompts:

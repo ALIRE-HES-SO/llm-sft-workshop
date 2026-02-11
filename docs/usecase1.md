@@ -58,18 +58,21 @@ WHERE route_name = 'Green Line';
 
 To fine-tune an LLM for translating natural language into SQL, we will thus need to train it on a large dataset of example input-output pairs. This is where Hugging Face's [`datasets`](https://huggingface.co/docs/datasets/en/index) library comes in handy to manage all dataset operations, including downloading, loading, and preprocessing.
 
-One such dataset is the [`gretelai/synthetic_text_to_sql`](https://huggingface.co/datasets/gretelai/synthetic_text_to_sql) dataset, which contains synthetic examples mapping natural language questions to SQL queries along with their corresponding database schemas. Each example, such as the one shown below, provides a natural language question (`sql_prompt`), an associated schema and sample data (`sql_context`), and the correct SQL query (`sql`).
+One such dataset is the [`gretelai/synthetic_text_to_sql`](https://huggingface.co/datasets/gretelai/synthetic_text_to_sql) dataset, which contains synthetic examples mapping natural language questions to SQL queries along with their corresponding database schemas. Each example provides a natural language question (`sql_prompt`), an associated schema and sample data (`sql_context`), and the correct SQL query (`sql`).
 
 [^7]: See [Use Case 2](usecase2.md)
 [^8]: See [Use Case 3](usecase3.md)
 
-```json
-{
-  "sql_prompt": "Find the total fare collected from passengers on 'Green Line' buses",
-  "sql_context": "CREATE TABLE bus_routes (route_name VARCHAR(50), fare FLOAT); INSERT INTO bus_routes (route_name, fare) VALUES ('Green Line', 1.50), ('Red Line', 2.00), ('Blue Line', 1.75);",
-  "sql": "SELECT SUM(fare) FROM bus_routes WHERE route_name = 'Green Line';"
-}
-```
+
+??? example "Dataset sample"
+
+    ```json
+    {
+      "sql_prompt": "Find the total fare collected from passengers on 'Green Line' buses",
+      "sql_context": "CREATE TABLE bus_routes (route_name VARCHAR(50), fare FLOAT); INSERT INTO bus_routes (route_name, fare) VALUES ('Green Line', 1.50), ('Red Line', 2.00), ('Blue Line', 1.75);",
+      "sql": "SELECT SUM(fare) FROM bus_routes WHERE route_name = 'Green Line';"
+    }
+    ```
 
 Now because modern instruction-tuned models are trained and inferenced on conversational data, they learn to expect prompts and responses to be structured in a chat-style format.
 This means the dataset records will need to be reformatted accordingly.
