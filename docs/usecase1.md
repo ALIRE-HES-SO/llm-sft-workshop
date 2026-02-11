@@ -177,7 +177,7 @@ You can now run this command to see how the fine-tuning process starts. You shou
 
 
     <figure markdown="span">
-      ![Fine-tune progress](./images/use_case_1/mode_train_light.svg#only-light)
+      ![Fine-tune progress](./images/use_case_1/train_mode_flow.svg)
     </figure>
     
 ### Monitor
@@ -321,7 +321,7 @@ The interface should look something like this:
     The `main.py` script is then serving a Gradio-based web UI that queries that API to obtain results of inference from the model.
 
     <figure markdown="span">
-      ![Interact diagram](./images/use_case_1/mode_interact_light.svg#only-light){ width="600" }
+      ![Interact diagram](./images/use_case_1/interact_mode_flow.svg){ width="600" }
     </figure>
 
 ## What have we achieved?
