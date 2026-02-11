@@ -50,6 +50,7 @@ repo_name = "llm-sft-workshop"
 # Read more: https://zensical.org/docs/setup/navigation/
 nav = [
   { "Welcome" = "index.md" },
+  { "Introduction" = "introduction.md" },
   { "Set up" = "setup.md" },
   { "Use case 1" = "usecase1.md" },
   { "Use case 2" = "usecase2.md" },

@@ -23,11 +23,6 @@ By the end, you will be able to:
 -  evaluate performance of fine-tuned models,
 -  deploy your model, and even interact with it.
 
-!!! note
-
-    This workshop focuses on hands-on practice rather than deep theory of fine-tuning.
-    Basic familiarity with LLMs is necessary, and we will explain any advanced concepts as needed.
-
 **Points of contact and contributors:**
 
 - Andrei Coman ([andrei.coman@hevs.ch](mailto:andrei.coman@hevs.ch))
