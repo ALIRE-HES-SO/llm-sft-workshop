@@ -4,7 +4,7 @@ icon: lucide/wrench
 
 # Set up
 
-The following requirements are necessary prior to following this workshop:
+This section will guide you through setting up all requirements for the workshop, including:
 
 * The :material-microsoft-visual-studio-code: **[VS Code Insiders](https://code.visualstudio.com/insiders/)** editor. It provides _improved remote tunneling support_, making it easier to access `localhost` services from a remote instance.However, you are welcome to use any IDE you prefer.
 * An :simple-exoscale: **[Exoscale account](https://www.exoscale.com/)** with access to GPU cloud instances. If applicable, use the provided voucher by the organizers of this workshop.

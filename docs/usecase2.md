@@ -12,8 +12,8 @@ Imagine you are a legal researcher, policymaker, or student working with thousan
 What if we could automatically generate concise summaries that capture the essence of each decision in any language?
 
 The [Swiss Landmark Decisions Summarization (SLDS)](https://arxiv.org/abs/2410.13456)
- dataset ([`ipst/slds`](https://huggingface.co/datasets/ipst/slds)
-) makes this possible. By the end of this section, you will see how a model trained on SLDS can take a lengthy court decision in one language and generate a concise summary in another.
+ dataset ([`ipst/slds`](https://huggingface.co/datasets/ipst/slds))
+makes this possible. By the end of this section, you will see how a model trained on SLDS can take a lengthy court decision in one language and generate a concise summary in another.
 
 !!! abstract "What you will learn"
 
