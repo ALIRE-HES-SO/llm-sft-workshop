@@ -181,7 +181,7 @@ You can now run this command to see how the fine-tuning process starts. You shou
 
 
     <figure markdown="span">
-      ![Fine-tune progress](./images/use_case_1/mode_train_light.svg#only-light){ width="600" }
+      ![Fine-tune progress](./images/use_case_1/mode_train_light.svg#only-light)
     </figure>
     
 ### Monitor
