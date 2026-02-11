@@ -4,19 +4,19 @@ icon: lucide/wrench
 
 # Set up
 
-This section will guide you through setting up all requirements for the workshop, including:
+Before you start, make sure you have the following requirements in place.
 
-* The :material-microsoft-visual-studio-code: **[VS Code Insiders](https://code.visualstudio.com/insiders/)** editor. It provides _improved remote tunneling support_, making it easier to access `localhost` services from a remote instance.However, you are welcome to use any IDE you prefer.
+* The :material-microsoft-visual-studio-code: **[VS Code Insiders](https://code.visualstudio.com/insiders/)** editor. It provides _improved remote tunneling support_, making it easier to access `localhost` services from a remote instance. However, you are welcome to use any IDE you prefer.
 * An :simple-exoscale: **[Exoscale account](https://www.exoscale.com/)** with access to GPU cloud instances. If applicable, use the provided voucher by the organizers of this workshop.
-* Personal :simple-github: **[GitHub](https://github.com)**, :simple-huggingface: **[Hugging Face](https://huggingface.co)** and :simple-weightsandbiases: **[Weights & Biases](https://wandb.ai/)** accounts.
+* Personal :simple-github: **[GitHub](https://github.com)**, :simple-huggingface: **[Hugging Face](https://huggingface.co)** and :simple-weightsandbiases: **[Weights & Biases](https://wandb.ai/)** accounts. We will introduce these services in more detail below.
 
-!!! abstract "What you will prepare"
+!!! abstract "What you will prepare in this section"
 
-    Because [fine-tuning](https://en.wikipedia.org/wiki/Fine-tuning_(deep_learning)) requires powerful parallel compute power, we will start by setting up a GPU cloud instance on :simple-exoscale: [Exoscale](https://www.exoscale.com/), and configure an editor to access it remotely.
+    Because [fine-tuning](https://en.wikipedia.org/wiki/Fine-tuning_(deep_learning)) requires powerful parallel compute power, we will start by setting up a GPU cloud instance on :simple-exoscale: [Exoscale](https://www.exoscale.com/), and configure the :material-microsoft-visual-studio-code: [VS Code Insiders](https://code.visualstudio.com/insiders/) editor to access it remotely.
 
     We will also need to install required libraries, and authenticate to external services to access models, datasets and tools (:simple-huggingface: [Hugging Face](https://huggingface.co)) and to monitor training logs visually (:simple-weightsandbiases: [Weights & Biases](https://wandb.ai/)).
 
-    We will introduce these services in more detail below.
+    Once this is done, we will have a fully set up environment ready to start fine-tuning in the next section.
 
 ## Set up a GPU cloud instance with Exoscale
 
