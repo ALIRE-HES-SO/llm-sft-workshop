@@ -12,16 +12,14 @@ Imagine you are a legal researcher, policymaker, or student working with thousan
 What if we could automatically generate concise summaries that capture the essence of each decision in any language?
 
 The [Swiss Landmark Decisions Summarization (SLDS)](https://arxiv.org/abs/2410.13456)
- dataset ([`ipst/slds`](https://huggingface.co/datasets/ipst/slds))
+ dataset ([`ipst/slds`](https://huggingface.co/`datasets/ipst/slds))
 makes this possible. By the end of this section, you will see how a model trained on SLDS can take a lengthy court decision in one language and generate a concise summary in another.
 
 !!! abstract "What you will learn"
 
-    This second use case **builds on the pipeline from [Use Case 1](usecase1.md)** but raises the stakes: the model[^1] is now roughly 15x larger and no longer fits in GPU memory for full fine-tuning. This motivates the introduction of **parameter-efficient fine-tuning (PEFT)** with LoRA, 4-bit quantization, and FlashAttention 2.
+    This second use case **builds on the pipeline from [Use Case 1](usecase1.md)** but raises the stakes: the model is now roughly 15x larger and no longer fits in GPU memory for full fine-tuning. This motivates the introduction of **parameter-efficient fine-tuning (PEFT)** with LoRA, 4-bit quantization, and FlashAttention 2.
 
     The task also changes — from SQL generation to cross-lingual summarization — yet the overall pipeline structure (dataset → format → train → deploy) stays the same, so you can see how the workflow generalizes.
-
-    [^1]: The model is `gemma-3-4b-it` with 4 billion parameters
 
 ### Input & Output
 
@@ -87,17 +85,23 @@ Leading decision:
 {{ headnote }}
 ```
 
-The mapping from the raw data to the _conversational prompt–completion_ format is the same as in the previous use case. The main idea here is that [`jinja`](https://jinja.palletsprojects.com/en/stable/) templates are very flexible. <ins>You do not need to change your code for each dataset, since all dataset-specific details are handled within the templates themselves.</ins>
+The mapping from the raw data to the _conversational prompt–completion_ format is the same as in the previous use case. The main idea here is that [`jinja`](https://jinja.palletsprojects.com/en/stable/) templates are very flexible. __You do not need to change your code for each dataset, since all dataset-specific details are handled within the templates themselves.__
 
 ### Model
 
-In [Use Case 1: From Natural Language to SQL Queries](usecase1.md), we used the lightweight [`google/gemma-3-270M-it`](google/gemma-3-270m-it) model to illustrate the fine-tuning and deployment workflow. For this second use case, we will upgrade to a more capable model, i.e., [`google/gemma-3-4b-it`](https://huggingface.co/google/gemma-3-4b-it).
+In [Use Case 1: From Natural Language to SQL Queries](usecase1.md), we used the lightweight [`google/gemma-3-270M-it`](google/gemma-3-270m-it) model to illustrate the fine-tuning and deployment workflow. For this second use case, we will upgrade to a more capable model, i.e., [`google/gemma-3-4b-it`](https://huggingface.co/google/gemma-3-4b-it) with with 4 billion parameters.
 
-!!! warning
+!!! warning "Gated model access"
 
-    As in [Use Case 1: From Natural Language to SQL Queries](usecase1.md), this is a gated model, which means you must have approved access on Hugging Face before you can download or use it. You will need to review and agree to Google's usage license on the model's page: [`google/gemma-3-4b-it`](https://huggingface.co/google/gemma-3-4b-it).
+    As in [Use Case 1](usecase1.md), this is a _gated_ model, which means you will require access approval before use.
 
-Although [`google/gemma-3-4b-it`](https://huggingface.co/google/gemma-3-4b-it) supports both image and text inputs (and outputs text), we will only use its text-to-text capability for this workshop. To enable this behavior, update the model class under the [`ExtraConfig`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/ipst/slds/sft.yaml#L9) section of the [`configs/ipst/slds/sft.yaml`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/ipst/slds/sft.yaml) configuration file:
+    * Visit its Hugging Face page at [`google/gemma-3-4b-it`](https://huggingface.co/google/gemma-3-4b-it).
+    * Review and agree to Google's usage license.
+    * Verify the page shows _"You have been granted access to this model"_.
+
+    Once approved, you can proceed.
+
+Although [`google/gemma-3-4b-it`](https://huggingface.co/google/gemma-3-4b-it) supports both image and text inputs (and outputs text), we will only use its text-to-text capability for this workshop. To enable this behavior, update the model class under the `ExtraConfig` section of `configs/ipst/slds/sft.yaml`:
 
 ```yaml
 # model_class: AutoModelForCausalLM
@@ -110,11 +114,11 @@ model_class: AutoModelForImageTextToText
 
     If you want to avoid waiting for the fine-tuning process to complete, you can directly use a fine-tuned model we've already prepared for you: [`ALIRE-HESSO/use-case-2`](https://huggingface.co/ALIRE-HESSO/use-case-2). It can be used as a drop-in replacement for the fine-tuned [`google/gemma-3-4b-it`](https://huggingface.co/google/gemma-3-4b-it) model.
 
-If we now try to fine-tune the [`google/gemma-3-4b-it`](https://huggingface.co/google/gemma-3-4b-it) model (using the same approach as in [Use Case 1: From Natural Language to SQL Queries](usecase1.md)) with the [`configs/ipst/slds/sft.yaml`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/ipst/slds/sft.yaml) configuation, <ins>it will not work</ins>. The model is simply too large for the available GPU memory. During fine-tuning, the GPU must store the model weights, gradients, optimizer states, and temporary activations. Together, these require more memory than the GPU can provide.
+If we now try to fine-tune [`google/gemma-3-4b-it`](https://huggingface.co/google/gemma-3-4b-it) using the same approach as in [Use Case 1](usecase1.md) with the [`configs/ipst/slds/sft.yaml`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/ipst/slds/sft.yaml) configuation, **it will not work**. The model is simply too large for the available GPU memory. During fine-tuning, the GPU must store the model weights, gradients, optimizer states, and temporary activations.
 
-Even when using the optimization trick from [Use Case 1: From Natural Language to SQL Queries](usecase1.md) with the [`configs/ipst/slds/sft_liger.yaml`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/ipst/slds/sft_liger.yaml) configuration, the model still does not fit in memory. Setting [`per_device_train_batch_size: 1`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/ipst/slds/sft_liger.yaml#L44) might appear to help, but this will not work either.
+Even with the Liger optimization ([`configs/ipst/slds/sft_liger.yaml`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/ipst/slds/sft_liger.yaml)) and `per_device_train_batch_size: 1` setting, the model still does not fit in memory.
 
-To overcome this limitation, we need a different fine-tuning strategy that reduces memory usage.
+We need a different fine-tuning strategy that reduces memory usage.
 
 ### Optimize: `peft`
 
@@ -136,7 +140,7 @@ lora_target_modules: all-linear
 
 These settings activate LoRA adapters on all linear layers ([`lora_target_modules: all-linear`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/ipst/slds/sft_liger_peft.yaml#L34)) and quantize the base model to 4-bit precision ([`load_in_4bit: true`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/ipst/slds/sft_liger_peft.yaml#L32)), which greatly reduces memory usage. For more details on how to choose the rank ([`lora_r`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/ipst/slds/sft_liger_peft.yaml#L29)) and scaling factor alpha ([`lora_alpha`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/ipst/slds/sft_liger_peft.yaml#L30)), the [LoRA without Regret](https://thinkingmachines.ai/blog/lora/) blog by [Thinking Machines](https://thinkingmachines.ai) is an excellent resource.
 
-The second change is also in the [`ModelConfig`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/ipst/slds/sft_liger_peft.yaml#L19) section:
+The second change is also in the `ModelConfig` section:
 
 ```yaml
 attn_implementation: flash_attention_2
@@ -152,23 +156,16 @@ optim: adamw_torch_4bit
 
 This specifies a memory-efficient optimizer that is compatible with 4-bit fine-tuning.
 
-Still in the [`SFTConfig`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/ipst/slds/sft_liger_peft.yaml#L36) section, we also need to increase the learning rate to help the smaller number of trainable parameters converge. Typically, this means increasing it by one order of magnitude:
+Still in the `SFTConfig` section, we also adjust the learning rate and batch size. With fewer trainable parameters, a higher learning rate (typically one order of magnitude) helps convergence; and since LoRA reduces memory usage, we can afford a larger batch size:
 
 ```yaml
-# learning_rate: 2e-5
-learning_rate: 2e-4
-```
-
-Also in the [`SFTConfig`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/ipst/slds/sft_liger_peft.yaml#L36) section, since LoRA reduces memory usage, we can increase the batch size compared to before:
-
-```yaml
-# per_device_train_batch_size: 1
-per_device_train_batch_size: 4
+learning_rate: 2e-4              # increased from 2e-5 — helps fewer trainable params converge
+per_device_train_batch_size: 4   # increased from 1 — LoRA frees enough memory
 ```
 
 !!! warning
 
-    One could be tempted to reduce the [`max_length`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/ipst/slds/sft_liger_peft.yaml#L52) parameter in the [`SFTConfig`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/ipst/slds/sft_liger_peft.yaml#L36) section from `max_length: 8192` to a smaller value such as `max_length: 2048` to save memory, since the sequence length defines how many tokens per sample the model can process at once. However, reducing it would prevent the model from processing entire `system+user+assistant` sequences, meaning <ins>it would not fully capture</ins> the structure and meaning required for generating accurate headnotes.
+    One could be tempted to reduce the `max_length` parameter in the `SFTConfig` section from `max_length: 8192` to a smaller value such as `max_length: 2048` to save memory, since the sequence length defines how many tokens per sample the model can process at once. However, reducing it would prevent the model from processing entire `system+user+assistant` sequences, meaning **it would not fully capture** the structure and meaning required for generating accurate headnotes.
 
 ### Merge
 
@@ -194,7 +191,7 @@ Once these entries are in place, you can launch the merge process with the follo
 uv run merge.py --config configs/ipst/slds/sft_liger_peft.yaml
 ```
 
-After the [`peft_output_model_path`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/ipst/slds/sft_liger_peft.yaml#L17) script finishes, the directory defined in [`peft_output_model_path`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/ipst/slds/sft_liger_peft.yaml#L17) will contain a fully merged and ready-to-use model that no longer depends on any external adapters.
+After the merge script finishes, the directory defined in `peft_output_model_path` will contain a fully merged and ready-to-use model that no longer depends on any external adapters.
 
 ## What have we achieved?
 
