@@ -137,7 +137,7 @@ Once the job starts, your terminal should display output similar to:
 
 
     <figure markdown="span">
-      ![Fine-tune progress](./images/use_case_1/mode_train_light.svg#only-light){ width="600" }
+      ![Fine-tune progress](./images/use_case_1/mode_train_light.svg#only-light)
     </figure>
     
 ### Monitor
