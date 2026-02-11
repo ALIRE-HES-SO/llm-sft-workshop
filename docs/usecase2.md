@@ -17,7 +17,7 @@ makes this possible. By the end of this section, you will see how a model traine
 
 !!! abstract "What you will learn"
 
-    This second use case **builds on the pipeline from [Use Case 1](usecase1.md)** but raises the stakes: the model is now roughly 15x larger and no longer fits in GPU memory for full fine-tuning. This motivates the introduction of **parameter-efficient fine-tuning (PEFT)** with LoRA, 4-bit quantization, and FlashAttention 2.
+    This second use case **builds on the pipeline from [Use Case 1](usecase1.md)** but raises the stakes: the model used (`gemma-3-4b-it`) is now roughly 15x larger and no longer fits in GPU memory for full fine-tuning. This motivates the introduction of **parameter-efficient fine-tuning (PEFT)** with LoRA, 4-bit quantization, and FlashAttention 2.
 
     The task also changes — from SQL generation to cross-lingual summarization — yet the overall pipeline structure (dataset → format → train → deploy) stays the same, so you can see how the workflow generalizes.
 
