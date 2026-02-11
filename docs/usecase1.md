@@ -7,8 +7,7 @@ icon: lucide/briefcase
 ![diagram](./images/use_case_1/diagram_light.svg#only-light)
 ![diagram](./images/use_case_1/diagram_dark.svg#only-dark)
 
-Imagine you are working with a large database full of tables, each containing dozens of columns and hundreds of rows. To explore and extract insights from this data, you usually need to write SQL queries.
-However, not everyone is comfortable with SQL, and this limits who can directly interact with the data.
+Imagine you are working with a large database full of tables, each containing dozens of columns and hundreds of rows. To explore and extract insights from this data, you usually need to write SQL queries. However, not everyone is comfortable with SQL, and this limits who can directly interact with the data.
 
 What if we could bridge this gap by allowing anyone to ask questions in natural language, and have a model automatically translate those questions into valid SQL queries?
 
@@ -41,27 +40,24 @@ WHERE route_name = 'Green Line';
 
 !!! abstract "What you will learn"
 
-    This first use case introduces the **complete SFT pipeline end-to-end**. You will walk through every stage — dataset preparation, training[^1], optimization[^2], scaling to multiple GPUs[^3], deployment[^4], and interaction through a chat UI[^5].
+    This first use case introduces the **complete SFT pipeline end-to-end**. You will walk through every stage:
 
-    The model used[^6] here is intentionally small so that training stays fast and the focus remains on understanding the overall workflow rather than fighting resource constraints.
+    - Dataset preparation,
+    - Training with `SFTTrainer`,
+    - Optimization with `liger-kernel`,
+    - Scaling to multiple GPUs with `accelerate`,
+    - Deployment with `vllm`, and
+    - Interaction through a chat UI implemented with `gradio`.
 
-    [^1]: Training with `SFTTrainer`
-    [^2]: Optimization with `liger-kernel`
-    [^3]: Scaling to multiple GPUs with `accelerate`
-    [^4]: Deployment with `vllm`
-    [^5]: Chat UI uses `gradio`
-    [^6]: The model used is `gemma-3-270M-it` with 270 million parameters
+    The model used here (`gemma-3-270M-it`) is intentionally small with 270 million parameters, so that training stays fast and the focus remains on understanding the overall workflow rather than fighting resource constraints.
 
 ### Input & Output
 
-[Supervised Fine-Tuning](https://en.wikipedia.org/wiki/Fine-tuning_(deep_learning)) (SFT) is the process of taking a pre-trained language madel, and training further on labeled input–output pairs so it learns to produce the desired response for a given prompt. This technique adapts general-purpose models to specific tasks such as **summarization**[^7], **classification**[^8], or, in this case, **translating** natural language into SQL.
+[Supervised Fine-Tuning](https://en.wikipedia.org/wiki/Fine-tuning_(deep_learning)) (SFT) is the process of taking a pre-trained language madel, and training further on labeled input–output pairs so it learns to produce the desired response for a given prompt. This technique allow adapting general-purpose models to specific tasks. In this workshop, we will tackle **summarization** in [Use Case 2](usecase2.md), **classification** in [Use Case 3](usecase3.md), and in this section, **translating** natural language into SQL.
 
 To fine-tune an LLM for translating natural language into SQL, we will thus need to train it on a large dataset of example input-output pairs. This is where Hugging Face's [`datasets`](https://huggingface.co/docs/datasets/en/index) library comes in handy to manage all dataset operations, including downloading, loading, and preprocessing.
 
 One such dataset is the [`gretelai/synthetic_text_to_sql`](https://huggingface.co/datasets/gretelai/synthetic_text_to_sql) dataset, which contains synthetic examples mapping natural language questions to SQL queries along with their corresponding database schemas. Each example provides a natural language question (`sql_prompt`), an associated schema and sample data (`sql_context`), and the correct SQL query (`sql`).
-
-[^7]: See [Use Case 2](usecase2.md)
-[^8]: See [Use Case 3](usecase3.md)
 
 
 ??? example "Dataset sample"
