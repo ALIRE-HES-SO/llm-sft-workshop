@@ -2,7 +2,8 @@
 icon: lucide/briefcase
 ---
 
-# Use Case 2: From Decision (French) to Headnote (German)
+# PEFT Optimization
+## Use Case: From Decision (French) to Headnote (German)
 
 ![diagram](./images/use_case_2/diagram_light.svg#only-light)
 ![diagram](./images/use_case_2/diagram_dark.svg#only-dark)

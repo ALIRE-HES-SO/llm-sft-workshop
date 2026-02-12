@@ -2,7 +2,8 @@
 icon: lucide/briefcase
 ---
 
-# Use Case 1: From Natural Language to SQL Queries
+# SFT Pipeline
+## Use Case: From Natural Language to SQL Queries
 
 ![diagram](./images/use_case_1/diagram_light.svg#only-light)
 ![diagram](./images/use_case_1/diagram_dark.svg#only-dark)
