@@ -1,5 +1,5 @@
 ---
-icon: lucide/briefcase
+icon: lucide/tally-1
 ---
 
 # SFT Pipeline

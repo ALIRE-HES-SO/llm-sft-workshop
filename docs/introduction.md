@@ -1,5 +1,5 @@
 ---
-icon: lucide/wrench
+icon: lucide/book-open
 ---
 
 # Why fine-tuning LLMs?
