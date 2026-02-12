@@ -21,3 +21,7 @@ Across three practical use cases, [Use Case 1: From Natural Language to SQL Quer
 You now have a scalable, modular, and reproducible SFT pipeline that can be applied to your own projects, whether for research, prototyping, or production deployment.
 
 We hope this workshop has given you both the practical skills and conceptual understanding needed to continue exploring, fine-tuning, and deploying your own LLMs.
+
+*[SFT]: Supervised Fine-Tuning
+*[PEFT]: Parameter-Efficient Fine-Tuning
+*[wandb]: Weights & Biases

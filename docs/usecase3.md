@@ -143,3 +143,7 @@ Specifically, we:
 - [x] demonstrated a measurable improvement (`+4.5%`) over the baseline, showing that lightweight fine-tuning yields real gains in specialized domains.
 
 With evaluation in place, the SFT workflow is now complete, from data preparation and training to deployment and measurement.
+
+*[SFT]: Supervised Fine-Tuning
+*[PEFT]: Parameter-Efficient Fine-Tuning
+*[wandb]: Weights & Biases

@@ -6,7 +6,7 @@ icon: lucide/wrench
 
 Before you start, make sure you have the following requirements in place.
 
-* The :material-microsoft-visual-studio-code: **[VS Code Insiders](https://code.visualstudio.com/insiders/)** editor. It provides _improved remote tunneling support_, making it easier to access `localhost` services from a remote instance. However, you are welcome to use any IDE you prefer.
+* The :material-microsoft-visual-studio-code: **[VS Code Insiders](https://code.visualstudio.com/insiders/)** editor. It provides _improved [remote tunneling](https://code.visualstudio.com/docs/remote/tunnels) support_, making it easier to access `localhost` services from a remote instance. However, you are welcome to use any [IDE](https://en.wikipedia.org/wiki/Integrated_development_environment) you prefer.
 * An :simple-exoscale: **[Exoscale account](https://www.exoscale.com/)** with access to GPU cloud instances. If applicable, use the provided voucher by the organizers of this workshop.
 * Personal :simple-github: **[GitHub](https://github.com)**, :simple-huggingface: **[Hugging Face](https://huggingface.co)** and :simple-weightsandbiases: **[Weights & Biases](https://wandb.ai/)** accounts. We will introduce these services in more detail below.
 
@@ -18,7 +18,7 @@ Before you start, make sure you have the following requirements in place.
 
     Once this is done, we will have a fully set up environment ready to start fine-tuning in the next section.
 
-## Set up a GPU cloud instance with Exoscale
+## Set up a GPU cloud instance with [Exoscale](https://www.exoscale.com/)
 
 In this workshop, we will use `GPUA5000` instances from the `AT-VIE-2` zone. Each instance is equipped with either 1, 2, or 4 [NVIDIA RTX A5000](https://www.nvidia.com/en-us/products/workstations/rtx-a5000/) GPUs (24GB of VRAM) in the `Small`, `Medium`, and `Large` instance types, respectively.
 
@@ -28,15 +28,15 @@ We suggest using instances with at least **100 GB** of disk space.
 
     Make sure to select the `GPUA5000` instances from the `AT-VIE-2` zone!
 
-Create now a `Small` Exoscale instance.
+Create now a `Small` [Exoscale](https://www.exoscale.com/) instance.
 
 !!! note
 
-    To add an Exoscale instance, have a look at the [FAQ: How can I add an Exoscale instance?](./faq)
+    To add an [Exoscale](https://www.exoscale.com/) instance, have a look at the [FAQ: How can I add an [Exoscale](https://www.exoscale.com/) instance?](./faq)
 
 ### Connect to the running instance
 
-Now that your instance is up and running, connect to it using VS Code Insiders.
+Now that your instance is up and running, connect to it using [VS Code Insiders](https://code.visualstudio.com/insiders/).
 
 Open your SSH configuration file with your favorite text editor, such as `nano` or `notepad` from the terminal:
 
@@ -69,7 +69,7 @@ Open your SSH configuration file with your favorite text editor, such as `nano` 
 
     Once the key is created, the `.ssh` directory (and the config file, if you create it) will be available.
 
-Then add the following configuration for your Exoscale instance.
+Then add the following configuration for your [Exoscale](https://www.exoscale.com/) instance.
 
 ```bash
 Host exoscale
@@ -85,7 +85,7 @@ You will now be able to connect to your instance simply by running:
 ssh exoscale
 ```
 
-After verifying that your SSH connection works, you need to install the [`Remote Explorer`](https://marketplace.visualstudio.com/items?itemName=ms-vscode.remote-explorer) extension in VS Code Insiders to connect to your Exoscale instance directly from the editor.
+After verifying that your SSH connection works, you need to install the [`Remote Explorer`](https://marketplace.visualstudio.com/items?itemName=ms-vscode.remote-explorer) extension in [VS Code Insiders](https://code.visualstudio.com/insiders/) to connect to your [Exoscale](https://www.exoscale.com/) instance directly from the editor.
 
 To achieve this:
 
@@ -112,25 +112,25 @@ To achieve this:
 
 ### Libraries installation and setup
 
-Now that we have access to a terminal and the file system of the Exoscale instance through VS Code Insiders, we can start setting it up with all required tools, dependencies, and account logins.
+Now that we have access to a terminal and the file system of the [Exoscale](https://www.exoscale.com/) instance through [VS Code Insiders](https://code.visualstudio.com/insiders/), we can start setting it up with all required tools, dependencies, and account logins.
 
 We will:
 
-- [ ] Install the GitHub CLI to clone the repository
+- [ ] Install the [GitHub CLI](https://cli.github.com/) to clone the repository
 - [ ] Install system libraries
-- [ ] Install the python libraries with uv
-- [ ] Authenticate to Hugging Face
-- [ ] Authenticate to Weights & Biases
+- [ ] Install the python libraries with [uv](https://docs.astral.sh/uv/)
+- [ ] Authenticate to [Hugging Face](https://huggingface.co)
+- [ ] Authenticate to [Weights & Biases](https://wandb.ai)
 
 Take a deep breath; here we go.
 
-#### Clone the repository with GitHub CLI
+#### Clone the repository with [GitHub CLI](https://cli.github.com/)
 
 In order to easily clone the workshop repository, we will use the [GitHub CLI](https://cli.github.com/).
 
 If you don't already have one, create a :simple-github: [GitHub](https://github.com) account.
 
-Install the GitHub CLI on the instance with the following command:
+Install the [GitHub CLI](https://cli.github.com/) on the instance with the following command:
 
 ```bash
 sudo apt install gh
@@ -155,7 +155,7 @@ To save you some time, the repository provides an installation script that will 
 
 !!! warning "This script will <ins>_**reboot your instance**_</ins>!"
 
-    You will have to ssh back into it, and refresh the VS Code Insiders connection once it is running again.
+    You will have to ssh back into it, and refresh the [VS Code Insiders](https://code.visualstudio.com/insiders/) connection once it is running again.
 
 ```bash
 bash ./install.sh
@@ -205,7 +205,7 @@ uv run hf auth login
     ```
     Select: `n` and press `Enter`.
 
-#### Authenticate on Weights & Biases
+#### Authenticate on [Weights & Biases](https://wandb.ai)
 
 :simple-weightsandbiases: [Weights & Biases](https://wandb.ai) (W&B) is a popular tool for tracking machine learning experiments and visualizing training progress in real time, which is what we will use it for in this workshop.
 

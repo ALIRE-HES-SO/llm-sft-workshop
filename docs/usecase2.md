@@ -206,3 +206,7 @@ Thanks to LoRA and 4-bit quantization, only a small fraction of the 4B-parameter
 - [x] [merging](#merge) the LoRA adapters back into the base model for seamless deployment.
 
 The result is a fully self-contained fine-tuned model, ready to deploy without any adapter dependencies.
+
+*[SFT]: Supervised Fine-Tuning
+*[PEFT]: Parameter-Efficient Fine-Tuning
+*[wandb]: Weights & Biases

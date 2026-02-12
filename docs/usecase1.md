@@ -340,4 +340,5 @@ Starting from raw data, we:
 The result is a fine-tuned model that we [deployed](#deploy) using [`vllm`](https://docs.vllm.ai/en/stable/index.html) and [interacted](#interact) with via a chat UI built with [`gradio`](https://www.gradio.app).
 
 *[SFT]: Supervised Fine-Tuning
-*[wand]: Weights & Biases
+*[PEFT]: Parameter-Efficient Fine-Tuning
+*[wandb]: Weights & Biases
