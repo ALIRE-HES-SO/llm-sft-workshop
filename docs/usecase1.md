@@ -44,13 +44,13 @@ WHERE route_name = 'Green Line';
     This first use case introduces the **complete SFT pipeline end-to-end**. You will walk through every stage:
 
     - Dataset preparation,
-    - Training with `SFTTrainer`,
-    - Optimization with `liger-kernel`,
-    - Scaling to multiple GPUs with `accelerate`,
-    - Deployment with `vllm`, and
-    - Interaction through a chat UI implemented with `gradio`.
+    - Training with [`SFTTrainer`](https://huggingface.co/docs/trl/en/sft_trainer),
+    - Optimization with [`liger-kernel`](https://github.com/linkedin/Liger-Kernel/),
+    - Scaling to multiple GPUs with [`accelerate`](https://huggingface.co/docs/accelerate/en/index),
+    - Deployment with [`vllm`](https://docs.vllm.ai/en/stable/index.html), and
+    - Interaction through a chat UI implemented with [`gradio`](https://www.gradio.app).
 
-    The model used here (`gemma-3-270M-it`) is intentionally small with 270 million parameters, so that training stays fast and the focus remains on understanding the overall workflow rather than fighting resource constraints.
+    The model used here ([`google/gemma-3-270M-it`](https://huggingface.co/google/gemma-3-270m-it)) is intentionally small with 270 million parameters, so that training stays fast and the focus remains on understanding the overall workflow rather than fighting resource constraints.
 
 ### Input & Output
 
@@ -150,7 +150,7 @@ It needs a configuration file that describes the device setup and the distributi
 
     Feel free to check the contents of this file to get an idea of how the setup is defined.
 
-We then pass it our training script [`main.py`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/main.py) along with its configuration file [`configs/gretelai/synthetic_text_to_sql/sft.yaml`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/gretelai/synthetic_text_to_sql/sft.yaml), and `accelerate` takes care of applying our requested distribution strategy to our training script.
+We then pass it our training script [`main.py`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/main.py) along with its configuration file [`configs/gretelai/synthetic_text_to_sql/sft.yaml`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/gretelai/synthetic_text_to_sql/sft.yaml), and [`accelerate`](https://huggingface.co/docs/accelerate/en/index) takes care of applying our requested distribution strategy to our training script.
 
 This boils down to the following command:
 
@@ -171,7 +171,7 @@ You can now run this command to see how the fine-tuning process starts. You shou
 
     The fine-tuning process is now running, and you are seeing periodic outputs of its progress.
 
-    When running the command, the `accelerate` library launched the `main.py` script on the specified device(s) (in this case, a single GPU).
+    When running the command, the [`accelerate`](https://huggingface.co/docs/accelerate/en/index) library launched the `main.py` script on the specified device(s) (in this case, a single GPU).
     The script loaded models from Hugging Face, as well as datasets which are transformed by Jinja into formatted prompts using the templates in `prompts/`.
 
     During training, `SFTTrainer` is configured to share its progress with Weights & Biases for web-based visualisation. Once complete, it saves the fine-tuned model to `training_output/`, for future use in inference as we will see.
@@ -190,7 +190,7 @@ Since the [`SFTTrainer`](https://huggingface.co/docs/trl/en/sft_trainer) is shar
 
 You should see how the training loss decreases over time, indicating that the model is learning to generate SQL queries that better match the expected outputs.
 
-### Optimize: `liger-kernel`
+### Optimize: [`liger-kernel`](https://github.com/linkedin/Liger-Kernel/)
 
 As you may have noticed, even with a relatively small model, **fine-tuning a single epoch can take quite a long time, between 100 and 110 minutes**. Can we do better? Absolutely!
 
@@ -260,9 +260,9 @@ The provided [`accelerate_multi.yaml`](https://github.com/ALIRE-HES-SO/llm-sft-w
 
     Make sure to adjust the `num_processes` parameter to match the number of GPUs available on your instance. For example, if you are using a `Medium` instance with 2 GPUs, set `num_processes: 2`.
 
-To launch the fine-tuning process on multiple GPUs, simply swap the single-GPU configuration file with the multi-GPU one in the `accelerate` command. **The fine-tuning time should drop to around 10 to 15 minutes, down from the original 45 to 50 minutes**.
+To launch the fine-tuning process on multiple GPUs, simply swap the single-GPU configuration file with the multi-GPU one in the [`accelerate`](https://huggingface.co/docs/accelerate/en/index) command. **The fine-tuning time should drop to around 10 to 15 minutes, down from the original 45 to 50 minutes**.
 
-??? question "How does `accelerate` distribute the workload?"
+??? question "How does [`accelerate`](https://huggingface.co/docs/accelerate/en/index) distribute the workload?"
 
     The setup in this workshop uses [`DDP`](https://pytorch-cn.com/tutorials/intermediate/ddp_tutorial.html) (Distributed Data Parallel) under the hood for multi-GPU training. [`DDP`](https://pytorch-cn.com/tutorials/intermediate/ddp_tutorial.html) works by creating a full copy of the model on each GPU and splitting every training batch across devices. The [`accelerate`](https://huggingface.co/docs/accelerate/en/index) library also supports more advanced distributed strategies such as [`FSDP`](https://huggingface.co/docs/accelerate/en/usage_guides/fsdp) (Fully Sharded Data Parallel) and [`Deepspeed ZeRO`](https://huggingface.co/docs/accelerate/en/usage_guides/deepspeed), which enable even larger models to be trained efficiently by sharding model parameters, gradients, and optimizer states. These methods are beyond the scope of this workshop, but you are encouraged to explore them later for large-scale fine-tuning.
 
@@ -298,7 +298,7 @@ We included the code for this interface in the same `main.py` file as the fine-t
 mode: interact # previously train
 ```
 
-Making sure that the `vllm` server is running via the command in the [Deploy](#deploy) section (for example in another `tmux` or terminal tab), you can now launch the interface with:
+Making sure that the [`vllm`](https://docs.vllm.ai/en/stable/index.html) server is running via the command in the [Deploy](#deploy) section (for example in another [`tmux`](https://en.wikipedia.org/wiki/Tmux) or terminal tab), you can now launch the interface with:
 
 ```bash
 uv run main.py --config configs/gretelai/synthetic_text_to_sql/sft_liger.yaml
@@ -317,7 +317,7 @@ The interface should look something like this:
 
 ??? question "How is this working?"
     
-    The `vllm` server you started loaded the fine-tuned model from the file system and exposed it via an OpenAI-compatible REST API.
+    The [`vllm`](https://docs.vllm.ai/en/stable/index.html) server you started loaded the fine-tuned model from the file system and exposed it via an OpenAI-compatible REST API.
 
     The `main.py` script is then serving a Gradio-based web UI that queries that API to obtain results of inference from the model.
 
