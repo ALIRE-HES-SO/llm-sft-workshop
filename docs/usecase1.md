@@ -98,9 +98,9 @@ The example shown here uses the _conversational prompt–completion_ format, whi
 
 ??? question "How is this reformatting done here?"
 
-    The [`main.py`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/main.py) script, after loading the [`gretelai/synthetic_text_to_sql`](https://huggingface.co/datasets/gretelai/synthetic_text_to_sql) dataset from [Hugging Face](https://huggingface.co), uses the [`map_dataset_format`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/utils.py#L21) function from [`utils.py`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/utils.py) to map the raw dataset data into the _conversational prompt–completion_ style. It does so using [Jinja](https://jinja.palletsprojects.com/en/3.1.x/) templates located in the [`prompts/gretelai/synthetic_text_to_sql/`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/prompts/gretelai/synthetic_text_to_sql/) folder.
+    The [`main.py`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/main.py) script, after loading the [`gretelai/synthetic_text_to_sql`](https://huggingface.co/datasets/gretelai/synthetic_text_to_sql) dataset from [Hugging Face](https://huggingface.co), uses the [`map_dataset_format`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/utils.py#L40) function from [`utils.py`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/utils.py) to map the raw dataset data into the _conversational prompt–completion_ style. It does so using [Jinja](https://jinja.palletsprojects.com/en/stable/) templates located in the [`prompts/gretelai/synthetic_text_to_sql/`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/prompts/gretelai/synthetic_text_to_sql/) folder.
     
-    Feel free to check the [`map_dataset_format`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/utils.py#L21) function and the corresponding templates to get an idea of how the reformatting is implemented.
+    Feel free to check the [`map_dataset_format`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/utils.py#L21) fun40ion and the corresponding templates to get an idea of how the reformatting is implemented.
 
 ### Model
 
@@ -120,7 +120,7 @@ You will need to have approved access on Hugging Face to use it.
 
     Once approved, you can proceed.
 
-### Training with `trl`'s `SFTTrainer`
+### Training with [`trl`](https://huggingface.co/docs/trl/en/index)'s [`SFTTrainer`](https://huggingface.co/docs/trl/en/sft_trainer)
 
 Now that we know what dataset and model to use, let us now look talk about the actual training.
 
@@ -131,7 +131,7 @@ We already provide the code that sets up and runs the `SFTTrainer` in the [`main
 The configuration file is organized into three main sections:
 
 - [`ExtraConfig`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/gretelai/synthetic_text_to_sql/sft.yaml#L1): global options such as dataset name, paths, subsets, and data formatting, used by [`main.py`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/main.py)'s custom logic.
-- [`ModelConfig`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/gretelai/synthetic_text_to_sql/sft.yaml#L13): model loading options and parameter-efficient fine-tuning (PEFT) settings (which we will cover in [Use Case 2](usecase2.md)).
+- [`ModelConfig`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/gretelai/synthetic_text_to_sql/sft.yaml#L13): model loading options and parameter-efficient fine-tuning (PEFT) settings (which we will cover in [PEFT Optimization](usecase2.md)).
 - [`SFTConfig`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/gretelai/synthetic_text_to_sql/sft.yaml#L22): fine-tuning parameters for the [`SFTTrainer`](https://huggingface.co/docs/trl/en/sft_trainer), such as batch size, learning rate, number of epochs, logging frequency, and checkpointing strategy.
 
 !!! tip
@@ -171,10 +171,10 @@ You can now run this command to see how the fine-tuning process starts. You shou
 
     The fine-tuning process is now running, and you are seeing periodic outputs of its progress.
 
-    When running the command, the [`accelerate`](https://huggingface.co/docs/accelerate/en/index) library launched the `main.py` script on the specified device(s) (in this case, a single GPU).
-    The script loaded models from Hugging Face, as well as datasets which are transformed by Jinja into formatted prompts using the templates in `prompts/`.
+    When running the command, the [`accelerate`](https://huggingface.co/docs/accelerate/en/index) library launched the [`main.py`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/main.py) script on the specified device(s) (in this case, a single GPU).
+    The script loaded models from Hugging Face, as well as datasets which are transformed by Jinja into formatted prompts using the templates in [`prompts/`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/prompts/).
 
-    During training, `SFTTrainer` is configured to share its progress with Weights & Biases for web-based visualisation. Once complete, it saves the fine-tuned model to `training_output/`, for future use in inference as we will see.
+    During training, [`SFTTrainer`](https://huggingface.co/docs/trl/en/sft_trainer) is configured to share its progress with Weights & Biases for web-based visualisation. Once complete, it saves the fine-tuned model to `training_output/`, for future use in inference as we will see.
 
 
     <figure markdown="span">
