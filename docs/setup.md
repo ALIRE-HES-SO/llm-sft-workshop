@@ -32,7 +32,7 @@ Create now a `Small` [Exoscale](https://www.exoscale.com/) instance.
 
 !!! note
 
-    To add an [Exoscale](https://www.exoscale.com/) instance, have a look at the [FAQ: How can I add an [Exoscale](https://www.exoscale.com/) instance?](./faq)
+    To add an [Exoscale](https://www.exoscale.com/) instance, have a look at the [FAQ: How can I add an Exoscale instance?](./faq)
 
 ### Connect to the running instance
 
@@ -90,20 +90,20 @@ After verifying that your SSH connection works, you need to install the [`Remote
 To achieve this:
 
 * Navigate to `Extensions` (sidebar) &#8594; search for `Remote Explorer` &#8594; `install`.
-* Click on `Remote Explorer` (sidedbar) and under `SSH` you should now have `exoscale` listed as an entry.
+* Click on `Remote Explorer` (sidebar) and under `SSH` you should now have `exoscale` listed as an entry.
 * You can then choose either `Connect in Current Window` or `Connect in New Window` using the corresponding icons next to the `exoscale` entry.
 
 ??? tip "Hint: Keeping your session active across disconnections"
 
-    If you want to keep your terminal session active even if your internet connection drops, you can use the `tmux` command.
+    If you want to keep your terminal session active even if your internet connection drops, you can use the [`tmux`](https://en.wikipedia.org/wiki/Tmux) command.
 
-    Running `tmux` creates a persistent terminal session that you can later reconnect to with:
+    Running [`tmux`](https://en.wikipedia.org/wiki/Tmux) creates a persistent terminal session that you can later reconnect to with:
 
     ```bash
     tmux attach -t 0
     ```
 
-    Here, `0` is the default session number, but you can create and manage multiple sessions if needed. `tmux` also allows you to [split the terminal into multiple panes](https://lukaszwrobel.pl/blog/tmux-tutorial-split-terminal-windows-easily/), which is useful for monitoring additional tools such as GPU usage.
+    Here, `0` is the default session number, but you can create and manage multiple sessions if needed. [`tmux`](https://en.wikipedia.org/wiki/Tmux) also allows you to [split the terminal into multiple panes](https://lukaszwrobel.pl/blog/tmux-tutorial-split-terminal-windows-easily/), which is useful for monitoring additional tools such as GPU usage.
 
     For example in the right pane one could run `uv run nvitop` and keep track of the CPU & GPU usage.
 
