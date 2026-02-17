@@ -90,7 +90,7 @@ The mapping from the raw data to the _conversational prompt–completion_ format
 
 ### Model
 
-In [Use Case 1: From Natural Language to SQL Queries](usecase1.md), we used the lightweight [`google/gemma-3-270M-it`](google/gemma-3-270m-it) model to illustrate the fine-tuning and deployment workflow. For this second use case, we will upgrade to a more capable model, i.e., [`google/gemma-3-4b-it`](https://huggingface.co/google/gemma-3-4b-it) with with 4 billion parameters.
+In [Use Case 1: From Natural Language to SQL Queries](usecase1.md), we used the lightweight [`google/gemma-3-270M-it`](google/gemma-3-270m-it) model to illustrate the fine-tuning and deployment workflow. For this second use case, we will upgrade to a more capable model, i.e., [`google/gemma-3-4b-it`](https://huggingface.co/google/gemma-3-4b-it) with 4 billion parameters.
 
 !!! warning "Gated model access"
 
