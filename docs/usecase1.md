@@ -104,9 +104,13 @@ The example shown here uses the _conversational prompt–completion_ format, whi
 
 ### Model
 
-In this use case, we will imagine our end goal is to deploy the fine-tuned model as part of a dashboard that users can run locally on their CPU, or even directly in the browser. We will therefore choose a relatively small model: [`google/gemma-3-270M-it`](https://huggingface.co/google/gemma-3-270m-it). The suffix `-it` indicates that it is _instruction-tuned_, meaning it has already been fine-tuned on chat-style, instruction-following data and can respond naturally to conversational prompts.
+In this use case, we will imagine our end goal is to deploy the fine-tuned model as part of a dashboard that users can run locally on their CPU, or even directly in the browser. We will therefore choose a relatively small model: [`google/gemma-3-270M-it`](https://huggingface.co/google/gemma-3-270m-it).
 
-The model contains approximately 270 million parameters, which makes it lightweight enough for local deployment. Running the model in 16-bit precision <ins>for inference</ins> requires about 2 bytes per parameter, which translates to approximately 0.5–1 GB of (V)RAM, depending on the context length and runtime overhead from the [key–value (KV) cache](https://huggingface.co/blog/not-lain/kv-caching) used by the attention mechanism.
+??? question "What does the -it extension mean?"
+
+    The suffix `-it` indicates that the model is _instruction-tuned_, meaning it has already been fine-tuned on chat-style, instruction-following data and can respond naturally to conversational prompts.
+
+The model contains approximately 270 million parameters, which makes it lightweight enough for local deployment. Running the model in 16-bit precision _for inference_ requires about 2 bytes per parameter, which translates to approximately 0.5–1 GB of (V)RAM, depending on the context length and runtime overhead from the [key–value (KV) cache](https://huggingface.co/blog/not-lain/kv-caching) used by the attention mechanism.
 
 You will need to have approved access on Hugging Face to use it.
 

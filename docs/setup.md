@@ -18,7 +18,7 @@ Before you start, make sure you have the following requirements in place.
 
     Once this is done, we will have a fully set up environment ready to start fine-tuning in the next section.
 
-## Set up a GPU cloud instance with [Exoscale](https://www.exoscale.com/)
+## Set up a GPU cloud instance with Exoscale
 
 In this workshop, we will use `GPUA5000` instances from the `AT-VIE-2` zone. Each instance is equipped with either 1, 2, or 4 [NVIDIA RTX A5000](https://www.nvidia.com/en-us/products/workstations/rtx-a5000/) GPUs (24GB of VRAM) in the `Small`, `Medium`, and `Large` instance types, respectively.
 
@@ -32,7 +32,9 @@ Create now a `Small` [Exoscale](https://www.exoscale.com/) instance.
 
 !!! note
 
-    To add an [Exoscale](https://www.exoscale.com/) instance, have a look at the [FAQ: How can I add an Exoscale instance?](./faq)
+    To add an :simple-exoscale: Exoscale instance, have a look at the [FAQ: How can I add an Exoscale instance?](./faq)
+
+Once done, retrieve the `IPv4` address of the instance from the Exoscale interface.
 
 ### Connect to the running instance
 
@@ -69,7 +71,7 @@ Open your SSH configuration file with your favorite text editor, such as `nano` 
 
     Once the key is created, the `.ssh` directory (and the config file, if you create it) will be available.
 
-Then add the following configuration for your [Exoscale](https://www.exoscale.com/) instance.
+Then add the following configuration for your Exoscale instance, adding its `IPv4` address:
 
 ```bash
 Host exoscale
@@ -85,7 +87,7 @@ You will now be able to connect to your instance simply by running:
 ssh exoscale
 ```
 
-After verifying that your SSH connection works, you need to install the [`Remote Explorer`](https://marketplace.visualstudio.com/items?itemName=ms-vscode.remote-explorer) extension in [VS Code Insiders](https://code.visualstudio.com/insiders/) to connect to your [Exoscale](https://www.exoscale.com/) instance directly from the editor.
+After verifying that your SSH connection works, you need to install the [`Remote Explorer`](https://marketplace.visualstudio.com/items?itemName=ms-vscode.remote-explorer) extension in [VS Code Insiders](https://code.visualstudio.com/insiders/) to connect to your Exoscale instance directly from the editor.
 
 To achieve this:
 
@@ -112,7 +114,7 @@ To achieve this:
 
 ### Libraries installation and setup
 
-Now that we have access to a terminal and the file system of the [Exoscale](https://www.exoscale.com/) instance through [VS Code Insiders](https://code.visualstudio.com/insiders/), we can start setting it up with all required tools, dependencies, and account logins.
+Now that we have access to a terminal and the file system of the Exoscale instance through VS Code Insiders, we can start setting it up with all required tools, dependencies, and account logins.
 
 We will:
 
@@ -153,7 +155,7 @@ cd llm-sft-workshop
 
 To save you some time, the repository provides an installation script that will do all necessary system-level setup on your instance, which you can run with the following command:
 
-!!! warning "This script will <ins>_**reboot your instance**_</ins>!"
+!!! warning "This script will _reboot_ your instance!"
 
     You will have to ssh back into it, and refresh the [VS Code Insiders](https://code.visualstudio.com/insiders/) connection once it is running again.
 

@@ -115,6 +115,7 @@ model_class: AutoModelForImageTextToText
 
     If you want to avoid waiting for the fine-tuning process to complete, you can directly use a fine-tuned model we've already prepared for you: [`ALIRE-HESSO/use-case-2`](https://huggingface.co/ALIRE-HESSO/use-case-2). It can be used as a drop-in replacement for the fine-tuned [`google/gemma-3-4b-it`](https://huggingface.co/google/gemma-3-4b-it) model.
 
+
 If we now try to fine-tune [`google/gemma-3-4b-it`](https://huggingface.co/google/gemma-3-4b-it) using the same approach as in [Use Case 1](usecase1.md) with the [`configs/ipst/slds/sft.yaml`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/ipst/slds/sft.yaml) configuation, **it will not work**. The model is simply too large for the available GPU memory. During fine-tuning, the GPU must store the model weights, gradients, optimizer states, and temporary activations.
 
 Even with the Liger optimization ([`configs/ipst/slds/sft_liger.yaml`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/ipst/slds/sft_liger.yaml)) and `per_device_train_batch_size: 1` setting, the model still does not fit in memory.

@@ -45,7 +45,7 @@ The `CoT` ([Chain of Thought](https://arxiv.org/abs/2201.11903)) component of th
 
 ### Evaluate: bias-variance trade-off
 
-At this point, we have covered all essential steps of SFT: [dataset preparation](usecase1.md#input-output), [optimization](usecase1.md#optimize-liger-kernel), [scaling](usecase1.md#scaling-to-multiple-gpus), and [deployment](usecase1.md#deploy). The only remaining piece is <ins>evaluation</ins>, which helps determine how well the model performs and when to stop training.
+At this point, we have covered all essential steps of SFT: [dataset preparation](usecase1.md#input-output), [optimization](usecase1.md#optimize-liger-kernel), [scaling](usecase1.md#scaling-to-multiple-gpus), and [deployment](usecase1.md#deploy). The only remaining piece is _evaluation_, which helps determine how well the model performs and when to stop training.
 
 A common question is:
 
