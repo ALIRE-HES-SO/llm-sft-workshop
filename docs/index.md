@@ -29,5 +29,6 @@ By the end, you will be able to:
 - Pamela Delgado ([pamela.delgado@heig-vd.ch](mailto:pamela.delgado@heig-vd.ch))
 
 **Contributors:**
+
 - Olivier Lemer ([olivier.lemer@heig-vd.ch](mailto:olivier.lemer@heig-vd.ch))
 - Rémy Marquis ([remy.marquis@heig-vd.ch](mailto:remy.marquis@heig-vd.ch))
