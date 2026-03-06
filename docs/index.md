@@ -23,9 +23,11 @@ By the end, you will be able to:
 -  evaluate performance of fine-tuned models,
 -  deploy your model, and even interact with it.
 
-**Points of contact and contributors:**
+**Points of contact:**
 
 - Andrei Coman ([andrei.coman@hevs.ch](mailto:andrei.coman@hevs.ch))
 - Pamela Delgado ([pamela.delgado@heig-vd.ch](mailto:pamela.delgado@heig-vd.ch))
-- Olivier Lemer
-- Rémy Marquis
+
+**Contributors:**
+- Olivier Lemer ([olivier.lemer@heig-vd.ch](mailto:olivier.lemer@heig-vd.ch))
+- Rémy Marquis ([remy.marquis@heig-vd.ch](mailto:remy.marquis@heig-vd.ch))
