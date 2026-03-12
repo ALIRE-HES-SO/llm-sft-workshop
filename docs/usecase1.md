@@ -181,7 +181,7 @@ You can now run this command to see how the fine-tuning process starts. You shou
     When running the command, the [`accelerate`](https://huggingface.co/docs/accelerate/en/index) library launched the [`main.py`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/main.py) script on the specified device(s) (in this case, a single GPU).
     The script loaded models from [Hugging Face](https://huggingface.co), as well as datasets which are transformed by [Jinja](https://jinja.palletsprojects.com/en/stable/) into formatted prompts using the templates in [`prompts/`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/prompts/).
 
-    During training, [`SFTTrainer`](https://huggingface.co/docs/trl/en/sft_trainer) is configured to share its progress with Weights & Biases for web-based visualisation. Once complete, it saves the fine-tuned model to `training_output/`, for future use in inference as we will see.
+    During training, [`SFTTrainer`](https://huggingface.co/docs/trl/en/sft_trainer) is configured to share its progress with [Weights & Biases](https://wandb.ai/) for web-based visualisation. Once complete, it saves the fine-tuned model to `training_output/` (checkpointing), for future use in inference as we will see.
 
 
     <figure markdown="span">
@@ -190,7 +190,7 @@ You can now run this command to see how the fine-tuning process starts. You shou
     
 ### Monitor
 
-Since the [`SFTTrainer`](https://huggingface.co/docs/trl/en/sft_trainer) is sharing its progress with Weights & Biases (wand), you can monitor various metrics directly on the [`online dashboard`](https://wandb.ai/site/), where your run will appear with detailed metrics, logs, and charts similar to the example below:
+Since the [`SFTTrainer`](https://huggingface.co/docs/trl/en/sft_trainer) is sharing its progress with [Weights & Biases](https://wandb.ai/) (wandb), you can monitor various metrics directly on the [`online dashboard`](https://wandb.ai/site/), where your run will appear with detailed metrics, logs, and charts similar to the example below:
 
 ![Fine-tune](./images/use_case_1/wandb_light.png#only-light)
 ![Fine-tune](./images/use_case_1/wandb_dark.png#only-dark)
