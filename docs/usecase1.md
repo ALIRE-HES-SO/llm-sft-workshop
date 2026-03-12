@@ -341,11 +341,11 @@ This use case for a **natural-language-to-SQL** task walked through the complete
 
 Starting from raw data, we:
 
-- [x] loaded a dataset from [Hugging Face](https://huggingface.co) and formatted it into chat-style [prompts using templates](#input-output),
-- [x] selected a small [model](#model) suited for local and browser deployment,
-- [x] [fine-tuned](#fine-tune) it using [`trl`'s `SFTTrainer`](#training-with-trls-sfttrainer), orchestrated by [`accelerate`](#fine-tune),
-- [x] optimized training with [`liger-kernel`](#optimize-liger-kernel) for memory savings and larger batch sizes, then [scaled to multiple GPUs](#scaling-to-multiple-gpus),
-- [x] all while [monitoring](#monitor) progress on [`wandb`](https://wandb.ai/site/).
+- [x] loaded a dataset from [Hugging Face](https://huggingface.co) and formatted it into chat-style [prompts using templates](#input-output)
+- [x] selected a small [model](#model) suited for local and browser deployment
+- [x] [fine-tuned](#fine-tune) it using [`trl`'s `SFTTrainer`](#training-with-trls-sfttrainer) orchestrated by [`accelerate`](#fine-tune)
+- [x] optimized training with [`liger-kernel`](#optimize-liger-kernel) for memory savings and larger batch sizes then [scaled to multiple GPUs](#scaling-to-multiple-gpus)
+- [x] all while [monitoring](#monitor) progress on [`wandb`](https://wandb.ai/site/)
 
 The result is a fine-tuned model that we [deployed](#deploy) using [`vllm`](https://docs.vllm.ai/en/stable/index.html) and [interacted](#interact) with via a chat UI built with [`gradio`](https://www.gradio.app).
 
