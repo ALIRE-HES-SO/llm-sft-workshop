@@ -203,7 +203,7 @@ As you may have noticed, even with a relatively small model, **fine-tuning a sin
 
 Our initial setup was intentionally minimal, but various optimizations exist to improve performances. We will apply two here, starting with the [`liger-kernel`](https://github.com/linkedin/Liger-Kernel/) library, which states:
 
-> _"Liger Kernel is a collection of Triton kernels designed specifically for [LLM](https://en.wikipedia.org/wiki/Large_language_model) training. It can effectively increase multi-GPU training throughput by 20% and reduces memory usage by 60%."_
+> _"Liger Kernel is a collection of [Triton](https://github.com/triton-lang/triton) kernels designed specifically for [LLM](https://en.wikipedia.org/wiki/Large_language_model) training. It can effectively increase multi-GPU training throughput by 20% and reduces memory usage by 60%."_
 
 No need to understand how they achieve this improvement; what matters is how easy it is to integrate it into our existing setup.
 
@@ -259,9 +259,9 @@ distributed_type: MULTI_GPU # previously NO
 
 The provided [`accelerate_multi.yaml`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/accelerate_multi.yaml) file already includes these changes. Here is what they mean:
 
-- `gpu_ids: all` indicates that all available GPUs should be used for training;
-- `num_processes: 4` specifies that the machine can be assumed to have 4 GPUs;
-- `distributed_type: MULTI_GPU` enables the multi-GPU training strategy.
+- `gpu_ids: all` indicates that all available GPUs should be used for training
+- `num_processes: 4` specifies that the machine can be assumed to have 4 GPUs
+- `distributed_type: MULTI_GPU` enables the multi-GPU training strategy
 
 !!! warning
 
@@ -282,14 +282,17 @@ Once again, deployment is made easy by leveraging the right tools. In this works
 Since [`vllm`](https://docs.vllm.ai/en/stable/index.html) is already installed as part of the project dependencies, deploying the model is as simple as running the following command:
 
 ```bash
-uv run vllm serve ./trainer_output/google/gemma-3-270m-it-gretelai/synthetic_text_to_sql/checkpoint-92/ --served_model_name "local" --port 8080
+uv run vllm serve \
+  ./trainer_output/google/gemma-3-270m-it-gretelai/synthetic_text_to_sql/checkpoint-92/ \
+  --served_model_name "local" \
+  --port 8080
 ```
 
-It takes
+which takes:
 
-- the path to the fine-tuned model checkpoint (in this example, we use `checkpoint-92`, but your checkpoint number may differ depending on your training setup and the number of epochs you trained for),
-- the name under which the model will be served, and
-- the port on which the API will be available.
+- the path to the fine-tuned model checkpoint (in this example, we use `checkpoint-92`, but your checkpoint number may differ depending on your training setup and the number of epochs you trained for)
+- the name under which the model will be served
+- the port on which the API will be available
 
 Once you run this command, you can interact with your model using standard API routes, for example at: [`http://localhost:8080/v1`](http://localhost:8080/v1)
 
