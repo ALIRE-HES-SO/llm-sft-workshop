@@ -56,7 +56,7 @@ WHERE route_name = 'Green Line';
 
 [Supervised Fine-Tuning](https://en.wikipedia.org/wiki/Fine-tuning_(deep_learning)) (SFT) is the process of taking a pre-trained language madel, and training further on labeled input–output pairs so it learns to produce the desired response for a given prompt. This technique allow adapting general-purpose models to specific tasks. In this workshop, we will tackle **summarization** in [PEFT Optimisation](usecase2.md), **classification** in [Evaluation](usecase3.md), and in this section, **translating** natural language into [SQL](https://en.wikipedia.org/wiki/SQL).
 
-To fine-tune an LLM for translating natural language into [SQL](https://en.wikipedia.org/wiki/SQL), we will thus need to train it on a large dataset of example input-output pairs. This is where Hugging Face's [`datasets`](https://huggingface.co/docs/datasets/en/index) library comes in handy to manage all dataset operations, including downloading, loading, and preprocessing.
+To fine-tune an [LLM](https://en.wikipedia.org/wiki/Large_language_model) for translating natural language into [SQL](https://en.wikipedia.org/wiki/SQL), we will thus need to train it on a large dataset of example input-output pairs. This is where Hugging Face's [`datasets`](https://huggingface.co/docs/datasets/en/index) library comes in handy to manage all dataset operations, including downloading, loading, and preprocessing.
 
 One such dataset is the [`gretelai/synthetic_text_to_sql`](https://huggingface.co/datasets/gretelai/synthetic_text_to_sql) dataset, which contains synthetic examples mapping natural language questions to [SQL](https://en.wikipedia.org/wiki/SQL) queries along with their corresponding database schemas. Each example provides a natural language question (`sql_prompt`), an associated schema and sample data (`sql_context`), and the correct [SQL](https://en.wikipedia.org/wiki/SQL) query (`sql`).
 
@@ -200,7 +200,7 @@ As you may have noticed, even with a relatively small model, **fine-tuning a sin
 
 Our initial setup was intentionally minimal, but various optimizations exist to improve performances. We will apply two here, starting with the [`liger-kernel`](https://github.com/linkedin/Liger-Kernel/) library, which states:
 
-> _"Liger Kernel is a collection of Triton kernels designed specifically for LLM training. It can effectively increase multi-GPU training throughput by 20% and reduces memory usage by 60%."_
+> _"Liger Kernel is a collection of Triton kernels designed specifically for [LLM](https://en.wikipedia.org/wiki/Large_language_model) training. It can effectively increase multi-GPU training throughput by 20% and reduces memory usage by 60%."_
 
 No need to understand how they achieve this improvement; what matters is how easy it is to integrate it into our existing setup.
 
@@ -274,7 +274,7 @@ To launch the fine-tuning process on multiple GPUs, simply swap the single-GPU c
 
 You now have a script that can fine-tune a model in less than 15 minutes, and hopefully by now a resulting fine-tuned model ready to be deployed.
 
-Once again, deployment is made easy by leveraging the right tools. In this workshop we will use [`vllm`](https://docs.vllm.ai/en/stable/index.html), a high-performance inference engine designed for serving LLMs efficiently and with minimal setup. It will expose the model of our choice through an OpenAI-compatible REST API, which can then be easily queried by any application.
+Once again, deployment is made easy by leveraging the right tools. In this workshop we will use [`vllm`](https://docs.vllm.ai/en/stable/index.html), a high-performance inference engine designed for serving [LLMs](https://en.wikipedia.org/wiki/Large_language_model) efficiently and with minimal setup. It will expose the model of our choice through an OpenAI-compatible REST API, which can then be easily queried by any application.
 
 Since [`vllm`](https://docs.vllm.ai/en/stable/index.html) is already installed as part of the project dependencies, deploying the model is as simple as running the following command:
 
