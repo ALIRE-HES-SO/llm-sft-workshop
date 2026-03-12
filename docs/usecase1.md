@@ -119,8 +119,8 @@ You will need to have approved access on [Hugging Face](https://huggingface.co) 
     This is a _gated_ model, which means you will require access approval before use.
 
     * Visit its [Hugging Face](https://huggingface.co) page at [`google/gemma-3-270M-it`](https://huggingface.co/google/gemma-3-270m-it)
-    * Review and agree to Google's usage license.
-    * Verify the page shows _"You have been granted access to this model"_.
+    * Review and agree to Google's usage license
+    * Verify the page shows _"You have been granted access to this model"_
 
     Once approved, you can proceed.
 
@@ -128,7 +128,7 @@ You will need to have approved access on [Hugging Face](https://huggingface.co) 
 
 Now that we know what dataset and model to use, let us now look talk about the actual training.
 
-Everything will actually be handled by the [`SFTTrainer`](https://huggingface.co/docs/trl/en/sft_trainer) from the [`trl`](https://huggingface.co/docs/trl/en/index) library (short for Transformers Reinforcement Learning). This class provides a high-level interface for SFT and takes care of essentially all key steps of training: [tokenization](https://en.wikipedia.org/wiki/Large_language_model#Tokenization) (the process of converting text into numerical tokens that the model can understand), batching, checkpointing, and integration with libraries such as Weights & Biases's [`wandb`](https://wandb.ai/site/) for experiment tracking (more on this in the next section).
+Everything will actually be handled by the [`SFTTrainer`](https://huggingface.co/docs/trl/en/sft_trainer) from the [`trl`](https://huggingface.co/docs/trl/en/index) library (short for Transformers Reinforcement Learning). This class provides a high-level interface for SFT and takes care of essentially all key steps of training: [tokenization](https://en.wikipedia.org/wiki/Large_language_model#Tokenization) (the process of converting text into numerical tokens that the model can understand), batching (processing multiple examples at once), checkpointing (saving progress to resume later), and integration with libraries such as Weights & Biases's [`wandb`](https://wandb.ai/site/) for experiment tracking (more on this in the next section).
 
 We already provide the code that sets up and runs the `SFTTrainer` in the [`main.py`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/main.py) script. It expects a configuration file (for example, [`sft.yaml`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/gretelai/synthetic_text_to_sql/sft.yaml)) provided as an argument, which defines all aspects of the fine-tuning setup, including the dataset, model, and optimization parameters. This helps keep all the fine-tuning options in one place, making it easy to adjust settings without modifying the code, as we will see throughout this section and the next two use cases.
 
