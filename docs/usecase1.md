@@ -56,7 +56,7 @@ WHERE route_name = 'Green Line';
 
 [Supervised Fine-Tuning](https://en.wikipedia.org/wiki/Fine-tuning_(deep_learning)) (SFT) is the process of taking a pre-trained language madel, and training further on labeled input–output pairs so it learns to produce the desired response for a given prompt. This technique allow adapting general-purpose models to specific tasks. In this workshop, we will tackle **summarization** in [PEFT Optimisation](usecase2.md), **classification** in [Evaluation](usecase3.md), and in this section, **translating** natural language into [SQL](https://en.wikipedia.org/wiki/SQL).
 
-To fine-tune an [LLM](https://en.wikipedia.org/wiki/Large_language_model) for translating natural language into [SQL](https://en.wikipedia.org/wiki/SQL), we will thus need to train it on a large dataset of example input-output pairs. This is where Hugging Face's [`datasets`](https://huggingface.co/docs/datasets/en/index) library comes in handy to manage all dataset operations, including downloading, loading, and preprocessing.
+To fine-tune an [LLM](https://en.wikipedia.org/wiki/Large_language_model) for translating natural language into [SQL](https://en.wikipedia.org/wiki/SQL), we will thus need to train it on a large dataset of example input-output pairs. This is where [Hugging Face](https://huggingface.co)'s [`datasets`](https://huggingface.co/docs/datasets/en/index) library comes in handy to manage all dataset operations, including downloading, loading, and preprocessing.
 
 One such dataset is the [`gretelai/synthetic_text_to_sql`](https://huggingface.co/datasets/gretelai/synthetic_text_to_sql) dataset, which contains synthetic examples mapping natural language questions to [SQL](https://en.wikipedia.org/wiki/SQL) queries along with their corresponding database schemas. Each example provides a natural language question (`sql_prompt`), an associated schema and sample data (`sql_context`), and the correct [SQL](https://en.wikipedia.org/wiki/SQL) query (`sql`).
 
@@ -112,13 +112,13 @@ In this use case, we will imagine our end goal is to deploy the fine-tuned model
 
 The model contains approximately 270 million parameters, which makes it lightweight enough for local deployment. Running the model in 16-bit precision _for inference_ requires about 2 bytes per parameter, which translates to approximately 0.5–1 GB of (V)RAM, depending on the context length and runtime overhead from the [key–value (KV) cache](https://huggingface.co/blog/not-lain/kv-caching) used by the attention mechanism.
 
-You will need to have approved access on Hugging Face to use it.
+You will need to have approved access on [Hugging Face](https://huggingface.co) to use it.
 
 !!! warning "Gated model access"
 
     This is a _gated_ model, which means you will require access approval before use.
 
-    * Visit its Hugging Face page at [`google/gemma-3-270M-it`](https://huggingface.co/google/gemma-3-270m-it)
+    * Visit its [Hugging Face](https://huggingface.co) page at [`google/gemma-3-270M-it`](https://huggingface.co/google/gemma-3-270m-it)
     * Review and agree to Google's usage license.
     * Verify the page shows _"You have been granted access to this model"_.
 
@@ -176,7 +176,7 @@ You can now run this command to see how the fine-tuning process starts. You shou
     The fine-tuning process is now running, and you are seeing periodic outputs of its progress.
 
     When running the command, the [`accelerate`](https://huggingface.co/docs/accelerate/en/index) library launched the [`main.py`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/main.py) script on the specified device(s) (in this case, a single GPU).
-    The script loaded models from Hugging Face, as well as datasets which are transformed by Jinja into formatted prompts using the templates in [`prompts/`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/prompts/).
+    The script loaded models from [Hugging Face](https://huggingface.co), as well as datasets which are transformed by Jinja into formatted prompts using the templates in [`prompts/`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/prompts/).
 
     During training, [`SFTTrainer`](https://huggingface.co/docs/trl/en/sft_trainer) is configured to share its progress with Weights & Biases for web-based visualisation. Once complete, it saves the fine-tuned model to `training_output/`, for future use in inference as we will see.
 
@@ -335,7 +335,7 @@ This use case for a **natural-language-to-SQL** task walked through the complete
 
 Starting from raw data, we:
 
-- [x] loaded a dataset from Hugging Face and formatted it into chat-style [prompts using templates](#input-output),
+- [x] loaded a dataset from [Hugging Face](https://huggingface.co) and formatted it into chat-style [prompts using templates](#input-output),
 - [x] selected a small [model](#model) suited for local and browser deployment,
 - [x] [fine-tuned](#fine-tune) it using [`trl`'s `SFTTrainer`](#training-with-trls-sfttrainer), orchestrated by [`accelerate`](#fine-tune),
 - [x] optimized training with [`liger-kernel`](#optimize-liger-kernel) for memory savings and larger batch sizes, then [scaled to multiple GPUs](#scaling-to-multiple-gpus),
