@@ -66,8 +66,8 @@ One such dataset is the [`gretelai/synthetic_text_to_sql`](https://huggingface.c
     ```json
     {
       "sql_prompt": "Find the total fare collected from passengers on 'Green Line' buses",
-      "sql_context": "```sql\nCREATE TABLE bus_routes (route_name VARCHAR(50), fare FLOAT); INSERT INTO bus_routes (route_name, fare) VALUES ('Green Line', 1.50), ('Red Line', 2.00), ('Blue Line', 1.75);\n```",
-      "sql": "```sql\nSELECT SUM(fare) FROM bus_routes WHERE route_name = 'Green Line';\n```"
+      "sql_context": "CREATE TABLE bus_routes (route_name VARCHAR(50), fare FLOAT); INSERT INTO bus_routes (route_name, fare) VALUES ('Green Line', 1.50), ('Red Line', 2.00), ('Blue Line', 1.75);",
+      "sql": "SELECT SUM(fare) FROM bus_routes WHERE route_name = 'Green Line';"
     }
     ```
 
@@ -85,8 +85,8 @@ For example, a single training example would be transformed as follows:
 ```json
 {
   "system": "You are an expert SQL query generator. Your task is to generate a correct SQL query that answers a user's prompt using the provided schema.",
-  "user": "Prompt:\nFind the total fare collected from passengers on 'Green Line' buses\nSchema:\nCREATE TABLE bus_routes (\n\troute_name VARCHAR(50),\n\tfare FLOAT\n);\n\nINSERT INTO bus_routes (route_name, fare)\nVALUES\n\t('Green Line', 1.50),\n\t('Red Line', 2.00),\n\t('Blue Line', 1.75);",
-  "assistant": "SELECT SUM(fare)\nFROM bus_routes\nWHERE route_name = 'Green Line';"
+  "user": "Prompt:\nFind the total fare collected from passengers on 'Green Line' buses\nSchema:\n```sql\nCREATE TABLE bus_routes (\n\troute_name VARCHAR(50),\n\tfare FLOAT\n);\n\nINSERT INTO bus_routes (route_name, fare)\nVALUES\n\t('Green Line', 1.50),\n\t('Red Line', 2.00),\n\t('Blue Line', 1.75);\n```",
+  "assistant": "```sql\nSELECT SUM(fare)\nFROM bus_routes\nWHERE route_name = 'Green Line';\n```"
 }
 ```
 
