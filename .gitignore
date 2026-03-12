@@ -4,3 +4,6 @@ site/
 # macOS
 .DS_Store
 
+# opencode
+opencode.jsonc
+
