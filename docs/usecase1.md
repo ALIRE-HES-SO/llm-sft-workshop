@@ -337,7 +337,7 @@ The interface should look something like this:
 
 ## What have we achieved?
 
-This use case for a **natural-language-to-SQL** task walked through the complete SFT pipeline. Because the model is small enough to fit entirely in GPU memory, we performed **full fine-tuning** — updating every weight in the model — with only configuration files and a handful of shared scripts.
+This use case for a **natural-language-to-SQL** task walked through the complete SFT pipeline. Because the model is small enough to fit entirely in GPU memory, we performed **full fine-tuning** (updating every weight in the model) with only configuration files and a handful of shared scripts.
 
 Starting from raw data, we:
 
