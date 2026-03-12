@@ -7,7 +7,7 @@ icon: lucide/wrench
 Before you start, make sure you have the following requirements in place.
 
 * The :material-microsoft-visual-studio-code: **[VS Code](https://code.visualstudio.com)** editor. It provides _improved [remote tunneling](https://code.visualstudio.com/docs/remote/tunnels) support_, making it easier to access `localhost` services from a remote instance. However, you are welcome to use any [IDE](https://en.wikipedia.org/wiki/Integrated_development_environment) you prefer.
-* An :simple-exoscale: **[Exoscale account](https://www.exoscale.com/)** with access to GPU cloud instances.
+* An :simple-exoscale: **[Exoscale](https://www.exoscale.com/)** account with access to GPU cloud instances.
 * Personal :simple-github: **[GitHub](https://github.com)**, :simple-huggingface: **[Hugging Face](https://huggingface.co)** and :simple-weightsandbiases: **[Weights & Biases](https://wandb.ai/)** accounts. We will introduce these services in more detail below.
 
 !!! abstract "What you will prepare in this section"
