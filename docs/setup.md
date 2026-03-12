@@ -107,7 +107,7 @@ To achieve this:
 
     Here, `0` is the default session number, but you can create and manage multiple sessions if needed. [`tmux`](https://en.wikipedia.org/wiki/Tmux) also allows you to [split the terminal into multiple panes](https://lukaszwrobel.pl/blog/tmux-tutorial-split-terminal-windows-easily/), which is useful for monitoring additional tools such as GPU usage.
 
-    For example in the right pane one could run `uv run nvitop` (within the workshop's repository folder) and keep track of the CPU & GPU usage.
+    For example in the right pane one could run `uv run nvitop` (within the workshop repository folder) and keep track of the CPU & GPU usage.
 
     ![tmux](./images/extra/tmux_light.png#only-light)
     ![tmux](./images/extra/tmux_dark.png#only-dark)
@@ -120,7 +120,7 @@ We will:
 
 - [ ] Install the [GitHub CLI](https://cli.github.com/) to clone the repository
 - [ ] Install system libraries
-- [ ] Install the python libraries with [uv](https://docs.astral.sh/uv/)
+- [ ] Install the [Python](https://www.python.org/) libraries with [uv](https://docs.astral.sh/uv/)
 - [ ] Authenticate to [Hugging Face](https://huggingface.co)
 - [ ] Authenticate to [Weights & Biases](https://wandb.ai)
 
@@ -167,9 +167,9 @@ bash ./install.sh
 
     This script sets up the system-level infrastructure needed for GPU-accelerated machine learning:
 
-    - **CUDA Toolkit & Drivers**: Installs NVIDIA CUDA 12.1, which allows Python to communicate with your GPU for training
-    - **Build Tools**: Installs `gcc`, `g++`, and other compilers needed to build Python packages with native extensions
-    - **System Libraries**: Adds development headers and libraries that ML packages like PyTorch depend on
+    - **CUDA Toolkit & Drivers**: Installs NVIDIA CUDA 12.1, which allows [Python](https://www.python.org/) to communicate with your GPU for training
+    - **Build Tools**: Installs `gcc`, `g++`, and other compilers needed to build [Python](https://www.python.org/) packages with native extensions
+    - **System Libraries**: Adds development headers and libraries that ML packages like [PyTorch](https://pytorch.org) depend on
 
     The reboot is necessary because the NVIDIA kernel modules need to be loaded fresh. After rebooting, the GPU will be accessible to your training code.
 
