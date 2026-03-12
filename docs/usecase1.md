@@ -8,9 +8,9 @@ icon: lucide/tally-1
 ![diagram](./images/use_case_1/diagram_light.svg#only-light)
 ![diagram](./images/use_case_1/diagram_dark.svg#only-dark)
 
-Imagine you are working with a large database full of tables, each containing dozens of columns and hundreds of rows. To explore and extract insights from this data, you usually need to write SQL queries. However, not everyone is comfortable with SQL, and this limits who can directly interact with the data.
+Imagine you are working with a large database full of tables, each containing dozens of columns and hundreds of rows. To explore and extract insights from this data, you usually need to write [SQL](https://en.wikipedia.org/wiki/SQL) queries. However, not everyone is comfortable with [SQL](https://en.wikipedia.org/wiki/SQL), and this limits who can directly interact with the data.
 
-What if we could bridge this gap by allowing anyone to ask questions in natural language, and have a model automatically translate those questions into valid SQL queries?
+What if we could bridge this gap by allowing anyone to ask questions in natural language, and have a model automatically translate those questions into valid [SQL](https://en.wikipedia.org/wiki/SQL) queries?
 
 By the end of this section, you will have a working model capable of taking a sentence like:
 
@@ -31,7 +31,7 @@ VALUES
     ('Blue Line', 1.75);
 ```
 
-and generate the corresponding SQL query:
+and generate the corresponding [SQL](https://en.wikipedia.org/wiki/SQL) query:
 
 ```sql
 SELECT SUM(fare)
@@ -43,22 +43,22 @@ WHERE route_name = 'Green Line';
 
     This first use case introduces the **complete SFT pipeline end-to-end**. You will walk through every stage:
 
-    - Dataset preparation,
-    - Training with [`SFTTrainer`](https://huggingface.co/docs/trl/en/sft_trainer),
-    - Optimization with [`liger-kernel`](https://github.com/linkedin/Liger-Kernel/),
-    - Scaling to multiple GPUs with [`accelerate`](https://huggingface.co/docs/accelerate/en/index),
-    - Deployment with [`vllm`](https://docs.vllm.ai/en/stable/index.html), and
-    - Interaction through a chat UI implemented with [`gradio`](https://www.gradio.app).
+    - Dataset preparation
+    - Training with [`SFTTrainer`](https://huggingface.co/docs/trl/en/sft_trainer)
+    - Optimization with [`liger-kernel`](https://github.com/linkedin/Liger-Kernel/)
+    - Scaling to multiple GPUs with [`accelerate`](https://huggingface.co/docs/accelerate/en/index)
+    - Deployment with [`vllm`](https://docs.vllm.ai/en/stable/index.html)
+    - Interaction through a chat UI implemented with [`gradio`](https://www.gradio.app)
 
     The model used here ([`google/gemma-3-270M-it`](https://huggingface.co/google/gemma-3-270m-it)) is intentionally small with 270 million parameters, so that training stays fast and the focus remains on understanding the overall workflow rather than fighting resource constraints.
 
 ### Input & Output
 
-[Supervised Fine-Tuning](https://en.wikipedia.org/wiki/Fine-tuning_(deep_learning)) (SFT) is the process of taking a pre-trained language madel, and training further on labeled input–output pairs so it learns to produce the desired response for a given prompt. This technique allow adapting general-purpose models to specific tasks. In this workshop, we will tackle **summarization** in [PEFT Optimisation](usecase2.md), **classification** in [Evaluation](usecase3.md), and in this section, **translating** natural language into SQL.
+[Supervised Fine-Tuning](https://en.wikipedia.org/wiki/Fine-tuning_(deep_learning)) (SFT) is the process of taking a pre-trained language madel, and training further on labeled input–output pairs so it learns to produce the desired response for a given prompt. This technique allow adapting general-purpose models to specific tasks. In this workshop, we will tackle **summarization** in [PEFT Optimisation](usecase2.md), **classification** in [Evaluation](usecase3.md), and in this section, **translating** natural language into [SQL](https://en.wikipedia.org/wiki/SQL).
 
-To fine-tune an LLM for translating natural language into SQL, we will thus need to train it on a large dataset of example input-output pairs. This is where Hugging Face's [`datasets`](https://huggingface.co/docs/datasets/en/index) library comes in handy to manage all dataset operations, including downloading, loading, and preprocessing.
+To fine-tune an LLM for translating natural language into [SQL](https://en.wikipedia.org/wiki/SQL), we will thus need to train it on a large dataset of example input-output pairs. This is where Hugging Face's [`datasets`](https://huggingface.co/docs/datasets/en/index) library comes in handy to manage all dataset operations, including downloading, loading, and preprocessing.
 
-One such dataset is the [`gretelai/synthetic_text_to_sql`](https://huggingface.co/datasets/gretelai/synthetic_text_to_sql) dataset, which contains synthetic examples mapping natural language questions to SQL queries along with their corresponding database schemas. Each example provides a natural language question (`sql_prompt`), an associated schema and sample data (`sql_context`), and the correct SQL query (`sql`).
+One such dataset is the [`gretelai/synthetic_text_to_sql`](https://huggingface.co/datasets/gretelai/synthetic_text_to_sql) dataset, which contains synthetic examples mapping natural language questions to [SQL](https://en.wikipedia.org/wiki/SQL) queries along with their corresponding database schemas. Each example provides a natural language question (`sql_prompt`), an associated schema and sample data (`sql_context`), and the correct [SQL](https://en.wikipedia.org/wiki/SQL) query (`sql`).
 
 
 ??? example "Dataset sample"
@@ -66,8 +66,8 @@ One such dataset is the [`gretelai/synthetic_text_to_sql`](https://huggingface.c
     ```json
     {
       "sql_prompt": "Find the total fare collected from passengers on 'Green Line' buses",
-      "sql_context": "CREATE TABLE bus_routes (route_name VARCHAR(50), fare FLOAT); INSERT INTO bus_routes (route_name, fare) VALUES ('Green Line', 1.50), ('Red Line', 2.00), ('Blue Line', 1.75);",
-      "sql": "SELECT SUM(fare) FROM bus_routes WHERE route_name = 'Green Line';"
+      "sql_context": "```sql\nCREATE TABLE bus_routes (route_name VARCHAR(50), fare FLOAT); INSERT INTO bus_routes (route_name, fare) VALUES ('Green Line', 1.50), ('Red Line', 2.00), ('Blue Line', 1.75);\n```",
+      "sql": "```sql\nSELECT SUM(fare) FROM bus_routes WHERE route_name = 'Green Line';\n```"
     }
     ```
 
@@ -78,7 +78,7 @@ For our use case, such a format would typically include three roles:
 
 - `system`: provides high-level context and defines the model's behavior.
 - `user`: contains the actual question and the schema.
-- `assistant`: contains the expected SQL query output.
+- `assistant`: contains the expected [SQL](https://en.wikipedia.org/wiki/SQL) query output.
 
 For example, a single training example would be transformed as follows:
 
@@ -92,7 +92,7 @@ For example, a single training example would be transformed as follows:
 
 !!! note
 
-    The example intentionally includes escaped newline characters (`\n`), tabs (`\t`), and SQL markdown delimiters (<code>\```sql ...```</code>). The model should learn to reproduce these elements exactly during training, as they are part of the expected output format.
+    The example intentionally includes escaped newline characters (`\n`), tabs (`\t`), and [SQL](https://en.wikipedia.org/wiki/SQL) markdown delimiters (<code>\```sql ...```</code>). The model should learn to reproduce these elements exactly during training, as they are part of the expected output format.
 
 The example shown here uses the _conversational prompt–completion_ format, which is one of several supported data formats for SFT, alongside _standard language modeling_, _conversational language modeling_, and _standard prompt–completion_. For more details, please refer to the [`SFTTrainer`](https://huggingface.co/docs/trl/en/sft_trainer) documentation.
 
@@ -192,7 +192,7 @@ Since the [`SFTTrainer`](https://huggingface.co/docs/trl/en/sft_trainer) is shar
 ![Fine-tune](./images/use_case_1/wandb_light.png#only-light)
 ![Fine-tune](./images/use_case_1/wandb_dark.png#only-dark)
 
-You should see how the training loss decreases over time, indicating that the model is learning to generate SQL queries that better match the expected outputs.
+You should see how the training loss decreases over time, indicating that the model is learning to generate [SQL](https://en.wikipedia.org/wiki/SQL) queries that better match the expected outputs.
 
 ### Optimize: [`liger-kernel`](https://github.com/linkedin/Liger-Kernel/)
 
