@@ -107,7 +107,7 @@ To achieve this:
 
     Here, `0` is the default session number, but you can create and manage multiple sessions if needed. [`tmux`](https://en.wikipedia.org/wiki/Tmux) also allows you to [split the terminal into multiple panes](https://lukaszwrobel.pl/blog/tmux-tutorial-split-terminal-windows-easily/), which is useful for monitoring additional tools such as GPU usage.
 
-    For example in the right pane one could run `uv run nvitop` and keep track of the CPU & GPU usage.
+    For example in the right pane one could run `uv run nvitop` (within the workshop's repository folder) and keep track of the CPU & GPU usage.
 
     ![tmux](./images/extra/tmux_light.png#only-light)
     ![tmux](./images/extra/tmux_dark.png#only-dark)
