@@ -187,7 +187,7 @@ Then synchronize all project dependencies using the [uv](https://docs.astral.sh/
 uv sync
 ```
 
-#### Authenticate on Hugging Face
+#### Authenticate on [Hugging Face](https://huggingface.co)
 
 :simple-huggingface: [Hugging Face](https://huggingface.co) is the go-to platform for hosting and sharing machine learning models, datasets, and tools. We will use it to download pre-trained models to fine-tune, as well as datasets to train them on.
 
@@ -223,8 +223,8 @@ uv run wandb login
 
 Your environment is now ready to start. Specifically, we:
 
-- [x] set up a [powerful GPU instance](#set-up-a-gpu-cloud-instance-with-exoscale) on the cloud, with ways to [interact remotely](#connect-to-the-running-instance) with it.
-- [x] cloned the workshop's [starter code](#clone-the-repository-with-github-cli) onto the instance, and installed [all necessary dependencies](#install-system-libraries).
-- [x] Created and authenticated accounts for the external services we will use: [Hugging Face](#authenticate-on-huggingface) and [Weights & Biases](#authenticate-on-weights-biases).
+- [x] set up a [powerful GPU instance](#set-up-a-gpu-cloud-instance-with-exoscale) on the cloud, with ways to [interact remotely](#connect-to-the-running-instance) with it
+- [x] cloned the workshop's [starter code](#clone-the-repository-with-github-cli) onto the instance, and installed [all necessary dependencies](#install-system-libraries)
+- [x] Created and authenticated accounts for the external services we will use: [Hugging Face](#authenticate-on-hugging-face) and [Weights & Biases](#authenticate-on-weights-biases)
 
 All is ready to start fine-tuning, which we will do in the next section in a first basic use case.
