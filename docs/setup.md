@@ -6,19 +6,19 @@ icon: lucide/wrench
 
 Before you start, make sure you have the following requirements in place.
 
-* The :material-microsoft-visual-studio-code: **[VS Code Insiders](https://code.visualstudio.com/insiders/)** editor. It provides _improved [remote tunneling](https://code.visualstudio.com/docs/remote/tunnels) support_, making it easier to access `localhost` services from a remote instance. However, you are welcome to use any [IDE](https://en.wikipedia.org/wiki/Integrated_development_environment) you prefer.
+* The :material-microsoft-visual-studio-code: **[VS Code](https://code.visualstudio.com)** editor. It provides _improved [remote tunneling](https://code.visualstudio.com/docs/remote/tunnels) support_, making it easier to access `localhost` services from a remote instance. However, you are welcome to use any [IDE](https://en.wikipedia.org/wiki/Integrated_development_environment) you prefer.
 * An :simple-exoscale: **[Exoscale account](https://www.exoscale.com/)** with access to GPU cloud instances. If applicable, use the provided voucher by the organizers of this workshop.
 * Personal :simple-github: **[GitHub](https://github.com)**, :simple-huggingface: **[Hugging Face](https://huggingface.co)** and :simple-weightsandbiases: **[Weights & Biases](https://wandb.ai/)** accounts. We will introduce these services in more detail below.
 
 !!! abstract "What you will prepare in this section"
 
-    Because [fine-tuning](https://en.wikipedia.org/wiki/Fine-tuning_(deep_learning)) requires powerful parallel compute power, we will start by setting up a GPU cloud instance on :simple-exoscale: [Exoscale](https://www.exoscale.com/), and configure the :material-microsoft-visual-studio-code: [VS Code Insiders](https://code.visualstudio.com/insiders/) editor to access it remotely.
+    Because [fine-tuning](https://en.wikipedia.org/wiki/Fine-tuning_(deep_learning)) requires powerful parallel compute power, we will start by setting up a GPU cloud instance on :simple-exoscale: [Exoscale](https://www.exoscale.com/), and configure the :material-microsoft-visual-studio-code: [VS Code](https://code.visualstudio.com) editor to access it remotely.
 
     We will also need to install required libraries, and authenticate to external services to access models, datasets and tools (:simple-huggingface: [Hugging Face](https://huggingface.co)) and to monitor training logs visually (:simple-weightsandbiases: [Weights & Biases](https://wandb.ai/)).
 
     Once this is done, we will have a fully set up environment ready to start fine-tuning in the next section.
 
-## Set up a GPU cloud instance with Exoscale
+## Set up a GPU cloud instance with [Exoscale](https://www.exoscale.com/)
 
 In this workshop, we will use `GPUA5000` instances from the `AT-VIE-2` zone. Each instance is equipped with either 1, 2, or 4 [NVIDIA RTX A5000](https://www.nvidia.com/en-us/products/workstations/rtx-a5000/) GPUs (24GB of VRAM) in the `Small`, `Medium`, and `Large` instance types, respectively.
 
@@ -32,13 +32,13 @@ Create now a `Small` [Exoscale](https://www.exoscale.com/) instance.
 
 !!! note
 
-    To add an :simple-exoscale: Exoscale instance, have a look at the [FAQ: How can I add an Exoscale instance?](./faq)
+    To add an :simple-exoscale: [Exoscale](https://www.exoscale.com/) instance, have a look at the [FAQ: How can I add an Exoscale instance?](./faq)
 
-Once done, retrieve the `IPv4` address of the instance from the Exoscale interface.
+Once done, retrieve the `IPv4` address of the instance from the [Exoscale](https://www.exoscale.com/) interface.
 
 ### Connect to the running instance
 
-Now that your instance is up and running, connect to it using [VS Code Insiders](https://code.visualstudio.com/insiders/).
+Now that your instance is up and running, connect to it using [VS Code](https://code.visualstudio.com).
 
 Open your SSH configuration file with your favorite text editor, such as `nano` or `notepad` from the terminal:
 
@@ -71,7 +71,7 @@ Open your SSH configuration file with your favorite text editor, such as `nano` 
 
     Once the key is created, the `.ssh` directory (and the config file, if you create it) will be available.
 
-Then add the following configuration for your Exoscale instance, adding its `IPv4` address:
+Then add the following configuration for your [Exoscale](https://www.exoscale.com/) instance, adding its `IPv4` address:
 
 ```bash
 Host exoscale
@@ -87,7 +87,7 @@ You will now be able to connect to your instance simply by running:
 ssh exoscale
 ```
 
-After verifying that your SSH connection works, you need to install the [`Remote Explorer`](https://marketplace.visualstudio.com/items?itemName=ms-vscode.remote-explorer) extension in [VS Code Insiders](https://code.visualstudio.com/insiders/) to connect to your Exoscale instance directly from the editor.
+After verifying that your SSH connection works, you need to install the [`Remote Explorer`](https://marketplace.visualstudio.com/items?itemName=ms-vscode.remote-explorer) extension in [VS Code](https://code.visualstudio.com) to connect to your [Exoscale](https://www.exoscale.com/) instance directly from the editor.
 
 To achieve this:
 
@@ -114,7 +114,7 @@ To achieve this:
 
 ### Libraries installation and setup
 
-Now that we have access to a terminal and the file system of the Exoscale instance through VS Code Insiders, we can start setting it up with all required tools, dependencies, and account logins.
+Now that we have access to a terminal and the file system of the [Exoscale](https://www.exoscale.com/) instance through [VS Code](https://code.visualstudio.com), we can start setting it up with all required tools, dependencies, and account logins.
 
 We will:
 
@@ -157,7 +157,7 @@ To save you some time, the repository provides an installation script that will 
 
 !!! warning "This script will _reboot_ your instance!"
 
-    You will have to ssh back into it, and refresh the [VS Code Insiders](https://code.visualstudio.com/insiders/) connection once it is running again.
+    You will have to ssh back into it, and refresh the [VS Code](https://code.visualstudio.com) connection once it is running again.
 
 ```bash
 bash ./install.sh
