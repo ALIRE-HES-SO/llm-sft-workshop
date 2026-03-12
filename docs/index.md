@@ -17,11 +17,11 @@ This workshop aims at demystifying the process of [fine-tuning](https://en.wikip
 
 By the end, you will be able to:
 
--  prepare datasets for training,
--  train models efficiently from a single GPU to multi-GPU setups,
--  track training progress in real time,
--  evaluate performance of fine-tuned models,
--  deploy your model, and even interact with it.
+-  prepare datasets for training
+-  train models efficiently from a single GPU to multi-GPU setups
+-  track training progress in real time
+-  evaluate performance of fine-tuned models
+-  deploy your model and even interact with it
 
 **Points of contact:**
 
