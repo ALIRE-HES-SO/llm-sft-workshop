@@ -300,9 +300,9 @@ In our case, we will not interact with the API directly. Instead, we will connec
 
 ### Interact
 
-In order to fully complete the loop from training to deployment, we created a very basic chat-based UI interface via [`gradio`](https://www.gradio.app), a Python library that allows simple creation of web-based interfaces for machine learning models.
+In order to fully complete the loop from training to deployment, we created a very basic chat-based UI interface via [`gradio`](https://www.gradio.app), a [Python](https://www.python.org/) library that allows simple creation of web-based interfaces for machine learning models.
 
-We included the code for this interface in the same `main.py` file as the fine-tuning code. In order to use that script for interaction instead of training, you can simply change the `mode` parameter in the [`ExtraConfig`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/gretelai/synthetic_text_to_sql/sft_liger.yaml#L1) section of the [`configs/gretelai/synthetic_text_to_sql/sft_liger.yaml`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/gretelai/synthetic_text_to_sql/sft_liger.yaml) configuration file from `train` to `interact`.
+We included the code for this interface in the same [`main.py`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/main.py) file as the fine-tuning code. In order to use that script for interaction instead of training, you can simply change the `mode` parameter in the [`ExtraConfig`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/gretelai/synthetic_text_to_sql/sft_liger.yaml#L1) section of the [`configs/gretelai/synthetic_text_to_sql/sft_liger.yaml`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/gretelai/synthetic_text_to_sql/sft_liger.yaml) configuration file from `train` to `interact`.
 
 ```yaml
 mode: interact # previously train
@@ -329,7 +329,7 @@ The interface should look something like this:
     
     The [`vllm`](https://docs.vllm.ai/en/stable/index.html) server you started loaded the fine-tuned model from the file system and exposed it via an OpenAI-compatible [REST API](https://en.wikipedia.org/wiki/REST).
 
-    The `main.py` script is then serving a Gradio-based web UI that queries that API to obtain results of inference from the model.
+    The [`main.py`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/main.py) script is then serving a [Gradio](https://www.gradio.app)-based web UI that queries that API to obtain results of inference from the model.
 
     <figure markdown="span">
       ![Interact diagram](./images/use_case_1/interact_mode_flow.svg){ width="600" }
