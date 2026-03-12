@@ -100,7 +100,7 @@ The example shown here uses the _conversational prompt–completion_ format, whi
 
     The [`main.py`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/main.py) script, after loading the [`gretelai/synthetic_text_to_sql`](https://huggingface.co/datasets/gretelai/synthetic_text_to_sql) dataset from [Hugging Face](https://huggingface.co), uses the [`map_dataset_format`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/utils.py#L40) function from [`utils.py`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/utils.py) to map the raw dataset data into the _conversational prompt–completion_ style. It does so using [Jinja](https://jinja.palletsprojects.com/en/stable/) templates located in the [`prompts/gretelai/synthetic_text_to_sql/`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/prompts/gretelai/synthetic_text_to_sql/) folder.
     
-    Feel free to check the [`map_dataset_format`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/utils.py#L21) fun40ion and the corresponding templates to get an idea of how the reformatting is implemented.
+    Feel free to check the [`map_dataset_format`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/utils.py#L21) function and the corresponding templates to get an idea of how the reformatting is implemented.
 
 ### Model
 
