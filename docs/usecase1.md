@@ -179,7 +179,7 @@ You can now run this command to see how the fine-tuning process starts. You shou
     The fine-tuning process is now running, and you are seeing periodic outputs of its progress.
 
     When running the command, the [`accelerate`](https://huggingface.co/docs/accelerate/en/index) library launched the [`main.py`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/main.py) script on the specified device(s) (in this case, a single GPU).
-    The script loaded models from [Hugging Face](https://huggingface.co), as well as datasets which are transformed by Jinja into formatted prompts using the templates in [`prompts/`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/prompts/).
+    The script loaded models from [Hugging Face](https://huggingface.co), as well as datasets which are transformed by [Jinja](https://jinja.palletsprojects.com/en/stable/) into formatted prompts using the templates in [`prompts/`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/prompts/).
 
     During training, [`SFTTrainer`](https://huggingface.co/docs/trl/en/sft_trainer) is configured to share its progress with Weights & Biases for web-based visualisation. Once complete, it saves the fine-tuned model to `training_output/`, for future use in inference as we will see.
 
