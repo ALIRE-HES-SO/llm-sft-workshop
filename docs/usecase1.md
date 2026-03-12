@@ -274,7 +274,7 @@ To launch the fine-tuning process on multiple GPUs, simply swap the single-GPU c
 
 You now have a script that can fine-tune a model in less than 15 minutes, and hopefully by now a resulting fine-tuned model ready to be deployed.
 
-Once again, deployment is made easy by leveraging the right tools. In this workshop we will use [`vllm`](https://docs.vllm.ai/en/stable/index.html), a high-performance inference engine designed for serving [LLMs](https://en.wikipedia.org/wiki/Large_language_model) efficiently and with minimal setup. It will expose the model of our choice through an OpenAI-compatible REST API, which can then be easily queried by any application.
+Once again, deployment is made easy by leveraging the right tools. In this workshop we will use [`vllm`](https://docs.vllm.ai/en/stable/index.html), a high-performance inference engine designed for serving [LLMs](https://en.wikipedia.org/wiki/Large_language_model) efficiently and with minimal setup. It will expose the model of our choice through an OpenAI-compatible [REST API](https://en.wikipedia.org/wiki/REST), which can then be easily queried by any application.
 
 Since [`vllm`](https://docs.vllm.ai/en/stable/index.html) is already installed as part of the project dependencies, deploying the model is as simple as running the following command:
 
@@ -321,7 +321,7 @@ The interface should look something like this:
 
 ??? question "How is this working?"
     
-    The [`vllm`](https://docs.vllm.ai/en/stable/index.html) server you started loaded the fine-tuned model from the file system and exposed it via an OpenAI-compatible REST API.
+    The [`vllm`](https://docs.vllm.ai/en/stable/index.html) server you started loaded the fine-tuned model from the file system and exposed it via an OpenAI-compatible [REST API](https://en.wikipedia.org/wiki/REST).
 
     The `main.py` script is then serving a Gradio-based web UI that queries that API to obtain results of inference from the model.
 
