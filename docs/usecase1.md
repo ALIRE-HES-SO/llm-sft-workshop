@@ -159,7 +159,10 @@ We then pass it our training script [`main.py`](https://github.com/ALIRE-HES-SO/
 This boils down to the following command:
 
 ```bash
-uv run accelerate launch --config_file configs/accelerate_single.yaml main.py --config configs/gretelai/synthetic_text_to_sql/sft.yaml
+uv run accelerate launch \
+  --config_file configs/accelerate_single.yaml \
+  main.py \
+  --config configs/gretelai/synthetic_text_to_sql/sft.yaml
 ```
 
 !!! info "Note"
