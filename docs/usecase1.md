@@ -239,6 +239,10 @@ With this adjustment, the **fine-tuning time should drop to around 45 to 50 minu
 
 ### Scaling to multiple GPUs
 
+!!! info "Note"
+
+    If you did not stop the previous fine-tuning process, please do so now as we will optimize it in this section.
+
 While the combination of [`liger-kernel`](https://github.com/linkedin/Liger-Kernel/) and larger batch sizes provided a significant speedup, we can go further by tackling a more fundamental limitation: we are currently using only a single GPU.
 
 !!! warning
