@@ -206,7 +206,7 @@ As you may have noticed, even with a relatively small model, **fine-tuning a sin
 
 Our initial setup was intentionally minimal, but various optimizations exist to improve performances. We will apply two here, starting with the [`liger-kernel`](https://github.com/linkedin/Liger-Kernel/) library, which states:
 
-> _"Liger Kernel is a collection of [Triton](https://github.com/triton-lang/triton) kernels designed specifically for [LLM](https://en.wikipedia.org/wiki/Large_language_model) training. It can effectively increase multi-GPU training throughput by 20% and reduces memory usage by 60%."_
+> _"[Liger Kernel]((https://github.com/linkedin/Liger-Kernel/)) is a collection of [Triton](https://github.com/triton-lang/triton) kernels designed specifically for [LLM](https://en.wikipedia.org/wiki/Large_language_model) training. It can effectively increase multi-GPU training throughput by 20% and reduces memory usage by 60%."_
 
 No need to understand how they achieve this improvement; what matters is how easy it is to integrate it into our existing setup.
 
@@ -232,6 +232,10 @@ per_device_train_batch_size: 192
 ```
 
 With this adjustment, the **fine-tuning time should drop to around 45 to 50 minutes, down from the original 100 to 110 minutes**. The initial slowdown caused by the [`liger-kernel`](https://github.com/linkedin/Liger-Kernel/) optimisation is thus more than compensated by the increased batch size that its memory savings allowed.
+
+!!! info "Note"
+
+    **The fine-tuning process takes between 45 and 50 minutes** with these optimizations. While we will see in the next section on how to reduce this drastically to 10 to 15 minutes, **you don't need to wait for this fine-tuning process to complete since we have already fine-tuned this model for you**. This step is for teaching and explanation purposes only. Instructions on how to use the pre-fine-tuned model will be offered in the [Deploy](#deploy) section.
 
 ### Scaling to multiple GPUs
 
