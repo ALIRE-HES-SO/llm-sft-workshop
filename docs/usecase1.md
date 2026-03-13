@@ -54,7 +54,7 @@ WHERE route_name = 'Green Line';
 
 ### Input & Output
 
-[Supervised Fine-Tuning](https://en.wikipedia.org/wiki/Fine-tuning_(deep_learning)) (SFT) is the process of taking a pre-trained language madel, and training further on labeled input–output pairs so it learns to produce the desired response for a given prompt. This technique allow adapting general-purpose models to specific tasks. In this workshop, we will tackle **summarization** in [PEFT Optimisation](usecase2.md), **classification** in [Evaluation](usecase3.md), and in this section, **translating** natural language into [SQL](https://en.wikipedia.org/wiki/SQL).
+[Supervised Fine-Tuning](https://en.wikipedia.org/wiki/Fine-tuning_(deep_learning)) (SFT) is the process of taking a pre-trained language madel, and training further on labeled input–output pairs so it learns to produce the desired response for a given prompt. This technique allows adapting general-purpose models to specific tasks. In this workshop, we will tackle **summarization** in [PEFT Optimisation](usecase2.md), **classification** in [Evaluation](usecase3.md), and in this section, **translating** natural language into [SQL](https://en.wikipedia.org/wiki/SQL).
 
 To fine-tune an [LLM](https://en.wikipedia.org/wiki/Large_language_model) for translating natural language into [SQL](https://en.wikipedia.org/wiki/SQL), we will thus need to train it on a large dataset of example input-output pairs. This is where [Hugging Face](https://huggingface.co)'s [`datasets`](https://huggingface.co/docs/datasets/en/index) library comes in handy to manage all dataset operations, including downloading, loading, and preprocessing.
 
@@ -76,9 +76,9 @@ This means the dataset records will need to be reformatted accordingly.
 
 For our use case, such a format would typically include three roles:
 
-- `system`: provides high-level context and defines the model's behavior.
-- `user`: contains the actual question and the schema.
-- `assistant`: contains the expected [SQL](https://en.wikipedia.org/wiki/SQL) query output.
+- `system`: provides high-level context and defines the model's behavior
+- `user`: contains the actual question and the schema
+- `assistant`: contains the expected [SQL](https://en.wikipedia.org/wiki/SQL) query output
 
 For example, a single training example would be transformed as follows:
 
@@ -165,14 +165,14 @@ uv run accelerate launch \
   --config configs/gretelai/synthetic_text_to_sql/sft.yaml
 ```
 
-!!! info "Note"
-
-    This command will launch training and will thus take some time. If you want to avoid waiting for the fine-tuning process to complete, you can directly use a fine-tuned model we've already prepared for you: [`ALIRE-HESSO/use-case-1`](https://huggingface.co/ALIRE-HESSO/use-case-1). It can be used as a drop-in replacement for the fine-tuned [`google/gemma-3-270M-it`](https://huggingface.co/google/gemma-3-270m-it) model.
-
 You can now run this command to see how the fine-tuning process starts. You should see something similar to the following:
 
 ![Fine-tune](./images/use_case_1/fine_tune_light.png#only-light)
 ![Fine-tune](./images/use_case_1/fine_tune_dark.png#only-dark)
+
+!!! info "Note"
+
+    The fine-tuning process will take around 100 minutes. You don't need to wait for it to complete since we have already fine-tuned this model for you. This step is for teaching and explanation purposes only. Instructions on how to use this specific fine-tuned model will be offered in the [Deploy](#deploy) section.
 
 ??? question "A step back: what is happening?"
 
@@ -274,6 +274,10 @@ To launch the fine-tuning process on multiple GPUs, simply swap the single-GPU c
     The setup in this workshop uses [`DDP`](https://pytorch-cn.com/tutorials/intermediate/ddp_tutorial.html) (Distributed Data Parallel) under the hood for multi-GPU training. [`DDP`](https://pytorch-cn.com/tutorials/intermediate/ddp_tutorial.html) works by creating a full copy of the model on each GPU and splitting every training batch across devices. The [`accelerate`](https://huggingface.co/docs/accelerate/en/index) library also supports more advanced distributed strategies such as [`FSDP`](https://huggingface.co/docs/accelerate/en/usage_guides/fsdp) (Fully Sharded Data Parallel) and [`Deepspeed ZeRO`](https://huggingface.co/docs/accelerate/en/usage_guides/deepspeed), which enable even larger models to be trained efficiently by sharding model parameters, gradients, and optimizer states. These methods are beyond the scope of this workshop, but you are encouraged to explore them later for large-scale fine-tuning.
 
 ### Deploy
+
+!!! info "Note"
+
+    If you want to avoid waiting for the fine-tuning process to complete, you can directly use a fine-tuned model we've already prepared for you: [`ALIRE-HESSO/use-case-1`](https://huggingface.co/ALIRE-HESSO/use-case-1). It can be used as a drop-in replacement for the fine-tuned [`google/gemma-3-270M-it`](https://huggingface.co/google/gemma-3-270m-it) model.
 
 You now have a script that can fine-tune a model in less than 15 minutes, and hopefully by now a resulting fine-tuned model ready to be deployed.
 
