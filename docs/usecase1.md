@@ -294,7 +294,7 @@ To launch the fine-tuning process on multiple GPUs, simply swap the single-GPU c
 
     If you did not stop the previous fine-tuning process, please do so now.
 
-You now have a script that can fine-tune a model in less than 15 minutes, and hopefully by now a resulting fine-tuned model ready to be deployed. If you waited for the fine-tuning process to complete, you can use the resulting model from `trainer_output/`. Alternatively, you can skip training entirely and use the pre-fine-tuned model we provide (see the tip below).
+You now have a script that can fine-tune a model in less than 15 minutes, and hopefully by now a resulting fine-tuned model ready to be deployed. In this section, you will find instructions on how to use either the fine-tuned model (if you waited for training to complete) or the pre-fine-tuned model we provide (see the tip below).
 
 Once again, deployment is made easy by leveraging the right tools. In this workshop we will use [`vllm`](https://docs.vllm.ai/en/stable/index.html), a high-performance inference engine designed for serving [LLMs](https://en.wikipedia.org/wiki/Large_language_model) efficiently and with minimal setup. It will expose the model of our choice through an OpenAI-compatible [REST API](https://en.wikipedia.org/wiki/REST), which can then be easily queried by any application.
 
