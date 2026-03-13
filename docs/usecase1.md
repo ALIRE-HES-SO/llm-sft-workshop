@@ -185,7 +185,7 @@ You can now run this command to see how the fine-tuning process starts. You shou
 
 !!! info "Note"
 
-    **The fine-tuning process takes between 100 and 110 minutes.** While we will see in the next sections on how to reduce this drastically to 10 to 15 minutes, you don't need to wait for this fine-tuning process to complete since we have already fine-tuned this model for you. This step is for teaching and explanation purposes only. Instructions on how to use the pre-fine-tuned model will be offered in the [Deploy](#deploy) section.
+    **The fine-tuning process takes between 100 and 110 minutes.** While we will see in the next sections on how to reduce this drastically to 10 to 15 minutes, **you don't need to wait for this fine-tuning process to complete since we have already fine-tuned this model for you**. This step is for teaching and explanation purposes only. Instructions on how to use the pre-fine-tuned model will be offered in the [Deploy](#deploy) section.
     
 ### Monitor
 
