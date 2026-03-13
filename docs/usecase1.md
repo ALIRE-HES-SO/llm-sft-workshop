@@ -313,7 +313,7 @@ which takes:
 - the name under which the model will be served
 - the port on which the API will be available
 
-!!! tip "Using the pre-fine-tuned model"
+!!! tip "How to use the [`ALIRE-HESSO/use-case-1`](https://huggingface.co/ALIRE-HESSO/use-case-1) pre-fine-tuned model"
 
     If you want to skip the fine-tuning process, you can use the pre-fine-tuned model [`ALIRE-HESSO/use-case-1`](https://huggingface.co/ALIRE-HESSO/use-case-1) directly. Just replace the path to the fine-tuned model checkpoint with the model name:
 
