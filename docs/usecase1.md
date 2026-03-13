@@ -198,6 +198,10 @@ You should see how the training loss decreases over time, indicating that the mo
 
 ### Optimize: [`liger-kernel`](https://github.com/linkedin/Liger-Kernel/)
 
+!!! info "Note"
+
+    If you did not stop the previous fine-tuning process, please do so now as we will optimize it in this section.
+
 As you may have noticed, even with a relatively small model, **fine-tuning a single epoch can take quite a long time, between 100 and 110 minutes**. Can we do better? Absolutely!
 
 Our initial setup was intentionally minimal, but various optimizations exist to improve performances. We will apply two here, starting with the [`liger-kernel`](https://github.com/linkedin/Liger-Kernel/) library, which states:
