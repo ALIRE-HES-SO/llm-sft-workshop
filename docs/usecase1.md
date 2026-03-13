@@ -170,10 +170,6 @@ You can now run this command to see how the fine-tuning process starts. You shou
 ![Fine-tune](./images/use_case_1/fine_tune_light.png#only-light)
 ![Fine-tune](./images/use_case_1/fine_tune_dark.png#only-dark)
 
-!!! info "Note"
-
-    The fine-tuning process will take around 100 minutes. You don't need to wait for it to complete since we have already fine-tuned this model for you. This step is for teaching and explanation purposes only. Instructions on how to use this specific fine-tuned model will be offered in the [Deploy](#deploy) section.
-
 ??? question "A step back: what is happening?"
 
     The fine-tuning process is now running, and you are seeing periodic outputs of its progress.
@@ -183,10 +179,13 @@ You can now run this command to see how the fine-tuning process starts. You shou
 
     During training, [`SFTTrainer`](https://huggingface.co/docs/trl/en/sft_trainer) is configured to share its progress with [Weights & Biases](https://wandb.ai/) for web-based visualisation. Once complete, it saves the fine-tuned model to `training_output/` (checkpointing), for future use in inference as we will see.
 
-
     <figure markdown="span">
       ![Fine-tune progress](./images/use_case_1/train_mode_flow.svg)
     </figure>
+
+!!! info "Note"
+
+    The fine-tuning process takes between 100 and 110 minutes. You don't need to wait for it to complete since we have already fine-tuned this model for you. This step is for teaching and explanation purposes only. Instructions on how to use the pre-fine-tuned model will be offered in the [Deploy](#deploy) section.
     
 ### Monitor
 
