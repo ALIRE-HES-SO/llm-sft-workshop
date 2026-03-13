@@ -280,6 +280,10 @@ To launch the fine-tuning process on multiple GPUs, simply swap the single-GPU c
 
     The setup in this workshop uses [`DDP`](https://pytorch-cn.com/tutorials/intermediate/ddp_tutorial.html) (Distributed Data Parallel) under the hood for multi-GPU training. [`DDP`](https://pytorch-cn.com/tutorials/intermediate/ddp_tutorial.html) works by creating a full copy of the model on each GPU and splitting every training batch across devices. The [`accelerate`](https://huggingface.co/docs/accelerate/en/index) library also supports more advanced distributed strategies such as [`FSDP`](https://huggingface.co/docs/accelerate/en/usage_guides/fsdp) (Fully Sharded Data Parallel) and [`Deepspeed ZeRO`](https://huggingface.co/docs/accelerate/en/usage_guides/deepspeed), which enable even larger models to be trained efficiently by sharding model parameters, gradients, and optimizer states. These methods are beyond the scope of this workshop, but you are encouraged to explore them later for large-scale fine-tuning.
 
+!!! info "Note"
+
+    **The fine-tuning process takes around 10 to 15 minutes** with multiple GPUs. **You don't need to wait for this fine-tuning process to complete since we have already fine-tuned this model for you**. This step is for teaching and explanation purposes only. Instructions on how to use the pre-fine-tuned model will be offered in the [Deploy](#deploy) section.
+
 ### Deploy
 
 !!! info "Note"
