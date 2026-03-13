@@ -292,9 +292,9 @@ To launch the fine-tuning process on multiple GPUs, simply swap the single-GPU c
 
 !!! info "Note"
 
-    If you want to avoid waiting for the fine-tuning process to complete, you can directly use a fine-tuned model we've already prepared for you: [`ALIRE-HESSO/use-case-1`](https://huggingface.co/ALIRE-HESSO/use-case-1). It can be used as a drop-in replacement for the fine-tuned [`google/gemma-3-270M-it`](https://huggingface.co/google/gemma-3-270m-it) model.
+    If you did not stop the previous fine-tuning process, please do so now.
 
-You now have a script that can fine-tune a model in less than 15 minutes, and hopefully by now a resulting fine-tuned model ready to be deployed.
+You now have a script that can fine-tune a model in less than 15 minutes, and hopefully by now a resulting fine-tuned model ready to be deployed. If you waited for the fine-tuning process to complete, you can use the resulting model from `trainer_output/`. Alternatively, you can skip training entirely and use the pre-fine-tuned model we provide (see the tip below).
 
 Once again, deployment is made easy by leveraging the right tools. In this workshop we will use [`vllm`](https://docs.vllm.ai/en/stable/index.html), a high-performance inference engine designed for serving [LLMs](https://en.wikipedia.org/wiki/Large_language_model) efficiently and with minimal setup. It will expose the model of our choice through an OpenAI-compatible [REST API](https://en.wikipedia.org/wiki/REST), which can then be easily queried by any application.
 
@@ -312,6 +312,17 @@ which takes:
 - the path to the fine-tuned model checkpoint (in this example, we use `checkpoint-92`, but your checkpoint number may differ depending on your training setup and the number of epochs you trained for)
 - the name under which the model will be served
 - the port on which the API will be available
+
+!!! tip "Using the pre-fine-tuned model"
+
+    If you want to skip the fine-tuning process, you can use the pre-fine-tuned model [`ALIRE-HESSO/use-case-1`](https://huggingface.co/ALIRE-HESSO/use-case-1) directly. Just replace the path to the fine-tuned model checkpoint with the model name:
+
+    ```bash
+    uv run vllm serve \
+      ALIRE-HESSO/use-case-1 \
+      --served_model_name "local" \
+      --port 8080
+    ```
 
 Once you run this command, you can interact with your model using standard API routes, for example at: [`http://localhost:8080/v1`](http://localhost:8080/v1)
 
