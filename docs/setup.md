@@ -92,6 +92,7 @@ After verifying that your SSH connection works, you need to install the [`Remote
 To achieve this:
 
 * Navigate to `Extensions` (sidebar) &#8594; search for `Remote Explorer` &#8594; `install`.
+* In the main menu (++ctrl+shift+p++) search for `Remote: Show Remote Menu` and select `SSH`.
 * Click on `Remote Explorer` (sidebar) and under `SSH` you should now have `exoscale` listed as an entry.
 * You can then choose either `Connect in Current Window` or `Connect in New Window` using the corresponding icons next to the `exoscale` entry.
 
