@@ -253,7 +253,7 @@ While the combination of [`liger-kernel`](https://github.com/linkedin/Liger-Kern
 
     1. **Stop** the current instance.
     2. Click the **three-dot menu** (top right of the instance page) and select **Scale**.
-    3. Choose the desired instance type (`Medium` or `Large`).
+    3. Choose the desired instance type (`Medium` or `Large`) and click **Scale Type**.
     4. **Start** the instance again.
 
     This preserves your SSH keys, security groups, and all environment setup, so you can resume right where you left off.
