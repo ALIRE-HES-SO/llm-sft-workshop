@@ -216,9 +216,16 @@ In fact, the only change needed is to add the following line to the [`SFTConfig`
 use_liger_kernel: true
 ```
 
-We already prepared a configuration file with this change applied right next to the original one: [`configs/gretelai/synthetic_text_to_sql/sft_liger.yaml`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/gretelai/synthetic_text_to_sql/sft_liger.yaml).
+We already prepared a configuration file with this change applied right next to the original one: [`configs/gretelai/synthetic_text_to_sql/sft_liger_slow.yaml`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/gretelai/synthetic_text_to_sql/sft_liger_slow.yaml).
 
 If you rerun the fine-tuning process with this new config file, you will notice **a significant reduction in memory usage** (up to 80% less), but also **a much slower execution, sometimes up to 5x slower**.
+
+```bash
+uv run accelerate launch \
+  --config_file configs/accelerate_single.yaml \
+  main.py \
+  --config configs/gretelai/synthetic_text_to_sql/sft_liger_slow.yaml
+```
 
 While the memory savings are valuable because they allow fine-tuning larger models (as we will see in the next use cases) without upgrading the GPU, the slowdown can be disappointing. It is beyond the scope of this workshop to explain why this happens, but you are encouraged to explore the [`liger-kernel`](https://github.com/linkedin/Liger-Kernel/) library for more details.
 
@@ -232,6 +239,13 @@ per_device_train_batch_size: 192
 ```
 
 With this adjustment, the **fine-tuning time should drop to around 45 to 50 minutes, down from the original 100 to 110 minutes**. The initial slowdown caused by the [`liger-kernel`](https://github.com/linkedin/Liger-Kernel/) optimisation is thus more than compensated by the increased batch size that its memory savings allowed.
+
+```bash
+uv run accelerate launch \
+  --config_file configs/accelerate_single.yaml \
+  main.py \
+  --config configs/gretelai/synthetic_text_to_sql/sft_liger.yaml
+```
 
 !!! info "Note"
 
