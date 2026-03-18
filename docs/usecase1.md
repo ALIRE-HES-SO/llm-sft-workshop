@@ -323,7 +323,7 @@ uv run vllm serve \
 
 which takes:
 
-- the path to the fine-tuned model checkpoint (in this example, we use `checkpoint-92`, but your checkpoint number may differ depending on your training setup and the number of epochs you trained for)
+- the path to the fine-tuned model checkpoint (in this example, we use `checkpoint-92`, but your checkpoint number may differ depending on your training setup and the number of epochs you trained for). Alternatively, see below on how to use the pre-fine-tuned model we prepared for you.
 - the name under which the model will be served
 - the port on which the API will be available
 
