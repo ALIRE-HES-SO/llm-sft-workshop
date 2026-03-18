@@ -277,7 +277,7 @@ Recall that distribution over multiple GPUs is handled by the [`accelerate`](htt
 Again, notice how minimal the required changes are to scale from a single GPU to multiple GPUs: only the following three lines of [`accelerate`](https://huggingface.co/docs/accelerate/en/index)'s configuration file [`accelerate_single.yaml`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/accelerate_single.yaml) need to change.
 
 ```yaml
-gpu_ids: all                # previously 0
+gpu_ids: all                # previously 0,
 num_processes: 4            # previously 1
 distributed_type: MULTI_GPU # previously NO
 ```
@@ -292,7 +292,7 @@ The provided [`accelerate_multi.yaml`](https://github.com/ALIRE-HES-SO/llm-sft-w
 
     Make sure to adjust the `num_processes` parameter to match the number of GPUs available on your instance. For example, if you are using a `Medium` instance with 2 GPUs, set `num_processes: 2`.
 
-To launch the fine-tuning process on multiple GPUs, simply swap the single-GPU configuration file with the multi-GPU one in the [`accelerate`](https://huggingface.co/docs/accelerate/en/index) command. **The fine-tuning time should drop to around 10 to 15 minutes, down from the original 45 to 50 minutes**.
+To launch the fine-tuning process on multiple GPUs, simply swap the single-GPU configuration file with the multi-GPU one in the [`accelerate`](https://huggingface.co/docs/accelerate/en/index) command. **The fine-tuning time should drop to around 10 to 15 minutes with a `Large` instance, down from the original 45 to 50 minutes**.
 
 ??? question "How does [`accelerate`](https://huggingface.co/docs/accelerate/en/index) distribute the workload?"
 
