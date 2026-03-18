@@ -216,7 +216,7 @@ In fact, the only change needed is to add the following line to the [`SFTConfig`
 use_liger_kernel: true
 ```
 
-We already prepared a configuration file with this change applied right next to the original one: [`configs/gretelai/synthetic_text_to_sql/sft_liger_slow.yaml`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/gretelai/synthetic_text_to_sql/sft_liger_slow.yaml).
+We already prepared a configuration file with this change applied right next to the original one: [`configs/gretelai/synthetic_text_to_sql/sft_liger_slow.yaml`](https://github.com/ALIRE-HES-SO/llm-sft-workshop/blob/main/configs/gretelai/synthetic_text_to_sql/sft_liger_slow.yaml#L31).
 
 If you rerun the fine-tuning process with this new config file, you will notice **a significant reduction in memory usage** (up to 80% less), but also **a much slower execution, sometimes up to 5x slower**.
 
