@@ -1,0 +1,24 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "provider": {
+    "llama.cpp": {
+      "name": "llama-cpp-server",
+      "options": {
+        "baseURL": "http://localhost:3960/v1"
+      },
+      "models": {
+        "llama-cpp-model": {
+          "name": "llama-cpp-model",
+          "limit": {
+            "context": 131072,
+            "output": 65536
+          }
+        }
+      }
+    }
+  },
+  "permission": {
+    "edit": "ask",
+    "bash": "ask"
+  }
+}
