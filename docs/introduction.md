@@ -16,7 +16,7 @@ This works well for general tasks, but it has limits: you are constrained by the
 
 ## Retrieval-Augmented Generation
 
-Then consider :lucide-database: [**Retrieval-Augmented Generation (RAG)**](https://en.wikipedia.org/wiki/Retrieval-augmented_generation) and advanced prompting. RAG and structured prompt templates are powerful intermediate solutions. They let you inject external knowledge at inference time, and control the output format more tightly.
+Then consider :lucide-database: [**Retrieval-Augmented Generation (RAG)**](https://en.wikipedia.org/wiki/Retrieval-augmented_generation) and advanced prompting. [RAG](https://en.wikipedia.org/wiki/Retrieval-augmented_generation) and structured prompt templates are powerful intermediate solutions. They let you inject external knowledge at inference time, and control the output format more tightly.
 
 However, they introduce their own challenges: retrieval errors, added latency, context length limits, and inconsistent adherence to complex output rules, especially when the task requires the model to *internalize* a style or pattern rather than just reference examples.
 
@@ -24,7 +24,7 @@ However, they introduce their own challenges: retrieval errors, added latency, c
 
 When you need a model to reliably reproduce domain-specific patterns, follow a strict output format, or perform a specialized task with high consistency, :lucide-sliders-horizontal: [**Supervised Fine-Tuning (SFT)**](https://en.wikipedia.org/wiki/Fine-tuning_(deep_learning)) is the next step.
 
-Fine-tuning bakes the desired behavior directly into an already-trained model's weights, by further training it on curated examples. That is exactly what this workshop teaches you to do, end to end.
+[Fine-tuning](https://en.wikipedia.org/wiki/Fine-tuning_(deep_learning)) bakes the desired behavior directly into an already-trained model's weights, by further training it on curated examples. That is exactly what this workshop teaches you to do, end to end.
 
 !!! note
 
