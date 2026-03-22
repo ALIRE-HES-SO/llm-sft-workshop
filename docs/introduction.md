@@ -16,7 +16,7 @@ This works well for general tasks, but it has limits: you are constrained by the
 
 ## Retrieval-Augmented Generation
 
-Then consider RAG and advanced prompting. :lucide-database: [**Retrieval-Augmented Generation (RAG)**](https://en.wikipedia.org/wiki/Retrieval-augmented_generation) and structured prompt templates are powerful intermediate solutions. They let you inject external knowledge at inference time, and control the output format more tightly.
+Then consider :lucide-database: [**Retrieval-Augmented Generation (RAG)**](https://en.wikipedia.org/wiki/Retrieval-augmented_generation) and advanced prompting. RAG and structured prompt templates are powerful intermediate solutions. They let you inject external knowledge at inference time, and control the output format more tightly.
 
 However, they introduce their own challenges: retrieval errors, added latency, context length limits, and inconsistent adherence to complex output rules, especially when the task requires the model to *internalize* a style or pattern rather than just reference examples.
 
