@@ -38,7 +38,7 @@ Once done, retrieve the `IPv4` address of the instance from the [Exoscale](https
 
 ### Connect to the running instance
 
-Now that your instance is up and running, connect to it using [VS Code](https://code.visualstudio.com).
+Now that your instance is up and running, we need to connect to it using [VS Code](https://code.visualstudio.com).
 
 Open your SSH configuration file with your favorite text editor, such as `nano` or `notepad` from the terminal:
 
